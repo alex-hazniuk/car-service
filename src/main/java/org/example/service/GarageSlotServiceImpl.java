@@ -49,5 +49,8 @@ public class GarageSlotServiceImpl implements GarageSlotService {
         return garageSlot;
     }
 
-
+    @Override
+    public GarageSlot findById(int id) {
+        return garageSlotDao.findById(id);
+    }
 }

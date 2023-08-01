@@ -31,6 +31,13 @@ public class GarageSlotDaoImpl implements GarageSlotDao {
         return garageSlots;
     }
 
+    @Override
+    public GarageSlot findById(int id) {
+        return garageSlots.stream()
+                .filter(garageSlot -> garageSlot.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No such garage id: " + id));
 
+    }
 
 }
