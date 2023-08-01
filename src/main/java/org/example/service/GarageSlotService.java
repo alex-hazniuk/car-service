@@ -16,5 +16,5 @@ public interface GarageSlotService {
 
     GarageSlot changeStatus(GarageSlot garageSlot);
 
-
+    GarageSlot findById(int id);
 }

@@ -11,6 +11,7 @@ public interface GarageSlotDao {
     boolean remove(int garageSlotId);
 
     List<GarageSlot> getAll();
+    GarageSlot findById(int id);
 
 }
 
