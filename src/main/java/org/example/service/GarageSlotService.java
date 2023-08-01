@@ -15,6 +15,4 @@ public interface GarageSlotService {
     List<GarageSlot> sortedByStatus();
 
     GarageSlot changeStatus(GarageSlot garageSlot);
-
-
 }
