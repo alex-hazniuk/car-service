@@ -26,6 +26,7 @@ public class OrderServiceImplInMemory implements OrderService {
     @Override
     public Order create(Order order) {
         order.setStatus(OrderStatus.IN_PROGRESS);
+        order.setPrice((double) Math.round(Math.random() * 100000) / 100);
         return orderRepository.save(order);
     }
 
