@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Repairer {
+@Data
+@AllArgsConstructor
+public class GarageSlot {
+
     private int id;
-    private String name;
-    private RepairerStatus status = RepairerStatus.AVAILABLE;
+    private GarageSlotStatus status = GarageSlotStatus.AVAILABLE;
+
 }
