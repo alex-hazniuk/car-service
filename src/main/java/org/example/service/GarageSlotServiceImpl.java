@@ -6,6 +6,7 @@ import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 @AllArgsConstructor
@@ -36,7 +37,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     public List<GarageSlot> sortedByStatus() {
         return garageSlotDao.getAll().stream()
                 .sorted(comparing(GarageSlot::getStatus))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override

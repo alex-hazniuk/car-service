@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class Repairer {
     private int id;
     private String name;
-    private RepairerStatus status;
+    private RepairerStatus status = RepairerStatus.AVAILABLE;
 }

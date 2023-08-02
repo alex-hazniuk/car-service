@@ -6,6 +6,7 @@ import org.example.model.RepairerStatus;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RepairerServiceImpl implements RepairerService {
     private final RepairerDaoImpl repairerDao;
@@ -54,13 +55,13 @@ public class RepairerServiceImpl implements RepairerService {
     public List<Repairer> sortedByName() {
         return getAll().stream()
                 .sorted(Comparator.comparing(Repairer::getName))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Repairer> sortedByStatus() {
         return getAll().stream()
                 .sorted(Comparator.comparing(Repairer::getStatus))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

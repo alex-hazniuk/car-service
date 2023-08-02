@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class GarageSlot {
 
     private int id;
-    private GarageSlotStatus status;
+    private GarageSlotStatus status = GarageSlotStatus.AVAILABLE;
 
 }

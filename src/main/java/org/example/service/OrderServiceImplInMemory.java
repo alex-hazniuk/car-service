@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class OrderServiceImplInMemory implements OrderService {
 
@@ -30,7 +31,7 @@ public class OrderServiceImplInMemory implements OrderService {
 
     @Override
     public List<Order> listOrders(SortType sortType) {
-        return orderRepository.findAll().stream().sorted(sortType.getComparator()).toList();
+        return orderRepository.findAll().stream().sorted(sortType.getComparator()).collect(Collectors.toList());
     }
 
     @Override
