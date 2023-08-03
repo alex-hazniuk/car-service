@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.example.repository;
 
 import org.example.model.Order;
 
@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class OrderRepositoryImplInMemory implements OrderRepository {
+public class OrderRepositoryImpl implements OrderRepository {
 
-    private Map<Long, Order> orderMap = new HashMap<>();
+    private static final Map<Long, Order> orderMap = new HashMap<>();
+
     private Long idCounter = 0L;
 
     @Override

@@ -1,4 +1,4 @@
-package org.example.enums;
+package org.example.model;
 
 public enum OrderStatus {
     IN_PROGRESS, COMPLETED, CANCELED

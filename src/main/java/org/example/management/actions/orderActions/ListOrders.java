@@ -1,6 +1,6 @@
 package org.example.management.actions.orderActions;
 
-import org.example.enums.SortType;
+import org.example.service.SortType;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.OrderServiceInit;
 

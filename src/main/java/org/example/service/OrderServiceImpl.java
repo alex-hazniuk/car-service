@@ -1,8 +1,8 @@
 package org.example.service;
 
-import org.example.dao.OrderRepository;
-import org.example.enums.OrderStatus;
-import org.example.enums.SortType;
+import lombok.RequiredArgsConstructor;
+import org.example.repository.OrderRepository;
+import org.example.model.OrderStatus;
 import org.example.model.*;
 
 import java.time.LocalDateTime;
@@ -11,17 +11,14 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class OrderServiceImplInMemory implements OrderService {
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final RepairerService repairerService;
-    private final GarageSlotService garageSlotService;
 
-    public OrderServiceImplInMemory(OrderRepository orderRepository, RepairerService repairerService, GarageSlotService garageSlotService) {
-        this.orderRepository = orderRepository;
-        this.repairerService = repairerService;
-        this.garageSlotService = garageSlotService;
-    }
+    private final RepairerService repairerService;
+
+    private final GarageSlotService garageSlotService;
 
     @Override
     public Order create(Order order) {

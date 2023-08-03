@@ -1,11 +1,14 @@
-package org.example.dao;
+package org.example.repository;
 
+import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GarageSlotDaoImpl implements GarageSlotDao {
+public class GarageSlotRepositoryImpl implements GarageSlotRepository {
+
+    public static final String NO_SUCH_ID = "No such garage id:";
 
     private static final List<GarageSlot> garageSlots = new ArrayList<>();
 
@@ -19,7 +22,7 @@ public class GarageSlotDaoImpl implements GarageSlotDao {
         var garage = garageSlots.stream()
                 .filter(garageSlot -> garageSlot.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No such garage id:" + id));
+                .orElseThrow(() -> new InvalidIdException(NO_SUCH_ID + id));
 
         garageSlots.remove(garage);
 
@@ -36,7 +39,7 @@ public class GarageSlotDaoImpl implements GarageSlotDao {
         return garageSlots.stream()
                 .filter(garageSlot -> garageSlot.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No such garage id: " + id));
+                .orElseThrow(() -> new InvalidIdException(NO_SUCH_ID + id));
 
     }
 

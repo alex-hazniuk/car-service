@@ -1,12 +1,16 @@
-package org.example.dao;
+package org.example.repository;
 
+import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
 import org.example.model.Repairer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepairerDaoImpl implements RepairerDao {
+public class RepairerRepositoryImpl implements RepairerRepository {
+
     private static final List<Repairer> repairers = new ArrayList<>();
+
     @Override
     public void add(Repairer repairer) {
         repairers.add(repairer);
@@ -17,7 +21,7 @@ public class RepairerDaoImpl implements RepairerDao {
         return repairers.stream()
                 .filter(repairer -> repairer.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Can't find repairer by id: " + id));
+                .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override
@@ -30,7 +34,7 @@ public class RepairerDaoImpl implements RepairerDao {
         Repairer repairer = repairers.stream()
                 .filter(r -> r.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No such repairer: " + name));
+                .orElseThrow(() -> new InvalidNameException("No such repairer: " + name));
         return repairers.remove(repairer);
     }
 

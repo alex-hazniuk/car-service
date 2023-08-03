@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.enums.SortType;
 import org.example.model.Order;
 
 import java.util.List;

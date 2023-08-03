@@ -1,6 +1,9 @@
 package org.example.service;
 
-import org.example.dao.RepairerDaoImpl;
+import lombok.RequiredArgsConstructor;
+import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
+import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 
@@ -8,13 +11,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class RepairerServiceImpl implements RepairerService {
-    private final RepairerDaoImpl repairerDao;
-    private int repairerId;
 
-    public RepairerServiceImpl(RepairerDaoImpl repairerDao) {
-        this.repairerDao = repairerDao;
-    }
+    private final RepairerRepository repairerDao;
+
+    private int repairerId;
 
     @Override
     public void save(String name) {
@@ -38,12 +40,22 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public boolean remove(String name) {
-        return repairerDao.remove(name);
+        try {
+            return repairerDao.remove(name);
+        } catch (InvalidNameException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public Repairer findById(int id) {
-        return repairerDao.findById(id);
+        try {
+            return repairerDao.findById(id);
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+            return new Repairer();
+        }
     }
 
     @Override

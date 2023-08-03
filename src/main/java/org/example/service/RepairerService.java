@@ -5,6 +5,7 @@ import org.example.model.Repairer;
 import java.util.List;
 
 public interface RepairerService {
+
     void save(String name);
 
     Repairer changeStatus(Repairer repairer);

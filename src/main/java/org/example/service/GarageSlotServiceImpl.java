@@ -1,7 +1,8 @@
 package org.example.service;
 
-import lombok.AllArgsConstructor;
-import org.example.dao.GarageSlotDaoImpl;
+import lombok.RequiredArgsConstructor;
+import org.example.exception.InvalidIdException;
+import org.example.repository.GarageSlotRepository;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 
@@ -9,15 +10,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
-@AllArgsConstructor
-public class GarageSlotServiceImpl implements GarageSlotService {
-    private final GarageSlotDaoImpl garageSlotDao;
 
+@RequiredArgsConstructor
+public class GarageSlotServiceImpl implements GarageSlotService {
+
+    private final GarageSlotRepository garageSlotDao;
+
+    private int id;
 
     @Override
-    public void save(int id) {
+    public void save() {
         GarageSlot garageSlot = GarageSlot.builder()
-                .id(id)
+                .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
         garageSlotDao.add(garageSlot);
@@ -25,7 +29,12 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public boolean remove(int id) {
-        return garageSlotDao.remove(id);
+        try {
+            return garageSlotDao.remove(id);
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -52,6 +61,11 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public GarageSlot findById(int id) {
-        return garageSlotDao.findById(id);
+        try {
+            return garageSlotDao.findById(id);
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+            return new GarageSlot();
+        }
     }
 }
