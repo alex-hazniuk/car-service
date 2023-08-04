@@ -1,5 +1,6 @@
 package org.example.management.actions.repairerActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.RepairerServiceInit;
 public class ChangeStatus extends RepairerServiceInit implements Action {
@@ -10,7 +11,11 @@ public class ChangeStatus extends RepairerServiceInit implements Action {
 
         int id = scanner.nextInt();
 
-        System.out.println(repairerService.changeStatus(id));
+        try {
+            System.out.println(repairerService.changeStatus(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
         System.out.println("Repairer status was successfully updated.");
     }
 }

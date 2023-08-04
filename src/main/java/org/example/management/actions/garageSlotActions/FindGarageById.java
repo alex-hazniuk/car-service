@@ -1,8 +1,8 @@
 package org.example.management.actions.garageSlotActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.GarageSlotServiceInit;
-import org.example.model.GarageSlot;
 
 public class FindGarageById extends GarageSlotServiceInit implements Action {
     @Override
@@ -11,9 +11,10 @@ public class FindGarageById extends GarageSlotServiceInit implements Action {
 
         int id = scanner.nextInt();
 
-        GarageSlot garageSlot = garageSlotService.findById(id);
-        if (garageSlot.getId() != 0) {
-            System.out.println(garageSlot);
+        try {
+            System.out.println(garageSlotService.findById(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

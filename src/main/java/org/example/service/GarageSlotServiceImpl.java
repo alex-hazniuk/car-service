@@ -29,12 +29,8 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public boolean remove(int id) {
-        try {
-            return garageSlotRepository.remove(id);
-        } catch (InvalidIdException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        GarageSlot garageSlot = findById(id);
+        return getAll().remove(garageSlot);
     }
 
     @Override
@@ -51,7 +47,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public GarageSlot changeStatus(int id) {
-        GarageSlot garageSlot = garageSlotRepository.findById(id);
+        GarageSlot garageSlot = findById(id);
         if (garageSlot.getStatus() == GarageSlotStatus.AVAILABLE) {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);
         } else {
@@ -62,11 +58,9 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public GarageSlot findById(int id) {
-        try {
-            return garageSlotRepository.findById(id);
-        } catch (InvalidIdException e) {
-            System.out.println(e.getMessage());
-            return new GarageSlot();
-        }
+        return garageSlotRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new InvalidIdException("Can't find garageSlot by id: " + id));
     }
 }

@@ -30,9 +30,7 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public Repairer changeStatus(int id) {
-        Repairer repairer = repairerRepository
-                .findById(id)
-                .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
+        Repairer repairer = findById(id);
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {

@@ -7,7 +7,7 @@ import java.util.Comparator;
 public enum SortType {
     PRICE((Comparator.comparing(Order::getPrice))),
     CREATED_AT((Comparator.comparing(Order::getCreatedAt))),
-    COMPLETED_AT(((o1, o2) -> o1.getCompletedAt().orElse(LocalDateTime.MIN).compareTo(o2.getCompletedAt().orElse(LocalDateTime.MIN)))),
+    COMPLETED_AT((Comparator.comparing(o -> o.getCompletedAt().orElse(LocalDateTime.MIN)))),
     STATUS((Comparator.comparing(o -> o.getStatus().name())));
 
     private final Comparator<Order> comparator;
