@@ -32,7 +32,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order update(Long id, Order order) {
-        return orderMap.put(id, order);
+        orderMap.put(id, order);
+        return order;
     }
 
     public Long getIdCounter() {
