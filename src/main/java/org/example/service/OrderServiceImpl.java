@@ -1,13 +1,13 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.exception.InvalidIdException;
 import org.example.repository.OrderRepository;
 import org.example.model.OrderStatus;
 import org.example.model.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> listOrders(SortType sortType) {
-        return orderRepository.findAll().stream().sorted(sortType.getComparator()).collect(Collectors.toList());
+        return orderRepository.findAll().stream()
+                .sorted(sortType.getComparator())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -39,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         if (garageSlot.getStatus() == GarageSlotStatus.UNAVAILABLE) {
             throw new RuntimeException(); //TODO
         }
-        garageSlotService.changeStatus(garageSlot);
+        garageSlotService.changeStatus(garageSlotId);
         order.setGarageSlot(garageSlot);
         return orderRepository.update(id, order);
     }
@@ -51,14 +53,19 @@ public class OrderServiceImpl implements OrderService {
         if (repairer.getStatus() == RepairerStatus.BUSY) {
             throw new RuntimeException(); //TODO
         }
-        repairerService.changeStatus(repairer);
+        repairerService.changeStatus(repairerId);
         order.getRepairers().add(repairer);
         return orderRepository.update(id, order);
     }
 
     @Override
     public Order findById(Long id) {
-        return orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        try {
+            return orderRepository.findById(id);
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
+        return new Order();
     }
 
     @Override
@@ -66,8 +73,9 @@ public class OrderServiceImpl implements OrderService {
         Order order = findById(id);
         order.setCompletedAt(Optional.of(LocalDateTime.now()));
         order.setStatus(OrderStatus.COMPLETED);
-        order.getRepairers().forEach(repairerService::changeStatus);
-        garageSlotService.changeStatus(order.getGarageSlot());
+        order.getRepairers()
+                .forEach(repairer -> repairerService.changeStatus(repairer.getId()));
+        garageSlotService.changeStatus(order.getGarageSlot().getId());
         return orderRepository.update(id, order);
     }
 
@@ -76,10 +84,10 @@ public class OrderServiceImpl implements OrderService {
         Order order = findById(id);
         order.setStatus(OrderStatus.CANCELED);
         if (!order.getRepairers().isEmpty()) {
-            order.getRepairers().forEach(repairerService::changeStatus);
+            order.getRepairers().forEach(repairer -> repairerService.changeStatus(repairer.getId()));
         }
         if (order.getGarageSlot() != null) {
-            garageSlotService.changeStatus(order.getGarageSlot());
+            garageSlotService.changeStatus(order.getGarageSlot().getId());
         }
         return orderRepository.update(id, order);
     }

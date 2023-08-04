@@ -2,6 +2,7 @@ package org.example.management.actions.garageSlotActions;
 
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.GarageSlotServiceInit;
+import org.example.model.GarageSlot;
 
 public class FindGarageById extends GarageSlotServiceInit implements Action {
     @Override
@@ -10,6 +11,9 @@ public class FindGarageById extends GarageSlotServiceInit implements Action {
 
         int id = scanner.nextInt();
 
-        System.out.println(garageSlotService.findById(id));
+        GarageSlot garageSlot = garageSlotService.findById(id);
+        if (garageSlot.getId() != 0) {
+            System.out.println(garageSlot);
+        }
     }
 }

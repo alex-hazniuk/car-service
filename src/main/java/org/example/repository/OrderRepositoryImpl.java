@@ -1,11 +1,11 @@
 package org.example.repository;
 
+import org.example.exception.InvalidIdException;
 import org.example.model.Order;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class OrderRepositoryImpl implements OrderRepository {
 
@@ -21,8 +21,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
-        return Optional.of(orderMap.get(id));
+    public Order findById(Long id) {
+        if (!orderMap.containsKey(id)) {
+            throw new InvalidIdException("Can't find order dy id: " + id);
+        }
+        return orderMap.get(id);
     }
 
     @Override

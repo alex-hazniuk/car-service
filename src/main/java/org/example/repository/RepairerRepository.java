@@ -13,5 +13,6 @@ public interface RepairerRepository {
 
     List<Repairer> getAll();
 
-    Optional<Boolean> remove(String name);
+    //Optional<Boolean> remove(String name);
+    Optional<Repairer> findByName(String name);
 }

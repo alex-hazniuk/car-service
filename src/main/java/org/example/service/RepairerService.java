@@ -8,7 +8,7 @@ public interface RepairerService {
 
     void save(String name);
 
-    Repairer changeStatus(Repairer repairer);
+    Repairer changeStatus(int id);
 
     boolean remove(String name);
 

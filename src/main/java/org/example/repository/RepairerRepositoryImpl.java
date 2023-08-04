@@ -1,5 +1,7 @@
 package org.example.repository;
 
+import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
 import org.example.model.Repairer;
 
 import java.util.ArrayList;
@@ -28,10 +30,11 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     }
 
     @Override
-    public Optional<Boolean> remove(String name) {
+    public Optional<Repairer> findByName(String name) {
         return repairers.stream()
-                .filter(r -> r.getName().equals(name))
-                .map(repairers::remove)
-                .findAny();
+                .filter(repairer -> repairer.getName().equals(name))
+                .findFirst();
     }
+
+
 }

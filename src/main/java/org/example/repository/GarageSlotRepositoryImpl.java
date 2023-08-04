@@ -1,10 +1,10 @@
 package org.example.repository;
 
+import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class GarageSlotRepositoryImpl implements GarageSlotRepository {
 
@@ -16,11 +16,12 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     }
 
     @Override
-    public Optional<Boolean> remove(int id) {
-        return garageSlots.stream()
-                .filter(garageSlot -> garageSlot.getId() == id)
-                .map(garageSlots::remove)
-                .findAny();
+    public boolean remove(int id) {
+        GarageSlot garageSlot = garageSlots.stream()
+                .filter(gs -> gs.getId() == id)
+                .findAny().orElseThrow(() ->
+                        new InvalidIdException("Can't find garageSlot by id: " + id));
+        return garageSlots.remove(garageSlot);
     }
 
     @Override
@@ -29,9 +30,10 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     }
 
     @Override
-    public Optional<GarageSlot> findById(int id) {
+    public GarageSlot findById(int id) {
         return garageSlots.stream()
                 .filter(garageSlot -> garageSlot.getId() == id)
-                .findAny();
+                .findAny().orElseThrow(() ->
+                        new InvalidIdException("Can't find garageSlot by id: " + id));
     }
 }

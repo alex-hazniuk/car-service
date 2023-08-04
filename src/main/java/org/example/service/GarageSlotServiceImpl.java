@@ -30,7 +30,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public boolean remove(int id) {
         try {
-            return garageSlotRepository.remove(id).get();
+            return garageSlotRepository.remove(id);
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
             return false;
@@ -50,7 +50,8 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     }
 
     @Override
-    public GarageSlot changeStatus(GarageSlot garageSlot) {
+    public GarageSlot changeStatus(int id) {
+        GarageSlot garageSlot = garageSlotRepository.findById(id);
         if (garageSlot.getStatus() == GarageSlotStatus.AVAILABLE) {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);
         } else {
@@ -62,7 +63,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public GarageSlot findById(int id) {
         try {
-            return garageSlotRepository.findById(id).get();
+            return garageSlotRepository.findById(id);
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
             return new GarageSlot();

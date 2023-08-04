@@ -10,7 +10,6 @@ public class AddRepairer extends RepairerServiceInit implements Action {
         System.out.println("To add a new repairer please enter a repairer's name: ");
 
         String name = scanner.next();
-
         repairerService.save(name);
 
         System.out.println("The repairer was successfully added.");

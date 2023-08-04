@@ -15,7 +15,7 @@ public interface GarageSlotService {
 
     List<GarageSlot> sortedByStatus();
 
-    GarageSlot changeStatus(GarageSlot garageSlot);
+    GarageSlot changeStatus(int id);
 
     GarageSlot findById(int id);
 }

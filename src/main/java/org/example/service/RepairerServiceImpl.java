@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
 import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
@@ -21,14 +22,17 @@ public class RepairerServiceImpl implements RepairerService {
     public void save(String name) {
         Repairer repairer = Repairer.builder()
                 .id(++repairerId)
-                .name(name)
                 .status(RepairerStatus.AVAILABLE)
+                .name(name)
                 .build();
         repairerRepository.add(repairer);
     }
 
     @Override
-    public Repairer changeStatus(Repairer repairer) {
+    public Repairer changeStatus(int id) {
+        Repairer repairer = repairerRepository
+                .findById(id)
+                .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
@@ -39,22 +43,19 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public boolean remove(String name) {
-        try {
-            return repairerRepository.remove(name).get();
-        } catch (InvalidIdException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        Repairer repairer = repairerRepository
+                .findByName(name)
+                .orElseThrow(() ->
+                        new InvalidNameException("Can't find repairer by name: " + name));
+        return getAll().remove(repairer);
     }
 
     @Override
     public Repairer findById(int id) {
-        try {
-            return repairerRepository.findById(id).get();
-        } catch (InvalidIdException e) {
-            System.out.println(e.getMessage());
-            return new Repairer();
-        }
+            return repairerRepository
+                    .findById(id)
+                    .orElseThrow(() ->
+                            new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override
