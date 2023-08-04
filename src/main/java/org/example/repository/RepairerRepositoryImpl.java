@@ -1,6 +1,5 @@
 package org.example.repository;
 
-import org.example.exception.InvalidIdException;
 import org.example.model.Repairer;
 
 import java.util.ArrayList;
@@ -17,11 +16,10 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     }
 
     @Override
-    public Repairer findById(int id) {
+    public Optional<Repairer> findById(int id) {
         return repairers.stream()
                 .filter(repairer -> repairer.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
+                .findAny();
     }
 
     @Override
@@ -32,7 +30,8 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     @Override
     public Optional<Boolean> remove(String name) {
         return repairers.stream()
-                .filter(r -> r.getName().equals(name)).map(repairers::remove)
+                .filter(r -> r.getName().equals(name))
+                .map(repairers::remove)
                 .findAny();
     }
 }

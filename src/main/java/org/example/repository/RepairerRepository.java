@@ -9,7 +9,7 @@ public interface RepairerRepository {
 
     void add(Repairer repairer);
 
-    Repairer findById(int id);
+    Optional<Repairer> findById(int id);
 
     List<Repairer> getAll();
 

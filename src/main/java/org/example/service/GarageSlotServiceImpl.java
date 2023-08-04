@@ -14,7 +14,7 @@ import static java.util.Comparator.comparing;
 @RequiredArgsConstructor
 public class GarageSlotServiceImpl implements GarageSlotService {
 
-    private final GarageSlotRepository garageSlotDao;
+    private final GarageSlotRepository garageSlotRepository;
 
     private int id;
 
@@ -24,13 +24,13 @@ public class GarageSlotServiceImpl implements GarageSlotService {
                 .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
-        garageSlotDao.add(garageSlot);
+        garageSlotRepository.add(garageSlot);
     }
 
     @Override
     public boolean remove(int id) {
         try {
-            return garageSlotDao.remove(id);
+            return garageSlotRepository.remove(id).get();
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
             return false;
@@ -39,12 +39,12 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public List<GarageSlot> getAll() {
-        return garageSlotDao.getAll();
+        return garageSlotRepository.getAll();
     }
 
     @Override
     public List<GarageSlot> sortedByStatus() {
-        return garageSlotDao.getAll().stream()
+        return garageSlotRepository.getAll().stream()
                 .sorted(comparing(GarageSlot::getStatus))
                 .collect(Collectors.toList());
     }
@@ -62,7 +62,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public GarageSlot findById(int id) {
         try {
-            return garageSlotDao.findById(id);
+            return garageSlotRepository.findById(id).get();
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
             return new GarageSlot();

@@ -2,20 +2,18 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
-import org.example.exception.InvalidNameException;
 import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class RepairerServiceImpl implements RepairerService {
 
-    private final RepairerRepository repairerDao;
+    private final RepairerRepository repairerRepository;
 
     private int repairerId;
 
@@ -26,7 +24,7 @@ public class RepairerServiceImpl implements RepairerService {
                 .name(name)
                 .status(RepairerStatus.AVAILABLE)
                 .build();
-        repairerDao.add(repairer);
+        repairerRepository.add(repairer);
     }
 
     @Override
@@ -41,14 +39,18 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public boolean remove(String name) {
-        return repairerDao.remove(name)
-                .orElseThrow(() -> new NoSuchElementException("Can't find repairer by name: " + name));
+        try {
+            return repairerRepository.remove(name).get();
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public Repairer findById(int id) {
         try {
-            return repairerDao.findById(id);
+            return repairerRepository.findById(id).get();
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
             return new Repairer();
@@ -57,7 +59,7 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public List<Repairer> getAll() {
-        return repairerDao.getAll();
+        return repairerRepository.getAll();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Optional<Order> findById(Long id) {
-        return orderMap.containsKey(id) ? Optional.of(orderMap.get(id)) : Optional.empty();
+        return Optional.of(orderMap.get(id));
     }
 
     @Override
