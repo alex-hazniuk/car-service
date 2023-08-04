@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.model.Repairer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RepairerRepository {
 
@@ -12,5 +13,5 @@ public interface RepairerRepository {
 
     List<Repairer> getAll();
 
-    boolean remove(String name);
+    Optional<Boolean> remove(String name);
 }

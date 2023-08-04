@@ -1,11 +1,11 @@
 package org.example.repository;
 
 import org.example.exception.InvalidIdException;
-import org.example.exception.InvalidNameException;
 import org.example.model.Repairer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RepairerRepositoryImpl implements RepairerRepository {
 
@@ -30,13 +30,9 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(String name) {
-        Repairer repairer = repairers.stream()
-                .filter(r -> r.getName().equals(name))
-                .findFirst()
-                .orElseThrow(() -> new InvalidNameException("No such repairer: " + name));
-        return repairers.remove(repairer);
+    public Optional<Boolean> remove(String name) {
+        return repairers.stream()
+                .filter(r -> r.getName().equals(name)).map(repairers::remove)
+                .findAny();
     }
-
-
 }

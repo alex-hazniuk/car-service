@@ -9,6 +9,7 @@ import org.example.model.RepairerStatus;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -40,12 +41,8 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public boolean remove(String name) {
-        try {
-            return repairerDao.remove(name);
-        } catch (InvalidNameException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        return repairerDao.remove(name)
+                .orElseThrow(() -> new NoSuchElementException("Can't find repairer by name: " + name));
     }
 
     @Override
