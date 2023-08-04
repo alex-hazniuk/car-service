@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
 import org.example.repository.OrderRepository;
 import org.example.model.OrderStatus;
@@ -39,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = findById(id);
         GarageSlot garageSlot = garageSlotService.findById(garageSlotId);
         if (garageSlot.getStatus() == GarageSlotStatus.UNAVAILABLE) {
-            throw new RuntimeException(); //TODO
+            throw new InappropriateStatusException(
+                    "Garage status is UNAVAILABLE. Choose another one!");
         }
         garageSlotService.changeStatus(garageSlotId);
         order.setGarageSlot(garageSlot);
@@ -51,7 +53,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = findById(id);
         Repairer repairer = repairerService.findById(repairerId);
         if (repairer.getStatus() == RepairerStatus.BUSY) {
-            throw new RuntimeException(); //TODO
+            throw new InappropriateStatusException(
+                    "Repairer status is BUSY. Choose another one!");
         }
         repairerService.changeStatus(repairerId);
         order.getRepairers().add(repairer);
@@ -60,12 +63,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findById(Long id) {
-        try {
-            return orderRepository.findById(id);
-        } catch (InvalidIdException e) {
-            System.out.println(e.getMessage());
-        }
-        return new Order();
+        return orderRepository
+                .findById(id)
+                .orElseThrow(() -> new InvalidIdException("Can't find order by id: " + id));
     }
 
     @Override
