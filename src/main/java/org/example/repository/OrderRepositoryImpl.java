@@ -1,17 +1,28 @@
 package org.example.repository;
 
+import org.example.exception.InvalidIdException;
 import org.example.model.Order;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class OrderRepositoryImpl implements OrderRepository {
+    private static OrderRepository INSTANCE;
 
-    private static final Map<Long, Order> orderMap = new HashMap<>();
+    private final Map<Long, Order> orderMap = new HashMap<>();
 
     private Long idCounter = 0L;
+
+    private OrderRepositoryImpl() {
+    }
+
+    public static OrderRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new OrderRepositoryImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public Order save(Order order) {
@@ -21,8 +32,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
-        return Optional.of(orderMap.get(id));
+    public Order findById(Long id) {
+        if (!orderMap.containsKey(id)) {
+            throw new InvalidIdException("Can't find Order with id: " + id);
+        }
+        return orderMap.get(id);
     }
 
     @Override

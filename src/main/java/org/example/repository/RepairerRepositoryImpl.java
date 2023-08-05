@@ -8,7 +8,19 @@ import java.util.Optional;
 
 public class RepairerRepositoryImpl implements RepairerRepository {
 
-    private static final List<Repairer> repairers = new ArrayList<>();
+    private static RepairerRepository INSTANCE;
+
+    private final List<Repairer> repairers = new ArrayList<>();
+
+    private RepairerRepositoryImpl() {
+    }
+
+    public static RepairerRepository getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new RepairerRepositoryImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public void add(Repairer repairer) {

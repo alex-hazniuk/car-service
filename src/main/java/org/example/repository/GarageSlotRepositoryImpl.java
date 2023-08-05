@@ -8,7 +8,19 @@ import java.util.Optional;
 
 public class GarageSlotRepositoryImpl implements GarageSlotRepository {
 
-    private static final List<GarageSlot> garageSlots = new ArrayList<>();
+    private static GarageSlotRepository INSTANCE;
+
+    private final List<GarageSlot> garageSlots = new ArrayList<>();
+
+    private GarageSlotRepositoryImpl() {
+    }
+
+    public static GarageSlotRepository getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new GarageSlotRepositoryImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public void add(GarageSlot garageSlot) {

@@ -12,7 +12,7 @@ public class RemoveGarage extends GarageSlotServiceInit implements Action {
 
         boolean removed = garageSlotService.remove(id);
 
-        if(removed) {
+        if (removed) {
             System.out.println("The garage slot was successfully deleted.");
         } else {
             System.out.println("Something went wrong... The garage slot wasn't deleted.");

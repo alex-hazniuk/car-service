@@ -6,5 +6,5 @@ import org.example.service.RepairerServiceImpl;
 
 public abstract class RepairerServiceInit {
 
-    protected RepairerService repairerService = new RepairerServiceImpl(new RepairerRepositoryImpl());
+    protected RepairerService repairerService = RepairerServiceImpl.getINSTANCE();
 }

@@ -2,20 +2,34 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
-import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
+import org.example.repository.RepairerRepository;
+import org.example.repository.RepairerRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+
 public class RepairerServiceImpl implements RepairerService {
+
+    private static RepairerService INSTANCE;
 
     private final RepairerRepository repairerRepository;
 
-    private int repairerId;
+    private int repairerId = 0;
+
+    private RepairerServiceImpl() {
+        this.repairerRepository = RepairerRepositoryImpl.getINSTANCE();
+    }
+
+    public static RepairerService getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new RepairerServiceImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public void save(String name) {

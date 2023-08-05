@@ -1,24 +1,39 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.repository.OrderRepository;
-import org.example.model.OrderStatus;
+import org.example.exception.InvalidIdException;
 import org.example.model.*;
+import org.example.repository.OrderRepository;
+import org.example.repository.OrderRepositoryImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private static OrderService INSTANCE;
+
     private final OrderRepository orderRepository;
 
     private final RepairerService repairerService;
 
     private final GarageSlotService garageSlotService;
+
+    private OrderServiceImpl() {
+        this.orderRepository = OrderRepositoryImpl.getInstance();
+        this.repairerService = RepairerServiceImpl.getINSTANCE();
+        this.garageSlotService = GarageSlotServiceImpl.getINSTANCE();
+    }
+
+    public static OrderService getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new OrderServiceImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public Order create(Order order) {
@@ -58,7 +73,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findById(Long id) {
-        return orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        try {
+            return orderRepository.findById(id);
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
+        return new Order();
     }
 
     @Override

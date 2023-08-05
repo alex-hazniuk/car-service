@@ -26,7 +26,7 @@ public class ChangeStatus extends RepairerServiceInit implements Action {
         repairer.setId(id);
         repairer.setName(name);
 
-        if(status == 1) {
+        if (status == 1) {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         } else {
             repairer.setStatus(RepairerStatus.BUSY);

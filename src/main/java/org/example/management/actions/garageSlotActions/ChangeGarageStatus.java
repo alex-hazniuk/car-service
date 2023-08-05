@@ -21,7 +21,7 @@ public class ChangeGarageStatus extends GarageSlotServiceInit implements Action 
         GarageSlot garageSlot = new GarageSlot();
         garageSlot.setId(id);
 
-        if(status == 1) {
+        if (status == 1) {
             garageSlot.setStatus(GarageSlotStatus.AVAILABLE);
         } else {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);

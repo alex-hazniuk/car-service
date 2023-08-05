@@ -2,21 +2,37 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
-import org.example.repository.GarageSlotRepository;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
+import org.example.repository.GarageSlotRepository;
+import org.example.repository.GarageSlotRepositoryImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 
-@RequiredArgsConstructor
+
 public class GarageSlotServiceImpl implements GarageSlotService {
+
+    private static GarageSlotService INSTANCE;
 
     private final GarageSlotRepository garageSlotRepository;
 
-    private int id;
+    private int id = 0;
+
+    private GarageSlotServiceImpl() {
+        this.garageSlotRepository = GarageSlotRepositoryImpl.getINSTANCE();
+    }
+
+
+
+    public static GarageSlotService getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new GarageSlotServiceImpl();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public void save() {

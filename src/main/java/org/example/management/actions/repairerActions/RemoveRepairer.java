@@ -12,7 +12,7 @@ public class RemoveRepairer extends RepairerServiceInit implements Action {
 
         boolean removed = repairerService.remove(name);
 
-        if(removed) {
+        if (removed) {
             System.out.println("The repairer was successfully deleted.");
         } else {
             System.out.println("Something went wrong... The repairer wasn't deleted.");
