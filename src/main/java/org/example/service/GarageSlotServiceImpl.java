@@ -6,7 +6,6 @@ import org.example.repository.GarageSlotRepository;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import java.util.List;
-import java.util.stream.Collectors;
 import static java.util.Comparator.comparing;
 
 @RequiredArgsConstructor
