@@ -18,7 +18,7 @@ public class RemoveGarage extends GarageSlotServiceInit implements Action {
             System.out.println(e.getMessage());
         }
 
-        if(removed) {
+        if (removed) {
             System.out.println("The garage slot was successfully deleted.");
         } else {
             System.out.println("Something went wrong... The garage slot wasn't deleted.");

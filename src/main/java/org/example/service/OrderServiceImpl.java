@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
@@ -78,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         order.getRepairers()
                 .forEach(repairer -> repairerService.changeStatus(repairer.getId()));
-        if (order.getGarageSlot()!=null){
+        if (order.getGarageSlot() != null) {
             garageSlotService.changeStatus(order.getGarageSlot().getId());
         }
 
