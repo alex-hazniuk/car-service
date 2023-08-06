@@ -8,6 +8,7 @@ import org.example.model.OrderStatus;
 import org.example.model.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order order) {
+        order.setRepairers(new HashSet<>());
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setPrice((double) Math.round(Math.random() * 100000) / 100);
         return orderRepository.save(order);
@@ -32,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrders(SortType sortType) {
         return orderRepository.findAll().stream()
                 .sorted(sortType.getComparator())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
