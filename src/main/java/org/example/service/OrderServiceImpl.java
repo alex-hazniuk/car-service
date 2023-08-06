@@ -3,15 +3,17 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
-import org.example.repository.OrderRepository;
+import org.example.model.GarageSlot;
+import org.example.model.GarageSlotStatus;
+import org.example.model.Order;
 import org.example.model.OrderStatus;
-import org.example.model.*;
-
+import org.example.model.Repairer;
+import org.example.model.RepairerStatus;
+import org.example.repository.OrderRepository;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
@@ -23,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order order) {
+        order.setRepairers(new HashSet<>());
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setPrice((double) Math.round(Math.random() * 100000) / 100);
         return orderRepository.save(order);
@@ -32,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrders(SortType sortType) {
         return orderRepository.findAll().stream()
                 .sorted(sortType.getComparator())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -75,7 +78,10 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         order.getRepairers()
                 .forEach(repairer -> repairerService.changeStatus(repairer.getId()));
-        garageSlotService.changeStatus(order.getGarageSlot().getId());
+        if (order.getGarageSlot()!=null){
+            garageSlotService.changeStatus(order.getGarageSlot().getId());
+        }
+
         return orderRepository.update(id, order);
     }
 
