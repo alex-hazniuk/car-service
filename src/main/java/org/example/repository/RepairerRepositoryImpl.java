@@ -1,7 +1,5 @@
 package org.example.repository;
 
-import org.example.exception.InvalidIdException;
-import org.example.exception.InvalidNameException;
 import org.example.model.Repairer;
 
 import java.util.ArrayList;

@@ -5,10 +5,7 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepository;
-
 import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.Comparator.comparing;
 
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     public List<GarageSlot> sortedByStatus() {
         return garageSlotRepository.getAll().stream()
                 .sorted(comparing(GarageSlot::getStatus))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
