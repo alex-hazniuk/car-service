@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RepairerServiceImplTest {
+public class RepairerServiceImplTest {
 
     private RepairerRepository repairerRepository;
     private RepairerServiceImpl repairerService;
@@ -62,9 +62,8 @@ class RepairerServiceImplTest {
     void shouldRemoveRepairByName() {
         String name3 = "Ivan Orel";
         repairerService.save(name3);
-        if (repairerRepository.findByName(name3).isPresent()) {
-            repairerService.remove(name3);
-        }
+        repairerService.remove(name3);
+
 
         InvalidIdException exception = assertThrows(InvalidIdException.class,
                 () -> repairerService.findById(3));

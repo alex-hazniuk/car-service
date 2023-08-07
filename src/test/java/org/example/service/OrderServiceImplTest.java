@@ -12,10 +12,12 @@ import org.example.repository.OrderRepositoryImpl;
 import org.example.repository.RepairerRepository;
 import org.example.repository.RepairerRepositoryImpl;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class OrderServiceImplTest {
+public class OrderServiceImplTest {
 
     private OrderRepository orderRepository;
     private OrderService orderService;
@@ -34,6 +36,10 @@ class OrderServiceImplTest {
         orderService = new OrderServiceImpl(orderRepository, repairerService, garageSlotService);
     }
 
+    @AfterEach
+    public void tearDown() {
+        repairerService.getAll().clear();
+    }
     @Test
     void testOrderCreation() {
         Order order = new Order();

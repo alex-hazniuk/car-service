@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GarageSlotServiceImplTest {
+public class GarageSlotServiceImplTest {
 
     private GarageSlotRepositoryImpl garageSlotRep;
     private GarageSlotService garageSlotService;
