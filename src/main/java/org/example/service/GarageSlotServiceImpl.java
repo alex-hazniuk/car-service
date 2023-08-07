@@ -2,9 +2,9 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
-import org.example.repository.GarageSlotRepository;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
+import org.example.repository.GarageSlotRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
