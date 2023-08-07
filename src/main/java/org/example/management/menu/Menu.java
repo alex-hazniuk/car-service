@@ -1,37 +1,22 @@
 package org.example.management.menu;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
 
+    @Getter
+    @Setter
     private String name;
 
-    private List<MenuItem> menuItems = new ArrayList<>();
+    @Getter
+    private final List<MenuItem> menuItems = new ArrayList<>();
 
     public Menu(String name) {
         this.name = name;
-    }
-
-    public Menu(String name, List<MenuItem> menuItems) {
-        this.name = name;
-        this.menuItems = menuItems;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
     }
 
     public void addMenuItem(MenuItem menuItem) {

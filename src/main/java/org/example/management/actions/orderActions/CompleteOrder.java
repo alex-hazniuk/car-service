@@ -1,5 +1,6 @@
 package org.example.management.actions.orderActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.OrderServiceInit;
 
@@ -10,7 +11,13 @@ public class CompleteOrder extends OrderServiceInit implements Action {
 
         long id = scanner.nextLong();
 
-        System.out.println(orderService.completeOrder(id));
+        try {
+            System.out.println(orderService.completeOrder(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("No repairers to change their status!!!");
+        }
         System.out.println("Order completed.");
     }
 }

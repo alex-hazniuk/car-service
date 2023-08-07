@@ -1,47 +1,50 @@
 package org.example.service;
 
-import lombok.AllArgsConstructor;
-import org.example.dao.GarageSlotDaoImpl;
+import lombok.RequiredArgsConstructor;
+import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
-
+import org.example.repository.GarageSlotRepository;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.Comparator.comparing;
-@AllArgsConstructor
-public class GarageSlotServiceImpl implements GarageSlotService {
-    private final GarageSlotDaoImpl garageSlotDao;
 
+@RequiredArgsConstructor
+public class GarageSlotServiceImpl implements GarageSlotService {
+
+    private final GarageSlotRepository garageSlotRepository;
+
+    private int id;
 
     @Override
-    public void save(int id) {
+    public void save() {
         GarageSlot garageSlot = GarageSlot.builder()
-                .id(id)
+                .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
-        garageSlotDao.add(garageSlot);
+        garageSlotRepository.add(garageSlot);
     }
 
     @Override
     public boolean remove(int id) {
-        return garageSlotDao.remove(id);
+        GarageSlot garageSlot = findById(id);
+        return getAll().remove(garageSlot);
     }
 
     @Override
     public List<GarageSlot> getAll() {
-        return garageSlotDao.getAll();
+        return garageSlotRepository.getAll();
     }
 
     @Override
     public List<GarageSlot> sortedByStatus() {
-        return garageSlotDao.getAll().stream()
+        return garageSlotRepository.getAll().stream()
                 .sorted(comparing(GarageSlot::getStatus))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
-    public GarageSlot changeStatus(GarageSlot garageSlot) {
+    public GarageSlot changeStatus(int id) {
+        GarageSlot garageSlot = findById(id);
         if (garageSlot.getStatus() == GarageSlotStatus.AVAILABLE) {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);
         } else {
@@ -52,6 +55,9 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public GarageSlot findById(int id) {
-        return garageSlotDao.findById(id);
+        return garageSlotRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new InvalidIdException("Can't find garageSlot by id: " + id));
     }
 }

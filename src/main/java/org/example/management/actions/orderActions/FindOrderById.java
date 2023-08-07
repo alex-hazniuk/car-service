@@ -1,5 +1,6 @@
 package org.example.management.actions.orderActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.OrderServiceInit;
 
@@ -10,6 +11,10 @@ public class FindOrderById extends OrderServiceInit implements Action {
 
         long id = scanner.nextLong();
 
-        System.out.println(orderService.findById(id));
+        try {
+            System.out.println(orderService.findById(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

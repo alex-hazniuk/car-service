@@ -6,7 +6,8 @@ import org.example.model.GarageSlot;
 import java.util.List;
 
 public interface GarageSlotService {
-    void save(int id);
+
+    void save();
 
     boolean remove(int id);
 
@@ -14,7 +15,7 @@ public interface GarageSlotService {
 
     List<GarageSlot> sortedByStatus();
 
-    GarageSlot changeStatus(GarageSlot garageSlot);
+    GarageSlot changeStatus(int id);
 
     GarageSlot findById(int id);
 }

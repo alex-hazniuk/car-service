@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Repairer {
+
     private int id;
     private String name;
     private RepairerStatus status = RepairerStatus.AVAILABLE;

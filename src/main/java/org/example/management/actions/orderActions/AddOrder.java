@@ -9,12 +9,7 @@ import java.time.LocalDateTime;
 public class AddOrder extends OrderServiceInit implements Action {
     @Override
     public void execute() {
-        System.out.println("To create a new order please fill in the required fields: ");
-        System.out.println("id: ");
-        long id = scanner.nextLong();
-
         Order order = new Order();
-        order.setId(id);
         order.setCreatedAt(LocalDateTime.now());
 
         System.out.println(orderService.create(order));

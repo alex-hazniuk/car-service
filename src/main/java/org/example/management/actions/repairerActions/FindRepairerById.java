@@ -1,5 +1,6 @@
 package org.example.management.actions.repairerActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.RepairerServiceInit;
 
@@ -10,6 +11,10 @@ public class FindRepairerById extends RepairerServiceInit implements Action {
 
         int id = scanner.nextInt();
 
-        System.out.println(repairerService.findById(id));
+        try {
+            System.out.println(repairerService.findById(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

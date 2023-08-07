@@ -1,8 +1,8 @@
 package org.example.management.actions;
 
-public class Exit implements Action {
+public class EmptyAction implements Action {
     @Override
     public void execute() {
-        System.exit(0);
+
     }
 }

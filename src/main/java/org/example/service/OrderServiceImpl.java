@@ -1,30 +1,32 @@
 package org.example.service;
 
-import org.example.dao.OrderRepository;
-import org.example.enums.OrderStatus;
-import org.example.enums.SortType;
-import org.example.model.*;
-
+import lombok.RequiredArgsConstructor;
+import org.example.exception.InappropriateStatusException;
+import org.example.exception.InvalidIdException;
+import org.example.model.GarageSlot;
+import org.example.model.GarageSlotStatus;
+import org.example.model.Order;
+import org.example.model.OrderStatus;
+import org.example.model.Repairer;
+import org.example.model.RepairerStatus;
+import org.example.repository.OrderRepository;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class OrderServiceImplInMemory implements OrderService {
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final RepairerService repairerService;
-    private final GarageSlotService garageSlotService;
 
-    public OrderServiceImplInMemory(OrderRepository orderRepository, RepairerService repairerService, GarageSlotService garageSlotService) {
-        this.orderRepository = orderRepository;
-        this.repairerService = repairerService;
-        this.garageSlotService = garageSlotService;
-    }
+    private final RepairerService repairerService;
+
+    private final GarageSlotService garageSlotService;
 
     @Override
     public Order create(Order order) {
+        order.setRepairers(new HashSet<>());
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setPrice((double) Math.round(Math.random() * 100000) / 100);
         return orderRepository.save(order);
@@ -32,7 +34,9 @@ public class OrderServiceImplInMemory implements OrderService {
 
     @Override
     public List<Order> listOrders(SortType sortType) {
-        return orderRepository.findAll().stream().sorted(sortType.getComparator()).collect(Collectors.toList());
+        return orderRepository.findAll().stream()
+                .sorted(sortType.getComparator())
+                .toList();
     }
 
     @Override
@@ -40,9 +44,10 @@ public class OrderServiceImplInMemory implements OrderService {
         Order order = findById(id);
         GarageSlot garageSlot = garageSlotService.findById(garageSlotId);
         if (garageSlot.getStatus() == GarageSlotStatus.UNAVAILABLE) {
-            throw new RuntimeException(); //TODO
+            throw new InappropriateStatusException(
+                    "Garage status is UNAVAILABLE. Choose another one!");
         }
-        garageSlotService.changeStatus(garageSlot);
+        garageSlotService.changeStatus(garageSlotId);
         order.setGarageSlot(garageSlot);
         return orderRepository.update(id, order);
     }
@@ -52,16 +57,19 @@ public class OrderServiceImplInMemory implements OrderService {
         Order order = findById(id);
         Repairer repairer = repairerService.findById(repairerId);
         if (repairer.getStatus() == RepairerStatus.BUSY) {
-            throw new RuntimeException(); //TODO
+            throw new InappropriateStatusException(
+                    "Repairer status is BUSY. Choose another one!");
         }
-        repairerService.changeStatus(repairer);
+        repairerService.changeStatus(repairerId);
         order.getRepairers().add(repairer);
         return orderRepository.update(id, order);
     }
 
     @Override
     public Order findById(Long id) {
-        return orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return orderRepository
+                .findById(id)
+                .orElseThrow(() -> new InvalidIdException("Can't find order by id: " + id));
     }
 
     @Override
@@ -69,8 +77,12 @@ public class OrderServiceImplInMemory implements OrderService {
         Order order = findById(id);
         order.setCompletedAt(Optional.of(LocalDateTime.now()));
         order.setStatus(OrderStatus.COMPLETED);
-        order.getRepairers().forEach(repairerService::changeStatus);
-        garageSlotService.changeStatus(order.getGarageSlot());
+        order.getRepairers()
+                .forEach(repairer -> repairerService.changeStatus(repairer.getId()));
+        if (order.getGarageSlot() != null) {
+            garageSlotService.changeStatus(order.getGarageSlot().getId());
+        }
+
         return orderRepository.update(id, order);
     }
 
@@ -79,10 +91,10 @@ public class OrderServiceImplInMemory implements OrderService {
         Order order = findById(id);
         order.setStatus(OrderStatus.CANCELED);
         if (!order.getRepairers().isEmpty()) {
-            order.getRepairers().forEach(repairerService::changeStatus);
+            order.getRepairers().forEach(repairer -> repairerService.changeStatus(repairer.getId()));
         }
         if (order.getGarageSlot() != null) {
-            garageSlotService.changeStatus(order.getGarageSlot());
+            garageSlotService.changeStatus(order.getGarageSlot().getId());
         }
         return orderRepository.update(id, order);
     }

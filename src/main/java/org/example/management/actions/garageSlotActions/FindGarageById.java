@@ -1,5 +1,6 @@
 package org.example.management.actions.garageSlotActions;
 
+import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 import org.example.management.actions.initServices.GarageSlotServiceInit;
 
@@ -10,6 +11,10 @@ public class FindGarageById extends GarageSlotServiceInit implements Action {
 
         int id = scanner.nextInt();
 
-        System.out.println(garageSlotService.findById(id));
+        try {
+            System.out.println(garageSlotService.findById(id));
+        } catch (InvalidIdException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

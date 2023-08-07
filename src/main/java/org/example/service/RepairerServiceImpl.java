@@ -1,6 +1,9 @@
 package org.example.service;
 
-import org.example.dao.RepairerDaoImpl;
+import lombok.RequiredArgsConstructor;
+import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
+import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 
@@ -8,26 +11,26 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class RepairerServiceImpl implements RepairerService {
-    private final RepairerDaoImpl repairerDao;
-    private int repairerId;
 
-    public RepairerServiceImpl(RepairerDaoImpl repairerDao) {
-        this.repairerDao = repairerDao;
-    }
+    private final RepairerRepository repairerRepository;
+
+    private int repairerId;
 
     @Override
     public void save(String name) {
         Repairer repairer = Repairer.builder()
                 .id(++repairerId)
-                .name(name)
                 .status(RepairerStatus.AVAILABLE)
+                .name(name)
                 .build();
-        repairerDao.add(repairer);
+        repairerRepository.add(repairer);
     }
 
     @Override
-    public Repairer changeStatus(Repairer repairer) {
+    public Repairer changeStatus(int id) {
+        Repairer repairer = findById(id);
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
@@ -38,17 +41,24 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public boolean remove(String name) {
-        return repairerDao.remove(name);
+        Repairer repairer = repairerRepository
+                .findByName(name)
+                .orElseThrow(() ->
+                        new InvalidNameException("Can't find repairer by name: " + name));
+        return getAll().remove(repairer);
     }
 
     @Override
     public Repairer findById(int id) {
-        return repairerDao.findById(id);
+            return repairerRepository
+                    .findById(id)
+                    .orElseThrow(() ->
+                            new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override
     public List<Repairer> getAll() {
-        return repairerDao.getAll();
+        return repairerRepository.getAll();
     }
 
     @Override

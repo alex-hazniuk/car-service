@@ -1,9 +1,9 @@
 package org.example.management.actions;
 
-import java.util.Scanner;
+import org.example.management.ScannerHandler;
 
 public interface Action {
-    Scanner scanner = new Scanner(System.in);
+    ScannerHandler scanner = new ScannerHandler();
 
     void execute();
 }
