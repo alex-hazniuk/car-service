@@ -89,7 +89,7 @@ public class OrderServiceImplTest {
         assertEquals(OrderStatus.COMPLETED,order.getStatus());
     }
 
-@Disabled
+
     @Test
     void testCanceledOrder(){
         repairerService.save("Rob");
