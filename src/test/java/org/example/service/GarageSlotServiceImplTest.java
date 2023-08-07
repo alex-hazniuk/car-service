@@ -63,21 +63,6 @@ class GarageSlotServiceImplTest {
     }
 
     //  test cases for remove() method
-//    @Test
-//    void removeExistingId() {
-//        int idToBeRemoved = 30;
-//        garageSlotService.save();
-//        boolean result2 = garageSlotService.remove(idToBeRemoved);
-//        assertFalse(result2);
-//        assertEquals(0, garageSlotRep.getAll().size());
-//        assertThrows(RuntimeException.class, () -> garageSlotService.remove(idToBeRemoved));
-//    }
-//
-//    @Test
-//    void testRemoveNonExistingGarageSlot() {
-//        int nonExistingId = 999;
-//        assertThrows(RuntimeException.class, () -> garageSlotService.remove(nonExistingId));
-//    }
     @Test
     void testRemoveExistingId() {
         int id1 = 1;
