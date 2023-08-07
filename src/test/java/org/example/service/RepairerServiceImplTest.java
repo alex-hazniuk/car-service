@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RepairerServiceImplTest {
 
     private RepairerRepository repairerRepository;
@@ -21,14 +21,17 @@ public class RepairerServiceImplTest {
     private final String name2 = "Oleg Ivanov";
 
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         repairerRepository = new RepairerRepositoryImpl();
         repairerService = new RepairerServiceImpl(repairerRepository);
         repairerService.save(name1);
         repairerService.save(name2);
     }
-
+    @AfterEach
+    public void tearDown() {
+        repairerService.getAll().clear();
+    }
 
     @Test
     void shouldSaveRepairerByName() {
