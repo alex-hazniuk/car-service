@@ -12,8 +12,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RepairerServiceImplTest {
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class RepairerServiceImplTest {
 
     private RepairerRepository repairerRepository;
     private RepairerServiceImpl repairerService;
@@ -21,14 +21,17 @@ class RepairerServiceImplTest {
     private final String name2 = "Oleg Ivanov";
 
 
-    @BeforeAll
+    @BeforeEach
     void init() {
         repairerRepository = new RepairerRepositoryImpl();
         repairerService = new RepairerServiceImpl(repairerRepository);
         repairerService.save(name1);
         repairerService.save(name2);
     }
-
+    @AfterEach
+    public void tearDown() {
+        repairerService.getAll().clear();
+    }
 
     @Test
     void shouldSaveRepairerByName() {
@@ -62,9 +65,8 @@ class RepairerServiceImplTest {
     void shouldRemoveRepairByName() {
         String name3 = "Ivan Orel";
         repairerService.save(name3);
-        if (repairerRepository.findByName(name3).isPresent()) {
-            repairerService.remove(name3);
-        }
+        repairerService.remove(name3);
+
 
         InvalidIdException exception = assertThrows(InvalidIdException.class,
                 () -> repairerService.findById(3));
