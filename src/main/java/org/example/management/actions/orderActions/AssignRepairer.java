@@ -3,9 +3,8 @@ package org.example.management.actions.orderActions;
 import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
-import org.example.management.actions.initServices.OrderServiceInit;
 
-public class AssignRepairer extends OrderServiceInit implements Action {
+public class AssignRepairer implements Action {
     @Override
     public void execute() {
         System.out.println("For assign a repairer to the order please enter order id: ");
@@ -15,7 +14,7 @@ public class AssignRepairer extends OrderServiceInit implements Action {
         int repairerId = scanner.nextInt();
 
         try {
-            System.out.println(orderService.assignRepairer(id, repairerId));
+            System.out.println(genericInit.getOrderService().assignRepairer(id, repairerId));
         } catch (InvalidIdException | InappropriateStatusException e) {
             System.out.println(e.getMessage());
         }

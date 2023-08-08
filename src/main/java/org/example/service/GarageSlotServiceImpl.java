@@ -1,6 +1,5 @@
 package org.example.service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
@@ -8,12 +7,16 @@ import org.example.repository.GarageSlotRepository;
 import java.util.List;
 import static java.util.Comparator.comparing;
 
-@RequiredArgsConstructor
 public class GarageSlotServiceImpl implements GarageSlotService {
 
     private final GarageSlotRepository garageSlotRepository;
 
     private int id;
+
+    public GarageSlotServiceImpl(GarageSlotRepository garageSlotRepository) {
+        this.garageSlotRepository = garageSlotRepository;
+        this.id = garageSlotRepository.getAll().size();
+    }
 
     @Override
     public void save() {

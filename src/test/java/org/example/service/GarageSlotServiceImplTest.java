@@ -22,7 +22,7 @@ public class GarageSlotServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        garageSlotRep = new GarageSlotRepositoryImpl();
+        garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
         garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
     }
 

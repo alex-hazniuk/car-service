@@ -2,16 +2,20 @@ package org.example.repository;
 
 import org.example.model.Order;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class OrderRepositoryImpl implements OrderRepository {
 
-    private static final Map<Long, Order> orderMap = new HashMap<>();
+    private final Map<Long, Order> orderMap;
 
-    private Long idCounter = 0L;
+    private Long idCounter;
+
+    public OrderRepositoryImpl(Map<Long, Order> orderMap) {
+        this.orderMap = orderMap;
+        this.idCounter = (long) orderMap.size();
+    }
 
     @Override
     public Order save(Order order) {
@@ -28,6 +32,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Order> findAll() {
         return orderMap.values().stream().toList();
+    }
+
+    @Override
+    public Map<Long, Order> findAllMapFormat() {
+        return orderMap;
     }
 
     @Override

@@ -1,14 +1,15 @@
 package org.example.repository;
 
+import lombok.AllArgsConstructor;
 import org.example.model.GarageSlot;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class GarageSlotRepositoryImpl implements GarageSlotRepository {
 
-    private static final List<GarageSlot> garageSlots = new ArrayList<>();
+    private final List<GarageSlot> garageSlots;
 
     @Override
     public void add(GarageSlot garageSlot) {

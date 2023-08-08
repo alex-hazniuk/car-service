@@ -8,6 +8,7 @@ import org.example.repository.RepairerRepositoryImpl;
 import org.junit.jupiter.api.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,7 @@ public class RepairerServiceImplTest {
 
     @BeforeEach
     void init() {
-        repairerRepository = new RepairerRepositoryImpl();
+        repairerRepository = new RepairerRepositoryImpl(new ArrayList<>());
         repairerService = new RepairerServiceImpl(repairerRepository);
         repairerService.save(name1);
         repairerService.save(name2);

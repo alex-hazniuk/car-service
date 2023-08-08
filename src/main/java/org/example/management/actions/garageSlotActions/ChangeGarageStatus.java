@@ -2,9 +2,8 @@ package org.example.management.actions.garageSlotActions;
 
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
-import org.example.management.actions.initServices.GarageSlotServiceInit;
 
-public class ChangeGarageStatus extends GarageSlotServiceInit implements Action {
+public class ChangeGarageStatus implements Action {
     @Override
     public void execute() {
         System.out.println("To change garage slot status please enter its id: \n ID: ");
@@ -12,7 +11,7 @@ public class ChangeGarageStatus extends GarageSlotServiceInit implements Action 
         int id = scanner.nextInt();
 
         try {
-            System.out.println(garageSlotService.changeStatus(id));
+            System.out.println(genericInit.getGarageSlotService().changeStatus(id));
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
         }

@@ -15,8 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OrderServiceImplTest {
 
@@ -29,9 +31,9 @@ public class OrderServiceImplTest {
 
     @BeforeEach
     void init() {
-        orderRepository = new OrderRepositoryImpl();
-        repairerRepository = new RepairerRepositoryImpl();
-        garageSlotRepository = new GarageSlotRepositoryImpl();
+        orderRepository = new OrderRepositoryImpl(new HashMap<>());
+        repairerRepository = new RepairerRepositoryImpl(new ArrayList<>());
+        garageSlotRepository = new GarageSlotRepositoryImpl(new ArrayList<>());
         garageSlotService = new GarageSlotServiceImpl(garageSlotRepository);
         repairerService = new RepairerServiceImpl(repairerRepository);
         orderService = new OrderServiceImpl(orderRepository, repairerService, garageSlotService);
