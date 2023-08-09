@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderSerialization {
+    private static final String PATH = "src/main/resources/list_orders.json";
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -19,23 +20,17 @@ public class OrderSerialization {
 
     public void writeList(Map<Long, Order> listForSerialization) {
         try {
-            if(file.exists()) {
-                mapper.writeValue(file, listForSerialization);
-            } else {
-                file.createNewFile();
-                mapper.writeValue(file, listForSerialization);
-            }
+            mapper.writeValue(file, listForSerialization);
         } catch (IOException e) {
             throw new SerializationFileException(e.getMessage());
         }
     }
 
     public Map<Long, Order> readList() {
-        String PATH = "src/main/resources/list_orders.json";
         file = new File(PATH);
         try {
             if(file.exists() && file.length() > 0) {
-                return mapper.readValue(file, new TypeReference<Map<Long, Order>>() {
+                return mapper.readValue(file, new TypeReference<>() {
                 });
             } else {
                 return new HashMap<>();

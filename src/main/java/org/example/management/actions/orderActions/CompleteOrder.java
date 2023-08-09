@@ -12,11 +12,11 @@ public class CompleteOrder implements Action {
 
         try {
             System.out.println(genericInit.getOrderService().completeOrder(id));
+            System.out.println("Order completed.");
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
         } catch (NullPointerException e) {
             System.out.println("No repairers to change their status!!!");
         }
-        System.out.println("Order completed.");
     }
 }

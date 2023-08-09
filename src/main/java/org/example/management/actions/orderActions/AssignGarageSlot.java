@@ -15,9 +15,9 @@ public class AssignGarageSlot implements Action {
 
         try {
             System.out.println(genericInit.getOrderService().assignGarageSlot(id, garageId));
+            System.out.println("The garage slot was successfully added to the order.");
         } catch (InvalidIdException | InappropriateStatusException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("The garage slot was successfully added to the order.");
     }
 }

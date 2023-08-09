@@ -12,9 +12,9 @@ public class CancelOrder implements Action {
 
         try {
             System.out.println(genericInit.getOrderService().cancelOrder(id));
+            System.out.println("Order canceled.");
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Order canceled.");
     }
 }

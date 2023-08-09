@@ -15,9 +15,9 @@ public class AssignRepairer implements Action {
 
         try {
             System.out.println(genericInit.getOrderService().assignRepairer(id, repairerId));
+            System.out.println("The repairer was successfully added to the order.");
         } catch (InvalidIdException | InappropriateStatusException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("The repairer was successfully added to the order.");
     }
 }

@@ -13,9 +13,9 @@ public class ChangeStatus implements Action {
 
         try {
             System.out.println(genericInit.getRepairerService().changeStatus(id));
+            System.out.println("Repairer status was successfully updated.");
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Repairer status was successfully updated.");
     }
 }

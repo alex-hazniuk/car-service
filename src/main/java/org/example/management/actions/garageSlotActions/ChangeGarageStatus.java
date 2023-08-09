@@ -12,9 +12,9 @@ public class ChangeGarageStatus implements Action {
 
         try {
             System.out.println(genericInit.getGarageSlotService().changeStatus(id));
+            System.out.println("Garage slot status was successfully updated.");
         } catch (InvalidIdException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("Garage slot status was successfully updated.");
     }
 }
