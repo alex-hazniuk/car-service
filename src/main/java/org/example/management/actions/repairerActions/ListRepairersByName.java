@@ -1,11 +1,10 @@
 package org.example.management.actions.repairerActions;
 
 import org.example.management.actions.Action;
-import org.example.management.actions.initServices.RepairerServiceInit;
 
-public class ListRepairersByName extends RepairerServiceInit implements Action {
+public class ListRepairersByName implements Action {
     @Override
     public void execute() {
-        System.out.println(repairerService.sortedByName());
+        System.out.println(genericInit.getRepairerService().sortedByName());
     }
 }

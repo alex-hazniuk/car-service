@@ -4,14 +4,14 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepositoryImpl;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.DisabledIf;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,18 +20,16 @@ public class GarageSlotServiceImplTest {
     private GarageSlotRepositoryImpl garageSlotRep;
     private GarageSlotService garageSlotService;
 
+
     @BeforeEach
     public void setUp() {
-        garageSlotRep = new GarageSlotRepositoryImpl();
+        garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
         garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
     }
 
     @AfterEach
     public void tearDown() {
-        List<GarageSlot> slots = new ArrayList<>(garageSlotRep.getAll());
-        for (GarageSlot slot : slots) {
-            garageSlotService.remove(slot.getId());
-        }
+        garageSlotService.getAll().clear();
     }
 
     //  test cases for save() method
@@ -230,9 +228,8 @@ public class GarageSlotServiceImplTest {
     void testFindByIdNonExistingSlotWithExceptionMessage() {
         int nonExistingId = 999;
 
-        Exception exception = assertThrows(InvalidIdException.class, () -> {
-            garageSlotService.findById(nonExistingId);
-        });
+        Exception exception = assertThrows(InvalidIdException.class, () ->
+                garageSlotService.findById(nonExistingId));
 
         String expectedMessage = "Can't find garageSlot by id: " + nonExistingId;
         String actualMessage = exception.getMessage();

@@ -1,11 +1,10 @@
 package org.example.management.actions.garageSlotActions;
 
 import org.example.management.actions.Action;
-import org.example.management.actions.initServices.GarageSlotServiceInit;
 
-public class ListGarageSlotsByStatus extends GarageSlotServiceInit implements Action {
+public class ListGarageSlotsByStatus implements Action {
     @Override
     public void execute() {
-        System.out.println(garageSlotService.sortedByStatus());
+        System.out.println(genericInit.getGarageSlotService().sortedByStatus());
     }
 }
