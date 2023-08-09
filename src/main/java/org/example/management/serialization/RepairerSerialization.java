@@ -29,7 +29,7 @@ public class RepairerSerialization {
     public List<Repairer> readList() {
         file = new File(PATH);
         try {
-            if(file.exists() && file.length() > 0) {
+            if (file.exists() && file.length() > 0) {
                 return mapper.readValue(file, new TypeReference<>() {
                 });
             } else {
