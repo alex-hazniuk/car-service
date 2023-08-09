@@ -2,9 +2,8 @@ package org.example.management.actions.repairerActions;
 
 import org.example.exception.InvalidNameException;
 import org.example.management.actions.Action;
-import org.example.management.actions.initServices.RepairerServiceInit;
 
-public class RemoveRepairer extends RepairerServiceInit implements Action {
+public class RemoveRepairer implements Action {
     @Override
     public void execute() {
         System.out.println("To remove a repairer please enter his name: ");
@@ -13,14 +12,13 @@ public class RemoveRepairer extends RepairerServiceInit implements Action {
 
         boolean removed = false;
         try {
-            removed = repairerService.remove(name);
+            removed = genericInit.getRepairerService().remove(name);
+            System.out.println("The repairer was successfully deleted.");
         } catch (InvalidNameException e) {
             System.out.println(e.getMessage());
         }
 
-        if (removed) {
-            System.out.println("The repairer was successfully deleted.");
-        } else {
+        if (!removed) {
             System.out.println("Something went wrong... The repairer wasn't deleted.");
         }
     }

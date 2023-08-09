@@ -1,14 +1,15 @@
 package org.example.repository;
 
+import lombok.AllArgsConstructor;
 import org.example.model.Repairer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 public class RepairerRepositoryImpl implements RepairerRepository {
 
-    private static final List<Repairer> repairers = new ArrayList<>();
+    private final List<Repairer> repairers;
 
     @Override
     public void add(Repairer repairer) {
