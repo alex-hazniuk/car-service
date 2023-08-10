@@ -11,9 +11,9 @@ import org.example.repository.OrderRepository;
 import org.example.repository.OrderRepositoryImpl;
 import org.example.repository.RepairerRepository;
 import org.example.repository.RepairerRepositoryImpl;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,10 +39,6 @@ public class OrderServiceImplTest {
         orderService = new OrderServiceImpl(orderRepository, repairerService, garageSlotService);
     }
 
-    @AfterEach
-    public void tearDown() {
-        repairerService.getAll().clear();
-    }
     @Test
     void testOrderCreation() {
         Order order = new Order();
@@ -62,7 +58,8 @@ public class OrderServiceImplTest {
     void testFindByInvalidOrderId() {
         Order order = new Order();
         Order createdOrder = orderService.create(order);
-        InvalidIdException invalidIdException = assertThrows(InvalidIdException.class, () -> orderService.findById(2L));
+        InvalidIdException invalidIdException =
+                assertThrows(InvalidIdException.class, () -> orderService.findById(2L));
         assertEquals("Can't find order by id: 2", invalidIdException.getMessage());
     }
 
@@ -71,38 +68,41 @@ public class OrderServiceImplTest {
         repairerService.save("John");
         repairerService.changeStatus(1);
         orderService.create(new Order());
-        InappropriateStatusException inappropriateStatusException = assertThrows(InappropriateStatusException.class, () -> orderService.assignRepairer(1L, 1));
-        assertEquals("Repairer status is BUSY. Choose another one!", inappropriateStatusException.getMessage());
+        InappropriateStatusException inappropriateStatusException =
+                assertThrows(InappropriateStatusException.class,
+                        () -> orderService.assignRepairer(1L, 1));
+        assertEquals("Repairer status is BUSY. Choose another one!",
+                inappropriateStatusException.getMessage());
     }
 
 
     @Test
-    void testCompletedOrder(){
+    void testCompletedOrder() {
         repairerService.save("John");
         repairerService.save("Nick");
         repairerService.save("Donald");
         orderService.create(new Order());
-        orderService.assignRepairer(1L,1);
-        orderService.assignRepairer(1L,2);
-        orderService.assignRepairer(1L,3);
+        orderService.assignRepairer(1L, 1);
+        orderService.assignRepairer(1L, 2);
+        orderService.assignRepairer(1L, 3);
         orderService.completeOrder(1L);
         Order order = orderService.findById(1L);
-        order.getRepairers().forEach(r->assertEquals(RepairerStatus.AVAILABLE,r.getStatus()));
-        assertEquals(OrderStatus.COMPLETED,order.getStatus());
+        order.getRepairers().forEach(r -> assertEquals(RepairerStatus.AVAILABLE, r.getStatus()));
+        assertEquals(OrderStatus.COMPLETED, order.getStatus());
     }
 
 
     @Test
-    void testCanceledOrder(){
+    void testCanceledOrder() {
         repairerService.save("Rob");
         repairerService.save("Phil");
         orderService.create(new Order());
-        orderService.assignRepairer(1L,1);
-        orderService.assignRepairer(1L,2);
+        orderService.assignRepairer(1L, 1);
+        orderService.assignRepairer(1L, 2);
         orderService.cancelOrder(1L);
         Order order = orderService.findById(1L);
-        order.getRepairers().forEach(r->assertEquals(RepairerStatus.AVAILABLE,r.getStatus()));
-        assertEquals(OrderStatus.CANCELED,order.getStatus());
+        order.getRepairers().forEach(r -> assertEquals(RepairerStatus.AVAILABLE, r.getStatus()));
+        assertEquals(OrderStatus.CANCELED, order.getStatus());
     }
 
 }

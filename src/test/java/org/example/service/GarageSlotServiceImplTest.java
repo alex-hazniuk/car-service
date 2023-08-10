@@ -5,12 +5,7 @@ import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepositoryImpl;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.DisabledIf;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,11 +20,6 @@ public class GarageSlotServiceImplTest {
     public void setUp() {
         garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
         garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        garageSlotService.getAll().clear();
     }
 
     //  test cases for save() method

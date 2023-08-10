@@ -7,28 +7,26 @@ import org.example.repository.RepairerRepository;
 import org.example.repository.RepairerRepositoryImpl;
 import org.junit.jupiter.api.*;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RepairerServiceImplTest {
-
+    private static final String ARTEM = "Artem Dou";
+    private static final String OLEG = "Oleg Ivanov";
     private RepairerRepository repairerRepository;
     private RepairerServiceImpl repairerService;
-    private final String name1 = "Artem Dou";
-    private final String name2 = "Oleg Ivanov";
 
 
     @BeforeEach
     void init() {
         repairerRepository = new RepairerRepositoryImpl(new ArrayList<>());
         repairerService = new RepairerServiceImpl(repairerRepository);
-        repairerService.save(name1);
-        repairerService.save(name2);
+        repairerService.save(ARTEM);
+        repairerService.save(OLEG);
     }
+
     @AfterEach
     public void tearDown() {
         repairerService.getAll().clear();
@@ -36,11 +34,11 @@ public class RepairerServiceImplTest {
 
     @Test
     void shouldSaveRepairerByName() {
-        Repairer savedRepairer1 = repairerRepository.findByName(name1).get();
-        Repairer savedRepairer2 = repairerRepository.findByName(name2).get();
+        Repairer savedRepairer1 = repairerRepository.findByName(ARTEM).get();
+        Repairer savedRepairer2 = repairerRepository.findByName(OLEG).get();
 
-        assertTrue(repairerRepository.findByName(name1).isPresent());
-        assertTrue(repairerRepository.findByName(name2).isPresent());
+        assertTrue(repairerRepository.findByName(ARTEM).isPresent());
+        assertTrue(repairerRepository.findByName(OLEG).isPresent());
         assertEquals(savedRepairer1, repairerRepository.getAll().get(0));
         assertEquals(savedRepairer2, repairerRepository.getAll().get(1));
         assertEquals(repairerRepository.getAll().size(), 2);
@@ -64,9 +62,9 @@ public class RepairerServiceImplTest {
 
     @Test
     void shouldRemoveRepairByName() {
-        String name3 = "Ivan Orel";
-        repairerService.save(name3);
-        repairerService.remove(name3);
+        String ivan = "Ivan Orel";
+        repairerService.save(ivan);
+        repairerService.remove(ivan);
 
 
         InvalidIdException exception = assertThrows(InvalidIdException.class,
@@ -78,13 +76,13 @@ public class RepairerServiceImplTest {
 
     @Test
     void shouldFindRepairById() {
-        Repairer repairer1 = repairerRepository.findByName(name1).get();
-        Repairer repairer2 = repairerRepository.findByName(name2).get();
+        Repairer repairer1 = repairerRepository.findByName(ARTEM).get();
+        Repairer repairer2 = repairerRepository.findByName(OLEG).get();
         InvalidIdException exception = assertThrows(InvalidIdException.class,
                 () -> repairerService.findById(3));
 
-        assertTrue(repairerRepository.findByName(name1).isPresent());
-        assertTrue(repairerRepository.findByName(name2).isPresent());
+        assertTrue(repairerRepository.findByName(ARTEM).isPresent());
+        assertTrue(repairerRepository.findByName(OLEG).isPresent());
         assertEquals(repairer1, repairerService.findById(1));
         assertEquals(repairer2, repairerService.findById(2));
         assertEquals("Can't find repairer by id: 3", exception.getMessage());
@@ -93,13 +91,13 @@ public class RepairerServiceImplTest {
 
     @Test
     void getAll() {
-        Repairer repairer1 = repairerRepository.findByName(name1).get();
-        Repairer repairer2 = repairerRepository.findByName(name2).get();
+        Repairer repairer1 = repairerRepository.findByName(ARTEM).get();
+        Repairer repairer2 = repairerRepository.findByName(OLEG).get();
 
         List<Repairer> list = List.of(repairer1, repairer2);
 
-        assertTrue(repairerRepository.findByName(name1).isPresent());
-        assertTrue(repairerRepository.findByName(name2).isPresent());
+        assertTrue(repairerRepository.findByName(ARTEM).isPresent());
+        assertTrue(repairerRepository.findByName(OLEG).isPresent());
         assertEquals(list, repairerService.getAll());
 
     }
@@ -107,26 +105,26 @@ public class RepairerServiceImplTest {
     @Test
     void shouldSortRepairersByName() {
 
-        Repairer repairer1 = repairerRepository.findByName(name1).get();
-        Repairer repairer2 = repairerRepository.findByName(name2).get();
+        Repairer repairer1 = repairerRepository.findByName(ARTEM).get();
+        Repairer repairer2 = repairerRepository.findByName(OLEG).get();
 
         List<Repairer> list = List.of(repairer1, repairer2);
 
-        assertTrue(repairerRepository.findByName(name1).isPresent());
-        assertTrue(repairerRepository.findByName(name2).isPresent());
+        assertTrue(repairerRepository.findByName(ARTEM).isPresent());
+        assertTrue(repairerRepository.findByName(OLEG).isPresent());
         assertEquals(list, repairerService.sortedByName());
 
     }
 
     @Test
     void sortedByStatus() {
-        Repairer repairer1 = repairerRepository.findByName(name1).get();
-        Repairer repairer2 = repairerRepository.findByName(name2).get();
+        Repairer repairer1 = repairerRepository.findByName(ARTEM).get();
+        Repairer repairer2 = repairerRepository.findByName(OLEG).get();
         repairer1.setStatus(RepairerStatus.BUSY);
         List<Repairer> list = List.of(repairer2, repairer1);
 
-        assertTrue(repairerRepository.findByName(name1).isPresent());
-        assertTrue(repairerRepository.findByName(name2).isPresent());
+        assertTrue(repairerRepository.findByName(ARTEM).isPresent());
+        assertTrue(repairerRepository.findByName(OLEG).isPresent());
         assertEquals(list, repairerService.sortedByStatus());
     }
 }
