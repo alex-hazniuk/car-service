@@ -27,11 +27,6 @@ public class RepairerServiceImplTest {
         repairerService.save(OLEG);
     }
 
-    @AfterEach
-    public void tearDown() {
-        repairerService.getAll().clear();
-    }
-
     @Test
     void shouldSaveRepairerByName() {
         Repairer savedRepairer1 = repairerRepository.findByName(ARTEM).get();
