@@ -22,7 +22,7 @@ public class RemoveGarage extends ActionWithProperties {
             if (!removed) {
                 System.out.println("Something went wrong... The garage slot wasn't deleted.");
             }
-        }else {
+        } else {
             System.out.println("The garage slot deleting is not available");
         }
     }
