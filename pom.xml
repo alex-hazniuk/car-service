@@ -128,8 +128,9 @@
                         <groupId>jakarta.servlet</groupId>
                         <artifactId>jakarta.servlet-api</artifactId>
                         <version>6.0.0</version>
-                        <scope>provided</scope>
+                        <scope>runtime</scope>
                     </dependency>
+
 
                 </dependencies>
 
@@ -158,8 +159,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
+                <version>3.3.1</version>
+                <configuration>mv
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
