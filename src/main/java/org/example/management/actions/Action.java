@@ -9,5 +9,6 @@ public abstract class Action {
 
     protected final ScannerHandler scanner = new ScannerHandler();
 
+
     public abstract void execute();
 }

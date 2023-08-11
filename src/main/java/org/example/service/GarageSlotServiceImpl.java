@@ -4,18 +4,13 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepository;
-
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
 import static java.util.Comparator.comparing;
 
 public class GarageSlotServiceImpl implements GarageSlotService {
 
     private final GarageSlotRepository garageSlotRepository;
-
     private int id;
 
     public GarageSlotServiceImpl(GarageSlotRepository garageSlotRepository) {
@@ -25,44 +20,24 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public void save() {
-        Properties property = readProperties();
-        if (property.getProperty("Ability-To-Add").equals("on")) {
-            GarageSlot garageSlot = GarageSlot.builder()
-                    .id(++id)
-                    .status(GarageSlotStatus.AVAILABLE)
-                    .build();
-            garageSlotRepository.add(garageSlot);
-        } else {
-            System.out.println("Ability to add is not available");
-        }
+        GarageSlot garageSlot = GarageSlot.builder()
+                .id(++id)
+                .status(GarageSlotStatus.AVAILABLE)
+                .build();
+        garageSlotRepository.add(garageSlot);
     }
 
     @Override
     public boolean remove(int id) {
         GarageSlot garageSlot = findById(id);
-        Properties property = readProperties();
-        if (property.getProperty("Ability-To-Delete").equals("on")) {
-            return getAll().remove(garageSlot);
-        } else {
-            System.out.println("Ability to delete is not available");
-        }
-        return true;
-    }
+        return getAll().remove(garageSlot);
 
-    private Properties readProperties() {
-        Properties property = new Properties();
-        try {
-            property.load(new FileInputStream(
-                    "src/main/resources/garageSlot.properties"));
-        } catch (IOException e) {
-            System.err.println("This property file is absent");
-        }
-        return property;
     }
 
     @Override
     public List<GarageSlot> getAll() {
-        return garageSlotRepository.getAll();
+
+        return new ArrayList<>(garageSlotRepository.getAll());
     }
 
     @Override
