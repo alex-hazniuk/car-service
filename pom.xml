@@ -7,6 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>car-service</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -69,7 +70,15 @@
                         <artifactId>junit-jupiter-engine</artifactId>
                         <version>${junut.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>jakarta.servlet</groupId>
+                        <artifactId>jakarta.servlet-api</artifactId>
+                        <version>6.0.0</version>
+                        <scope>provided</scope>
+                    </dependency>
+
                 </dependencies>
+
             </plugin>
 
             <plugin>
@@ -91,6 +100,29 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <path>/vac</path>
+                    <server>Tomcat</server>
+                    <username>tomcat</username>
+                    <password>tomcat</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
