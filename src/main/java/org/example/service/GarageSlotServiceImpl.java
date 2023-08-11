@@ -4,8 +4,9 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepository;
-import java.util.ArrayList;
+
 import java.util.List;
+
 import static java.util.Comparator.comparing;
 
 public class GarageSlotServiceImpl implements GarageSlotService {
@@ -36,8 +37,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public List<GarageSlot> getAll() {
-
-        return new ArrayList<>(garageSlotRepository.getAll());
+        return garageSlotRepository.getAll();
     }
 
     @Override
