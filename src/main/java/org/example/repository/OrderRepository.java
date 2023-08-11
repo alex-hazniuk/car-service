@@ -14,7 +14,5 @@ public interface OrderRepository {
 
     List<Order> findAll();
 
-    Map<Long, Order> findAllMapFormat();
-
     Order update(Long id, Order order);
 }

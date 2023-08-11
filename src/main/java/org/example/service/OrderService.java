@@ -11,8 +11,6 @@ public interface OrderService {
 
     List<Order> listOrders(SortType sortType);
 
-    Map<Long, Order> getAllMapFormat();
-
     Order assignGarageSlot(Long id, Integer garageSlotId);
 
     Order assignRepairer(Long id, Integer repairerId);

@@ -68,7 +68,7 @@ public class RepairerServiceImpl implements RepairerService {
     public List<Repairer> sortedByName() {
         return getAll().stream()
                 .sorted(Comparator.comparing(Repairer::getName))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

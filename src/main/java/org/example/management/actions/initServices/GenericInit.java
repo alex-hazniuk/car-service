@@ -1,58 +1,33 @@
 package org.example.management.actions.initServices;
 
-import org.example.management.serialization.GarageSlotSerialization;
-import org.example.management.serialization.OrderSerialization;
-import org.example.management.serialization.RepairerSerialization;
+import lombok.Getter;
 import org.example.repository.*;
+import org.example.repository.FileRepositories.CarServiceStoreHandler;
+import org.example.repository.FileRepositories.GarageSlotFileRepository;
+import org.example.repository.FileRepositories.OrderFileRepository;
+import org.example.repository.FileRepositories.RepairerFileRepository;
 import org.example.service.*;
 
-public class GenericInit {
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-    private final GarageSlotSerialization garageSlotSerialization = new GarageSlotSerialization();
+public final class GenericInit {
 
-    private final RepairerSerialization repairerSerialization = new RepairerSerialization();
+    private final Path path = Paths.get("src/main/resources/state.json");
 
-    private final OrderSerialization orderSerialization = new OrderSerialization();
-
-
+    @Getter
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(
-            new GarageSlotRepositoryImpl(garageSlotSerialization.readList()));
+            new GarageSlotFileRepository(new CarServiceStoreHandler(path)));
 
-
+    @Getter
     private final RepairerService repairerService = new RepairerServiceImpl(
-            new RepairerRepositoryImpl(repairerSerialization.readList()));
+            new RepairerFileRepository(new CarServiceStoreHandler(path)));
 
+    @Getter
+    private final OrderRepository orderRepository = new OrderFileRepository(new CarServiceStoreHandler(path));
 
-    private final OrderRepository orderRepository = new OrderRepositoryImpl(orderSerialization.readList());
-
-
-    protected OrderService orderService = new OrderServiceImpl(orderRepository,
+    @Getter
+     private final OrderService orderService = new OrderServiceImpl(orderRepository,
             repairerService, garageSlotService);
 
-
-    public final RepairerService getRepairerService() {
-        return repairerService;
-    }
-
-
-    public final GarageSlotService getGarageSlotService() {
-        return garageSlotService;
-    }
-
-
-    public final OrderService getOrderService() {
-        return orderService;
-    }
-
-    public final GarageSlotSerialization getGarageSlotSerialization() {
-        return garageSlotSerialization;
-    }
-
-    public final OrderSerialization getOrderSerialization() {
-        return orderSerialization;
-    }
-
-    public final RepairerSerialization getRepairerSerialization() {
-        return repairerSerialization;
-    }
 }

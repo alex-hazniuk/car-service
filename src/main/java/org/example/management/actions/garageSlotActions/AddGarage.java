@@ -3,7 +3,7 @@ package org.example.management.actions.garageSlotActions;
 import org.example.management.actions.Action;
 
 
-public class AddGarage implements Action {
+public class AddGarage extends Action {
     @Override
     public void execute() {
 

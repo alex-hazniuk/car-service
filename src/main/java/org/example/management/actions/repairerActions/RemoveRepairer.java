@@ -3,7 +3,7 @@ package org.example.management.actions.repairerActions;
 import org.example.exception.InvalidNameException;
 import org.example.management.actions.Action;
 
-public class RemoveRepairer implements Action {
+public class RemoveRepairer extends Action {
     @Override
     public void execute() {
         System.out.println("To remove a repairer please enter his name: ");

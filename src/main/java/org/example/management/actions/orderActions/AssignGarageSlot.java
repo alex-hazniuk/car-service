@@ -4,7 +4,7 @@ import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class AssignGarageSlot implements Action {
+public class AssignGarageSlot extends Action {
     @Override
     public void execute() {
         System.out.println("For assign a garage slot to the order please enter order id: ");

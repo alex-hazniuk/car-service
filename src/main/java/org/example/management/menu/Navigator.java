@@ -13,9 +13,7 @@ public class Navigator {
 
     public void printMenu() {
         System.out.println(currentMenu.getName());
-        currentMenu.getMenuItems().stream()
-                .peek(System.out::println)
-                .collect(Collectors.toList());
+        currentMenu.getMenuItems().forEach(System.out::println);
     }
 
     public void navigate(int index) {

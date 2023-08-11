@@ -3,7 +3,7 @@ package org.example.management.actions.repairerActions;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class ChangeStatus implements Action {
+public class ChangeStatus extends Action {
 
     @Override
     public void execute() {

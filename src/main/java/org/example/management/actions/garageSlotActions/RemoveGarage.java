@@ -3,7 +3,7 @@ package org.example.management.actions.garageSlotActions;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class RemoveGarage implements Action {
+public class RemoveGarage extends Action {
     @Override
     public void execute() {
         System.out.println("To remove a garage slot please enter its id: ");

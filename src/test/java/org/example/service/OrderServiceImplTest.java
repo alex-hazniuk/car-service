@@ -56,8 +56,6 @@ public class OrderServiceImplTest {
 
     @Test
     void testFindByInvalidOrderId() {
-        Order order = new Order();
-        Order createdOrder = orderService.create(order);
         InvalidIdException invalidIdException =
                 assertThrows(InvalidIdException.class, () -> orderService.findById(2L));
         assertEquals("Can't find order by id: 2", invalidIdException.getMessage());
