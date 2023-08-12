@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(Long id) {
         Order order = findById(id);
-        order.setCompletedAt(Optional.of(LocalDateTime.now()));
+        order.setCompletedAt(LocalDateTime.now());
         order.setStatus(OrderStatus.COMPLETED);
         order.getRepairers()
                 .forEach(repairer -> repairerService.changeStatus(repairer.getId()));
