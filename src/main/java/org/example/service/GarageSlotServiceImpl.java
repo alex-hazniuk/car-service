@@ -20,12 +20,13 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     }
 
     @Override
-    public void save() {
+    public GarageSlot save() {
         GarageSlot garageSlot = GarageSlot.builder()
                 .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
         garageSlotRepository.add(garageSlot);
+        return garageSlot;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
             garageSlot.setStatus(GarageSlotStatus.AVAILABLE);
         }
 
-        return garageSlotRepository.update(index ,garageSlot);
+        return garageSlotRepository.update(index,garageSlot);
     }
 
     @Override

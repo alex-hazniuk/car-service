@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GarageSlotService {
 
-    void save();
+    GarageSlot save();
 
     boolean remove(int id);
 

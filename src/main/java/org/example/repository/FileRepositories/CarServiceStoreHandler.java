@@ -32,7 +32,6 @@ public class CarServiceStoreHandler {
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             return mapper.readValue(reader, State.class);
         } catch (IOException e) {
-            System.out.println("Couldn't read file " + path);
             return new State();
         }
     }
