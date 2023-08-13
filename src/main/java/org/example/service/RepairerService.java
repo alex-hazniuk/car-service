@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RepairerService {
 
-    void save(String name);
+    Repairer save(String name);
 
     Repairer changeStatus(int id);
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface RepairerRepository {
 
-    void add(Repairer repairer);
+    Repairer add(Repairer repairer);
 
     Optional<Repairer> findById(int id);
 

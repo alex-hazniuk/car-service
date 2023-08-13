@@ -15,11 +15,12 @@ public class RepairerFileRepository implements RepairerRepository {
     }
 
     @Override
-    public void add(Repairer repairer) {
+    public Repairer add(Repairer repairer) {
         State state = carServiceStoreHandler.read();
         List<Repairer> repairers = state.repairers();
         repairers.add(repairer);
         carServiceStoreHandler.write(state.withRepairers(repairers));
+        return repairer;
     }
 
     @Override

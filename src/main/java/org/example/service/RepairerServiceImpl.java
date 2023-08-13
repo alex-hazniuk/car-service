@@ -22,13 +22,13 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public void save(String name) {
+    public Repairer save(String name) {
         Repairer repairer = Repairer.builder()
                 .id(++repairerId)
                 .status(RepairerStatus.AVAILABLE)
                 .name(name)
                 .build();
-        repairerRepository.add(repairer);
+        return repairerRepository.add(repairer);
     }
 
     @Override

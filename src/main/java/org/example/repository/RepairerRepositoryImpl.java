@@ -12,8 +12,9 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     private final List<Repairer> repairers;
 
     @Override
-    public void add(Repairer repairer) {
+    public Repairer add(Repairer repairer) {
         repairers.add(repairer);
+        return repairer;
     }
 
     @Override
