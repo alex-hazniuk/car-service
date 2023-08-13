@@ -35,5 +35,13 @@ public class RepairerRepositoryImpl implements RepairerRepository {
                 .findFirst();
     }
 
+    @Override
+    public boolean remove(Repairer repairer) {
+        return repairers.remove(repairer);
+    }
 
+    @Override
+    public Repairer update(int index, Repairer repairer) {
+        return repairers.set(index, repairer);
+    }
 }

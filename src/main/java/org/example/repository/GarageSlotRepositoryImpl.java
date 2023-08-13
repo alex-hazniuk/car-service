@@ -27,4 +27,14 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
                 .filter(garageSlot -> garageSlot.getId() == id)
                 .findAny();
     }
+
+    @Override
+    public boolean delete(GarageSlot garageSlot) {
+        return garageSlots.remove(garageSlot);
+    }
+
+    @Override
+    public GarageSlot update(int index, GarageSlot garageSlot) {
+        return garageSlots.set(index, garageSlot);
+    }
 }

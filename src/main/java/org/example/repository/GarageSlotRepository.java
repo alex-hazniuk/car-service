@@ -14,6 +14,10 @@ public interface GarageSlotRepository {
 
     Optional<GarageSlot> findById(int id);
 
+    boolean delete(GarageSlot garageSlot);
+
+    GarageSlot update(int index, GarageSlot garageSlot);
+
 
 
 

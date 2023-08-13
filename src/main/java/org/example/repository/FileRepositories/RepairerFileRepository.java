@@ -36,4 +36,24 @@ public class RepairerFileRepository implements RepairerRepository {
     public Optional<Repairer> findByName(String name) {
         return getAll().stream().filter(repairer -> (repairer.getName().equals(name))).findAny();
     }
+
+    @Override
+    public boolean remove(Repairer repairer) {
+        State state = carServiceStoreHandler.read();
+        List<Repairer> repairers = state.repairers();
+        boolean remove = repairers.remove(repairer);
+        carServiceStoreHandler.write(state.withRepairers(repairers));
+
+        return remove;
+    }
+
+    @Override
+    public Repairer update(int index, Repairer repairer) {
+        State state = carServiceStoreHandler.read();
+        List<Repairer> repairers = state.repairers();
+        Repairer updatedRepairer = repairers.set(index, repairer);
+        carServiceStoreHandler.write(state.withRepairers(repairers));
+
+        return updatedRepairer;
+    }
 }

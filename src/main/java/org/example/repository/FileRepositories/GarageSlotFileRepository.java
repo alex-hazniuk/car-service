@@ -31,4 +31,24 @@ public class GarageSlotFileRepository implements GarageSlotRepository {
     public Optional<GarageSlot> findById(int id) {
         return getAll().stream().filter(garageSlot -> garageSlot.getId() == id).findAny();
     }
+
+    @Override
+    public boolean delete(GarageSlot garageSlot) {
+        State state = carServiceStoreHandler.read();
+        List<GarageSlot> garageSlots = state.garageSlots();
+        boolean delete = garageSlots.remove(garageSlot);
+        carServiceStoreHandler.write(state.withGarageSlots(garageSlots));
+
+        return delete;
+    }
+
+    @Override
+    public GarageSlot update(int index, GarageSlot garageSlot) {
+        State state = carServiceStoreHandler.read();
+        List<GarageSlot> garageSlots = state.garageSlots();
+        GarageSlot updatedGarageSlot = garageSlots.set(index, garageSlot);
+        carServiceStoreHandler.write(state.withGarageSlots(garageSlots));
+
+        return updatedGarageSlot;
+    }
 }

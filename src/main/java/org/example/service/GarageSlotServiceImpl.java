@@ -31,7 +31,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public boolean remove(int id) {
         GarageSlot garageSlot = findById(id);
-        return getAll().remove(garageSlot);
+        return garageSlotRepository.delete(garageSlot);
 
     }
 
@@ -50,12 +50,15 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public GarageSlot changeStatus(int id) {
         GarageSlot garageSlot = findById(id);
+        int index = getAll().indexOf(garageSlot);
+
         if (garageSlot.getStatus() == GarageSlotStatus.AVAILABLE) {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);
         } else {
             garageSlot.setStatus(GarageSlotStatus.AVAILABLE);
         }
-        return garageSlot;
+
+        return garageSlotRepository.update(index ,garageSlot);
     }
 
     @Override
