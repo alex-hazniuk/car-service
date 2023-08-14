@@ -1,6 +1,5 @@
 package org.example.servlets.order_servlets;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.management.actions.initServices.GenericInit;
 
