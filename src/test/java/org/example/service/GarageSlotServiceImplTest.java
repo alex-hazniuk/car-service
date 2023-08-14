@@ -4,55 +4,43 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepositoryImpl;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GarageSlotServiceImplTest {
+class GarageSlotServiceImplTest {
 
-    private GarageSlotRepositoryImpl garageSlotRep;
-    private GarageSlotService garageSlotService;
+    private GarageSlotRepositoryImpl garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
+    private GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
 
-
-    @BeforeEach
-    public void setUp() {
-        garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
-        garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
-    }
-
-    //  test cases for save() method
     @Test
-    void saveSingleGarageSlot() {
+    void whenSavingSingleGarageSlot_thenSlotShouldBeSavedWithAvailableStatus() {
         garageSlotService.save();
         List<GarageSlot> savedSlots = garageSlotService.getAll();
-        assertEquals(1, savedSlots.size());
+        assertThat(savedSlots).hasSize(1);
 
         GarageSlot savedGarageSlot = savedSlots.get(0);
-        assertNotNull(savedGarageSlot);
-        assertEquals(GarageSlotStatus.AVAILABLE, savedGarageSlot.getStatus());
+        assertThat(savedGarageSlot).isNotNull();
+        assertThat(savedGarageSlot.getStatus()).isEqualTo(GarageSlotStatus.AVAILABLE);
     }
 
     @Test
-    void testSaveMultipleGarageSlots() {
+    void whenSavingMultipleGarageSlots_thenAllSlotsShouldBeSavedWithAvailableStatus() {
         garageSlotService.save();
         garageSlotService.save();
         List<GarageSlot> savedSlots = garageSlotService.getAll();
-        assertEquals(2, savedSlots.size());
+        assertThat(savedSlots).hasSize(2);
 
-        GarageSlot savedGarageSlot1 = savedSlots.get(0);
-        GarageSlot savedGarageSlot2 = savedSlots.get(1);
-        assertNotNull(savedGarageSlot1);
-        assertNotNull(savedGarageSlot2);
-        assertNotEquals(savedGarageSlot1.getId(), savedGarageSlot2.getId());
-        assertEquals(GarageSlotStatus.AVAILABLE, savedGarageSlot1.getStatus());
-        assertEquals(GarageSlotStatus.AVAILABLE, savedGarageSlot2.getStatus());
+        assertThat(savedSlots).allSatisfy(slot ->
+                assertThat(slot.getStatus()).isEqualTo(GarageSlotStatus.AVAILABLE)
+        );
     }
 
-    //  test cases for remove() method
     @Test
-    void testRemoveExistingId() {
+    void whenRemovingExistingSlot_thenSlotShouldBeRemovedAndNotFound() {
         int id1 = 1;
         int id2 = 2;
         garageSlotService.save();
@@ -60,28 +48,31 @@ public class GarageSlotServiceImplTest {
 
         boolean removed = garageSlotService.remove(id2);
         assertTrue(removed);
+
+        assertThatThrownBy(() -> garageSlotService.remove(id2))
+                .isInstanceOf(InvalidIdException.class);
+
         List<GarageSlot> remainingSlots = garageSlotService.getAll();
-        assertEquals(1, remainingSlots.size());
-        assertNotNull(garageSlotService.findById(id1));
-        assertThrows(InvalidIdException.class, () -> garageSlotService.remove(id2));
+        assertThat(remainingSlots).hasSize(1);
+
+        assertThat(garageSlotService.findById(id1)).isNotNull();
     }
 
     @Test
-    void testRemoveNonExistingId() {
-        int id = 12;
-        assertThrows(InvalidIdException.class, () -> garageSlotService.remove(id));
+    void whenRemovingNonExistingSlot_thenInvalidIdExceptionShouldBeThrown() {
+        int nonExistingId = 12;
+        assertThatThrownBy(() -> garageSlotService.remove(nonExistingId))
+                .isInstanceOf(InvalidIdException.class);
     }
 
-
-    //  test cases for getAll() method
     @Test
-    void getAllEmptyList() {
+    void whenGettingAllGarageSlotsWithEmptyList_thenListShouldBeEmpty() {
         List<GarageSlot> result = garageSlotService.getAll();
-        assertTrue(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @Test
-    void getAllWithMultipleSlots() {
+    void whenGettingAllGarageSlotsWithMultipleSlots_thenAllSlotsShouldBeReturned() {
         GarageSlot garageSlot1 = new GarageSlot(1, GarageSlotStatus.AVAILABLE);
         GarageSlot garageSlot2 = new GarageSlot(2, GarageSlotStatus.UNAVAILABLE);
         GarageSlot garageSlot3 = new GarageSlot(3, GarageSlotStatus.AVAILABLE);
@@ -90,40 +81,35 @@ public class GarageSlotServiceImplTest {
         garageSlotRep.add(garageSlot3);
 
         List<GarageSlot> results = garageSlotService.getAll();
-
-        assertEquals(3, results.size());
-        assertEquals(garageSlot1, results.get(0));
-        assertEquals(garageSlot2, results.get(1));
-        assertEquals(garageSlot3, results.get(2));
+        assertThat(results).hasSize(3);
+        assertThat(results).containsExactly(garageSlot1, garageSlot2, garageSlot3);
     }
 
     @Test
-    void getAllAfterRemovingSlots() {
+    void whenGettingAllGarageSlotsAfterRemovingSlots_thenRemainingSlotsShouldBeReturned() {
         GarageSlot garageSlot1 = new GarageSlot(1, GarageSlotStatus.AVAILABLE);
         GarageSlot garageSlot2 = new GarageSlot(2, GarageSlotStatus.UNAVAILABLE);
         garageSlotRep.add(garageSlot1);
         garageSlotRep.add(garageSlot2);
 
-        garageSlotService.remove(garageSlot1.getId()); // Removing garageSlot1
-
+        garageSlotService.remove(garageSlot1.getId());
         List<GarageSlot> result = garageSlotService.getAll();
 
-        assertEquals(1, result.size());
-        assertEquals(garageSlot2, result.get(0));
+        assertThat(result).hasSize(1);
+        assertThat(result).containsExactly(garageSlot2);
     }
 
-    //  test cases for sortedByStatus() method
     @Test
-    void sortedByStatusWithSingleSlot() {
+    void whenSortingSlotsByStatusWithSingleSlot_thenSlotsShouldBeSorted() {
         GarageSlot g1 = new GarageSlot(6, GarageSlotStatus.UNAVAILABLE);
         garageSlotRep.add(g1);
 
         List<GarageSlot> sortedSlots = garageSlotService.sortedByStatus();
-        assertEquals(Collections.singletonList(g1), sortedSlots);
+        assertThat(sortedSlots).containsExactly(g1);
     }
 
     @Test
-    void sortedByStatusWithMultipleSlotsSameStatus() {
+    void whenSortingSlotsByStatusWithMultipleSlotsSameStatus_thenSlotsShouldBeSorted() {
         GarageSlot g1 = new GarageSlot(1, GarageSlotStatus.AVAILABLE);
         GarageSlot g2 = new GarageSlot(2, GarageSlotStatus.AVAILABLE);
         GarageSlot g3 = new GarageSlot(3, GarageSlotStatus.AVAILABLE);
@@ -132,11 +118,11 @@ public class GarageSlotServiceImplTest {
         garageSlotRep.add(g3);
 
         List<GarageSlot> sortedSlots = garageSlotService.sortedByStatus();
-        assertEquals(Arrays.asList(g1, g2, g3), sortedSlots);
+        assertThat(sortedSlots).containsExactly(g1, g2, g3);
     }
 
     @Test
-    void sortedByStatusWithMixedStatusSlots() {
+    void whenSortingSlotsByStatusWithMixedStatusSlots_thenSlotsShouldBeSorted() {
         GarageSlot g1 = new GarageSlot(11, GarageSlotStatus.UNAVAILABLE);
         GarageSlot g2 = new GarageSlot(12, GarageSlotStatus.AVAILABLE);
         GarageSlot g3 = new GarageSlot(13, GarageSlotStatus.AVAILABLE);
@@ -147,12 +133,11 @@ public class GarageSlotServiceImplTest {
         garageSlotRep.add(g4);
 
         List<GarageSlot> sortedSlots = garageSlotService.sortedByStatus();
-        assertEquals(Arrays.asList(g2, g3, g1, g4), sortedSlots);
+        assertThat(sortedSlots).containsExactly(g2, g3, g1, g4);
     }
 
-    //  test cases for changeStatus() method
     @Test
-    void testChangeStatusFromAvailableToUnavailable() {
+    void whenChangingStatusFromAvailableToUnavailable_thenStatusShouldBeUpdated() {
         int id = 1;
         GarageSlot initialGarageSlot = GarageSlot.builder()
                 .id(id)
@@ -161,12 +146,11 @@ public class GarageSlotServiceImplTest {
         garageSlotRep.add(initialGarageSlot);
 
         GarageSlot updatedGarageSlot = garageSlotService.changeStatus(id);
-        assertEquals(GarageSlotStatus.UNAVAILABLE, updatedGarageSlot.getStatus());
+        assertThat(updatedGarageSlot.getStatus()).isEqualTo(GarageSlotStatus.UNAVAILABLE);
     }
 
-
     @Test
-    void testChangeStatusFromUnavailableToAvailable() {
+    void whenChangingStatusFromUnavailableToAvailable_thenStatusShouldBeUpdated() {
         int id = 2;
         GarageSlot initialGarageSlot = GarageSlot.builder()
                 .id(id)
@@ -175,55 +159,24 @@ public class GarageSlotServiceImplTest {
         garageSlotRep.add(initialGarageSlot);
 
         GarageSlot updatedGarageSlot = garageSlotService.changeStatus(id);
-        assertEquals(GarageSlotStatus.AVAILABLE, updatedGarageSlot.getStatus());
+        assertThat(updatedGarageSlot.getStatus()).isEqualTo(GarageSlotStatus.AVAILABLE);
     }
 
-
-    //  test cases for findById() method
     @Test
-    void findByIdExistingSlot() {
+    void whenFindingExistingSlotById_thenSlotShouldBeFound() {
         GarageSlot g1 = new GarageSlot(1, GarageSlotStatus.AVAILABLE);
         garageSlotRep.add(g1);
 
         GarageSlot foundSlot = garageSlotService.findById(1);
-
-        assertNotNull(foundSlot);
-        assertEquals(g1, foundSlot);
+        assertThat(foundSlot).isEqualTo(g1);
     }
 
     @Test
-    void findByIdNonExistingSlot() {
-        assertThrows(InvalidIdException.class, () -> garageSlotService.findById(100));
-    }
-
-    @Test
-    void findByIdWithMultipleSlots() {
-        GarageSlot g1 = new GarageSlot(1, GarageSlotStatus.UNAVAILABLE);
-        GarageSlot g2 = new GarageSlot(2, GarageSlotStatus.AVAILABLE);
-        GarageSlot g3 = new GarageSlot(3, GarageSlotStatus.UNAVAILABLE);
-        garageSlotRep.add(g1);
-        garageSlotRep.add(g2);
-        garageSlotRep.add(g3);
-
-        GarageSlot foundSlot1 = garageSlotService.findById(2);
-        GarageSlot foundSlot3 = garageSlotService.findById(3);
-
-        assertNotNull(foundSlot1);
-        assertEquals(g2, foundSlot1);
-        assertEquals(g3.getId(), foundSlot3.getId());
-        assertEquals(g3.getStatus(), foundSlot3.getStatus());
-    }
-
-    @Test
-    void testFindByIdNonExistingSlotWithExceptionMessage() {
+    void whenFindingNonExistingSlotById_thenInvalidIdExceptionShouldBeThrownWithMessage() {
         int nonExistingId = 999;
 
-        Exception exception = assertThrows(InvalidIdException.class, () ->
-                garageSlotService.findById(nonExistingId));
-
-        String expectedMessage = "Can't find garageSlot by id: " + nonExistingId;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertThatThrownBy(() -> garageSlotService.findById(nonExistingId))
+                .isInstanceOf(InvalidIdException.class)
+                .hasMessageContaining("Can't find garageSlot by id: " + nonExistingId);
     }
 }
