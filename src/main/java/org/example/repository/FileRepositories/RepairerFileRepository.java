@@ -52,9 +52,9 @@ public class RepairerFileRepository implements RepairerRepository {
     public Repairer update(int index, Repairer repairer) {
         State state = carServiceStoreHandler.read();
         List<Repairer> repairers = state.repairers();
-        Repairer updatedRepairer = repairers.set(index, repairer);
+        repairers.set(index, repairer);
         carServiceStoreHandler.write(state.withRepairers(repairers));
 
-        return updatedRepairer;
+        return repairer;
     }
 }

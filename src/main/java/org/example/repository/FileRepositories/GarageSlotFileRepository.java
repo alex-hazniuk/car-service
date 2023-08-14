@@ -46,9 +46,9 @@ public class GarageSlotFileRepository implements GarageSlotRepository {
     public GarageSlot update(int index, GarageSlot garageSlot) {
         State state = carServiceStoreHandler.read();
         List<GarageSlot> garageSlots = state.garageSlots();
-        GarageSlot updatedGarageSlot = garageSlots.set(index, garageSlot);
+        garageSlots.set(index, garageSlot);
         carServiceStoreHandler.write(state.withGarageSlots(garageSlots));
 
-        return updatedGarageSlot;
+        return garageSlot;
     }
 }

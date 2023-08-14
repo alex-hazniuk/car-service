@@ -31,9 +31,8 @@ public class ChangeStatusGarageSlotServlet extends HttpServlet {
                 new TypeReference<>() {
                 });
         var id = body.get("id");
-        garageSlotService.changeStatus(id);
-        var jSon = objectMapper.writeValueAsString(
-                garageSlotService.findById(id));
+        var jSon = objectMapper
+                .writeValueAsString(garageSlotService.changeStatus(id));
 
         printWriter.println(jSon);
 

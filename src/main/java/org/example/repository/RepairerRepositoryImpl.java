@@ -43,6 +43,7 @@ public class RepairerRepositoryImpl implements RepairerRepository {
 
     @Override
     public Repairer update(int index, Repairer repairer) {
-        return repairers.set(index, repairer);
+        repairers.set(index, repairer);
+        return repairer;
     }
 }
