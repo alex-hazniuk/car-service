@@ -22,24 +22,27 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public void save(String name) {
+    public Repairer save(String name) {
         Repairer repairer = Repairer.builder()
                 .id(++repairerId)
                 .status(RepairerStatus.AVAILABLE)
                 .name(name)
                 .build();
-        repairerRepository.add(repairer);
+        return repairerRepository.add(repairer);
     }
 
     @Override
     public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
+        int index = getAll().indexOf(repairer);
+
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
-        return repairer;
+
+        return repairerRepository.update(index, repairer);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class RepairerServiceImpl implements RepairerService {
                 .findByName(name)
                 .orElseThrow(() ->
                         new InvalidNameException("Can't find repairer by name: " + name));
-        return getAll().remove(repairer);
+        return repairerRepository.remove(repairer);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class RepairerServiceImpl implements RepairerService {
     public List<Repairer> sortedByName() {
         return getAll().stream()
                 .sorted(Comparator.comparing(Repairer::getName))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

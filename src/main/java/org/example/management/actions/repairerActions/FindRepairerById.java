@@ -3,7 +3,7 @@ package org.example.management.actions.repairerActions;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class FindRepairerById implements Action {
+public class FindRepairerById extends Action {
     @Override
     public void execute() {
         System.out.println("To view the repairer information please enter his id: ");

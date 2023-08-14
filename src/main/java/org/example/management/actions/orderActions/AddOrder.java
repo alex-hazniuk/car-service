@@ -5,7 +5,7 @@ import org.example.model.Order;
 
 import java.time.LocalDateTime;
 
-public class AddOrder implements Action {
+public class AddOrder extends Action {
     @Override
     public void execute() {
         Order order = new Order();

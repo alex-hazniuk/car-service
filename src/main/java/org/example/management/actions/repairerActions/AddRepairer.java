@@ -2,7 +2,7 @@ package org.example.management.actions.repairerActions;
 
 import org.example.management.actions.Action;
 
-public class AddRepairer implements Action {
+public class AddRepairer extends Action {
 
     @Override
     public void execute() {

@@ -3,7 +3,7 @@ package org.example.management.actions.orderActions;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class CancelOrder implements Action {
+public class CancelOrder extends Action {
     @Override
     public void execute() {
         System.out.println("To cancel the order please enter its id: ");

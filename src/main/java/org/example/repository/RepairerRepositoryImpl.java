@@ -12,8 +12,9 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     private final List<Repairer> repairers;
 
     @Override
-    public void add(Repairer repairer) {
+    public Repairer add(Repairer repairer) {
         repairers.add(repairer);
+        return repairer;
     }
 
     @Override
@@ -35,5 +36,14 @@ public class RepairerRepositoryImpl implements RepairerRepository {
                 .findFirst();
     }
 
+    @Override
+    public boolean remove(Repairer repairer) {
+        return repairers.remove(repairer);
+    }
 
+    @Override
+    public Repairer update(int index, Repairer repairer) {
+        repairers.set(index, repairer);
+        return repairer;
+    }
 }

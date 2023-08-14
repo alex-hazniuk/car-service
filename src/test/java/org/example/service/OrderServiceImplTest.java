@@ -43,6 +43,7 @@ class OrderServiceImplTest {
     }
 
     @Test
+
     void whenFindingInvalidOrderId_thenInvalidIdExceptionShouldBeThrown() {
         Order order = new Order();
         Order createdOrder = orderService.create(order);

@@ -13,8 +13,6 @@ import org.example.repository.OrderRepository;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -38,11 +36,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll().stream()
                 .sorted(sortType.getComparator())
                 .toList();
-    }
-
-    @Override
-    public Map<Long, Order> getAllMapFormat() {
-        return orderRepository.findAllMapFormat();
     }
 
     @Override
@@ -81,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(Long id) {
         Order order = findById(id);
-        order.setCompletedAt(Optional.of(LocalDateTime.now()));
+        order.setCompletedAt(LocalDateTime.now());
         order.setStatus(OrderStatus.COMPLETED);
         order.getRepairers()
                 .forEach(repairer -> repairerService.changeStatus(repairer.getId()));

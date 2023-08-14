@@ -3,10 +3,12 @@ package org.example.management.actions;
 import org.example.management.ScannerHandler;
 import org.example.management.actions.initServices.GenericInit;
 
-public interface Action {
-    GenericInit genericInit = new GenericInit();
+public abstract class Action {
 
-    ScannerHandler scanner = new ScannerHandler();
+    protected final GenericInit genericInit = new GenericInit();
 
-    void execute();
+    protected final ScannerHandler scanner = new ScannerHandler();
+
+
+    public abstract void execute();
 }

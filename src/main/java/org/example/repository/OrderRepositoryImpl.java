@@ -35,11 +35,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Map<Long, Order> findAllMapFormat() {
-        return orderMap;
-    }
-
-    @Override
     public Order update(Long id, Order order) {
         orderMap.put(id, order);
         return order;

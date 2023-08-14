@@ -4,7 +4,7 @@ import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
 import org.example.management.actions.Action;
 
-public class AssignRepairer implements Action {
+public class AssignRepairer extends Action {
     @Override
     public void execute() {
         System.out.println("For assign a repairer to the order please enter order id: ");

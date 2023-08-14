@@ -7,12 +7,15 @@ import java.util.Optional;
 
 public interface RepairerRepository {
 
-    void add(Repairer repairer);
+    Repairer add(Repairer repairer);
 
     Optional<Repairer> findById(int id);
 
     List<Repairer> getAll();
 
-    //Optional<Boolean> remove(String name);
+    boolean remove(Repairer repairer);
+
+    Repairer update(int index, Repairer repairer);
+
     Optional<Repairer> findByName(String name);
 }

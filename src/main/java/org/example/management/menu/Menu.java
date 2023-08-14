@@ -1,7 +1,6 @@
 package org.example.management.menu;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +8,7 @@ import java.util.List;
 public class Menu {
 
     @Getter
-    @Setter
-    private String name;
+    private final String name;
 
     @Getter
     private final List<MenuItem> menuItems = new ArrayList<>();

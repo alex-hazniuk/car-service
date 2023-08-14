@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 @Data
@@ -28,6 +27,6 @@ public class Order {
     private LocalDateTime createdAt;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private Optional<LocalDateTime> completedAt;
+    private LocalDateTime completedAt;
     private OrderStatus status;
 }
