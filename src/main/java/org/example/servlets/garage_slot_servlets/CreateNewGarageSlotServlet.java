@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 
-@WebServlet("/garageSlots/create")
+@WebServlet("/garage-slots/create")
 public class CreateNewGarageSlotServlet extends HttpServlet {
 
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(
@@ -28,8 +28,8 @@ public class CreateNewGarageSlotServlet extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
         var garage = garageSlotService.save();
         var jSon = objectMapper.writeValueAsString(garage);
+        printWriter.println("Garage slot was successfully created:");
         printWriter.println(jSon);
-
         response.setStatus(HttpServletResponse.SC_OK);
 
     }

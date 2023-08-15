@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.List;
 
-@WebServlet("/garageSlots/all")
+@WebServlet("/garage-slots/all/*")
 public class AllGarageSlotsServlet extends HttpServlet {
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(
             new GarageSlotFileRepository(
@@ -25,12 +25,18 @@ public class AllGarageSlotsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter printWriter = response.getWriter();
-
-        List<GarageSlot> list = garageSlotService.getAll();
-        for (GarageSlot garageSlot : list) {
-            printWriter.println(objectMapper.writeValueAsString(garageSlot));
+        var uri = request.getRequestURI();
+        var id = uri.substring(uri.lastIndexOf('/') + 1);
+        if (id.equals("sorted")) {
+            List<GarageSlot> sortedList = garageSlotService.sortedByStatus();
+            for (GarageSlot garageSlot : sortedList) {
+                printWriter.println(objectMapper.writeValueAsString(garageSlot));
+            }
+        } else {
+            List<GarageSlot> list = garageSlotService.getAll();
+            for (GarageSlot garageSlot : list) {
+                printWriter.println(objectMapper.writeValueAsString(garageSlot));
+            }
         }
     }
-
-
 }
