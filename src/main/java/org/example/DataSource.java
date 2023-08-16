@@ -10,15 +10,16 @@ public class DataSource {
 
     private static final HikariConfig config = new HikariConfig();
 
-    private static HikariDataSource ds;
+    private static final HikariDataSource ds;
     static {
-        config.setJdbcUrl("jdbc:h2:C:\\Users\\Администратор\\IdeaProjects\\car-service\\default");
+        config.setJdbcUrl("jdbc:h2:./default");
         config.setUsername("user");
         config.setPassword("pass");
         ds = new HikariDataSource(config);
     }
 
     private DataSource(){}
+
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
