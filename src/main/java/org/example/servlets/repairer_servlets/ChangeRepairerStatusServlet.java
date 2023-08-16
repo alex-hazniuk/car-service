@@ -2,13 +2,9 @@ package org.example.servlets.repairer_servlets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.repository.FileRepositories.CarServiceStoreHandler;
-import org.example.repository.FileRepositories.RepairerFileRepository;
 import org.example.repository.jdbc_repository.JDBCRepairerRepositoryImpl;
 import org.example.service.JDBCService.JDBCRepairerService;
 import org.example.service.JDBCService.JDBCRepairerServiceImpl;
-import org.example.service.RepairerService;
-import org.example.service.RepairerServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/repairer/change/status")

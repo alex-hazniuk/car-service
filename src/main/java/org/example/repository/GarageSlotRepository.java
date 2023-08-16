@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface GarageSlotRepository {
 
-    void add(GarageSlot garageSlot);
+    GarageSlot add(GarageSlot garageSlot);
 
     List<GarageSlot> getAll();
 
@@ -16,7 +16,7 @@ public interface GarageSlotRepository {
 
     boolean delete(GarageSlot garageSlot);
 
-    GarageSlot update( GarageSlot garageSlot);
+    GarageSlot update(GarageSlot garageSlot);
 
 
 

@@ -12,8 +12,9 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     private final List<GarageSlot> garageSlots;
 
     @Override
-    public void add(GarageSlot garageSlot) {
+    public GarageSlot add(GarageSlot garageSlot) {
         garageSlots.add(garageSlot);
+        return garageSlot;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     }
 
     @Override
-    public GarageSlot update( GarageSlot garageSlot) {
+    public GarageSlot update(GarageSlot garageSlot) {
         garageSlots.set(garageSlots.indexOf(garageSlot), garageSlot);
         return garageSlot;
     }
