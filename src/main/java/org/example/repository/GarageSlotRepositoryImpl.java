@@ -34,8 +34,8 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     }
 
     @Override
-    public GarageSlot update(int index, GarageSlot garageSlot) {
-        garageSlots.set(index, garageSlot);
+    public GarageSlot update( GarageSlot garageSlot) {
+        garageSlots.set(garageSlots.indexOf(garageSlot), garageSlot);
         return garageSlot;
     }
 }

@@ -51,7 +51,6 @@ public class GarageSlotServiceImpl implements GarageSlotService {
     @Override
     public GarageSlot changeStatus(int id) {
         GarageSlot garageSlot = findById(id);
-        int index = getAll().indexOf(garageSlot);
 
         if (garageSlot.getStatus() == GarageSlotStatus.AVAILABLE) {
             garageSlot.setStatus(GarageSlotStatus.UNAVAILABLE);
@@ -59,7 +58,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
             garageSlot.setStatus(GarageSlotStatus.AVAILABLE);
         }
 
-        return garageSlotRepository.update(index,garageSlot);
+        return garageSlotRepository.update(garageSlot);
     }
 
     @Override

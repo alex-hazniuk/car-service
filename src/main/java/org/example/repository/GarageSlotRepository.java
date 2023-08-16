@@ -16,7 +16,7 @@ public interface GarageSlotRepository {
 
     boolean delete(GarageSlot garageSlot);
 
-    GarageSlot update(int index, GarageSlot garageSlot);
+    GarageSlot update( GarageSlot garageSlot);
 
 
 
