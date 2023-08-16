@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.repository.FileRepositories.CarServiceStoreHandler;
 import org.example.repository.FileRepositories.RepairerFileRepository;
+import org.example.repository.jdbc_repository.JDBCRepairerRepositoryImpl;
+import org.example.service.JDBCService.JDBCRepairerService;
+import org.example.service.JDBCService.JDBCRepairerServiceImpl;
 import org.example.service.RepairerService;
 import org.example.service.RepairerServiceImpl;
 
@@ -19,10 +22,12 @@ import java.util.Map;
 
 @WebServlet(urlPatterns = "/repairers/create")
 public class CreateRepairerServlet extends HttpServlet {
-    private final RepairerService repairerService = new RepairerServiceImpl(
+    /*private final RepairerService repairerService = new RepairerServiceImpl(
             new RepairerFileRepository(
                     new CarServiceStoreHandler(
-                            Paths.get("src/main/resources/state.json"))));
+                            Paths.get("src/main/resources/state.json"))));*/
+    private final JDBCRepairerService repairerService =
+            new JDBCRepairerServiceImpl(new JDBCRepairerRepositoryImpl());
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
