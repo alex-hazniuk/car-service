@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/createTableGarageSlot.yml
+  - include:
+      file: db/changelog/changeset/createTableRepairer.xml
+  - include:
+      file: db/changelog/changeset/createTableOrder.yml
+  - include:
+      file: db/changelog/changeset/createTableOrderRepairer.sql

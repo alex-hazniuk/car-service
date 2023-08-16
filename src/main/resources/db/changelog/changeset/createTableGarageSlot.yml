@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: crateTableGarageSlot
+      author: Sergei
+      changes:
+        - createTable:
+            tableName: garage_slot
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: status
+                  type: varchar
+                  constraints:
+                    nullable: false

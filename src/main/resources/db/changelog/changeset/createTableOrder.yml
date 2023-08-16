@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTableOrder
+      author: Sergei
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: price
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: current_timestamp
+              - column:
+                  name: completed_at
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: order_status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: garage_slot_id
+                  type: int
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_order_garage_slot
+                    references: garage_slot(id)
