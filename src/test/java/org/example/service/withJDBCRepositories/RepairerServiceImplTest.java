@@ -10,8 +10,9 @@ import org.example.DataSource;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
-import org.example.service.JDBCService.JDBCRepairerServiceImpl;
+import org.example.repository.RepairerRepository;
 import org.example.service.RepairerService;
+import org.example.service.RepairerServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,8 +26,8 @@ class RepairerServiceImplTest {
 
     private static final String ARTEM = "Artem Dou";
     private static final String OLEG = "Oleg Ivanov";
-    private final RepairerJDBCRepository repairerRepository = new RepairerJDBCRepository();
-    private final RepairerService repairerService = new JDBCRepairerServiceImpl(repairerRepository);
+    private final RepairerRepository repairerRepository = new RepairerJDBCRepository();
+    private final RepairerService repairerService = new RepairerServiceImpl(repairerRepository);
 
     @BeforeAll
     static void setUp() throws SQLException, LiquibaseException {

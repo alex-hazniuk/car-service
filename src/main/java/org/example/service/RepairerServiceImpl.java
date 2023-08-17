@@ -14,19 +14,15 @@ public class RepairerServiceImpl implements RepairerService {
 
     private final RepairerRepository repairerRepository;
 
-    private int repairerId;
-
     public RepairerServiceImpl(RepairerRepository repairerRepository) {
         this.repairerRepository = repairerRepository;
-        this.repairerId = repairerRepository.getAll().size();
     }
 
     @Override
     public Repairer save(String name) {
         Repairer repairer = Repairer.builder()
-                .id(++repairerId)
-                .status(RepairerStatus.AVAILABLE)
                 .name(name)
+                .status(RepairerStatus.AVAILABLE)
                 .build();
         return repairerRepository.add(repairer);
     }
@@ -34,13 +30,11 @@ public class RepairerServiceImpl implements RepairerService {
     @Override
     public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
-
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
-
         return repairerRepository.update(repairer);
     }
 

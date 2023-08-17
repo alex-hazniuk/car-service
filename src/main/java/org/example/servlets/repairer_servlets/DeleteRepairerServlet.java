@@ -1,8 +1,8 @@
 package org.example.servlets.repairer_servlets;
 
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
-import org.example.service.JDBCService.JDBCRepairerServiceImpl;
 import org.example.service.RepairerService;
+import org.example.service.RepairerServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteRepairerServlet extends HttpServlet {
 
     private final RepairerService repairerService =
-            new JDBCRepairerServiceImpl(new RepairerJDBCRepository());
+            new RepairerServiceImpl(new RepairerJDBCRepository());
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
