@@ -3,6 +3,7 @@ package org.example.servlets.garage_slot_servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.GarageSlot;
 import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
+import org.example.service.GarageSlotService;
 import org.example.service.JDBCService.JDBCGarageSlotServiceImpl;
 
 import javax.servlet.http.*;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @WebServlet("/garage-slots/all/*")
 public class AllGarageSlotsServlet extends HttpServlet {
-    private final JDBCGarageSlotServiceImpl garageSlotService = new JDBCGarageSlotServiceImpl(
+    private final GarageSlotService garageSlotService = new JDBCGarageSlotServiceImpl(
             new GarageSlotJDBCRepository());
     private final ObjectMapper objectMapper = new ObjectMapper();
 
