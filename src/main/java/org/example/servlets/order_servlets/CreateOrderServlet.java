@@ -3,8 +3,6 @@ package org.example.servlets.order_servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.management.actions.initServices.GenericInit;
 import org.example.model.Order;
-
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,7 @@ public class CreateOrderServlet extends HttpServlet {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();
         Order order = new Order();
         order.setCreatedAt(LocalDateTime.now());
