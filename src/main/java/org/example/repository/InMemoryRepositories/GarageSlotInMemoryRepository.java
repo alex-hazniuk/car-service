@@ -1,19 +1,21 @@
-package org.example.repository;
+package org.example.repository.InMemoryRepositories;
 
 import lombok.AllArgsConstructor;
 import org.example.model.GarageSlot;
+import org.example.repository.GarageSlotRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class GarageSlotRepositoryImpl implements GarageSlotRepository {
+public class GarageSlotInMemoryRepository implements GarageSlotRepository {
 
     private final List<GarageSlot> garageSlots;
 
     @Override
-    public void add(GarageSlot garageSlot) {
+    public GarageSlot add(GarageSlot garageSlot) {
         garageSlots.add(garageSlot);
+        return garageSlot;
     }
 
     @Override
@@ -34,8 +36,8 @@ public class GarageSlotRepositoryImpl implements GarageSlotRepository {
     }
 
     @Override
-    public GarageSlot update(int index, GarageSlot garageSlot) {
-        garageSlots.set(index, garageSlot);
+    public GarageSlot update(GarageSlot garageSlot) {
+        garageSlots.set(garageSlots.indexOf(garageSlot), garageSlot);
         return garageSlot;
     }
 }

@@ -1,13 +1,14 @@
-package org.example.repository;
+package org.example.repository.InMemoryRepositories;
 
 import lombok.AllArgsConstructor;
 import org.example.model.Repairer;
+import org.example.repository.RepairerRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class RepairerRepositoryImpl implements RepairerRepository {
+public class RepairerInMemoryRepository implements RepairerRepository {
 
     private final List<Repairer> repairers;
 
@@ -37,13 +38,15 @@ public class RepairerRepositoryImpl implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(Repairer repairer) {
-        return repairers.remove(repairer);
+    public boolean remove(int id) {
+        Repairer repairer = repairers.remove(id);
+
+        return repairer != null;
     }
 
     @Override
-    public Repairer update(int index, Repairer repairer) {
-        repairers.set(index, repairer);
+    public Repairer update(Repairer repairer) {
+        repairers.set(repairers.indexOf(findById(repairer.getId()).orElseThrow()), repairer);
         return repairer;
     }
 }

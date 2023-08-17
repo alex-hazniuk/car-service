@@ -1,49 +1,43 @@
-package org.example.service;
+package org.example.service.JDBCService;
 
+import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
-import org.example.repository.GarageSlotRepository;
+import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
+import org.example.service.GarageSlotService;
 
 import java.util.List;
 
 import static java.util.Comparator.comparing;
 
-public class GarageSlotServiceImpl implements GarageSlotService {
-
-    private final GarageSlotRepository garageSlotRepository;
-    private int id;
-
-    public GarageSlotServiceImpl(GarageSlotRepository garageSlotRepository) {
-        this.garageSlotRepository = garageSlotRepository;
-        this.id = garageSlotRepository.getAll().size();
-    }
+@RequiredArgsConstructor
+public class JDBCGarageSlotServiceImpl implements GarageSlotService {
+    private final GarageSlotJDBCRepository garageSlotJDBCRepository;
 
     @Override
     public GarageSlot save() {
         GarageSlot garageSlot = GarageSlot.builder()
-                .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
-        garageSlotRepository.add(garageSlot);
+        garageSlotJDBCRepository.add(garageSlot);
         return garageSlot;
     }
 
     @Override
     public boolean remove(int id) {
         GarageSlot garageSlot = findById(id);
-        return garageSlotRepository.delete(garageSlot);
-
+        return garageSlotJDBCRepository.delete(garageSlot);
     }
 
     @Override
     public List<GarageSlot> getAll() {
-        return garageSlotRepository.getAll();
+        return garageSlotJDBCRepository.getAll();
     }
 
     @Override
     public List<GarageSlot> sortedByStatus() {
-        return garageSlotRepository.getAll().stream()
+        return garageSlotJDBCRepository.getAll().stream()
                 .sorted(comparing(GarageSlot::getStatus))
                 .toList();
     }
@@ -58,14 +52,15 @@ public class GarageSlotServiceImpl implements GarageSlotService {
             garageSlot.setStatus(GarageSlotStatus.AVAILABLE);
         }
 
-        return garageSlotRepository.update(garageSlot);
+        return garageSlotJDBCRepository.update(garageSlot);
     }
 
     @Override
     public GarageSlot findById(int id) {
-        return garageSlotRepository
+        return garageSlotJDBCRepository
                 .findById(id)
                 .orElseThrow(() ->
                         new InvalidIdException("Can't find garageSlot by id: " + id));
     }
 }
+

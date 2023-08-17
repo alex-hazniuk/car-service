@@ -1,16 +1,25 @@
 package org.example;
 
-import org.apache.catalina.LifecycleException;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
-import javax.servlet.ServletException;
 
 public class Main {
-    public static void main(String[] args) throws ServletException, LifecycleException {
+    public static void main(String[] args) throws Exception {
+        DataSource dataSource = new DataSource();
+
+        Database database = DatabaseFactory.getInstance()
+                .findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
+
+        Liquibase liquibase = new Liquibase(
+                "db/changelog/db.changelog-master.yml",
+                new ClassLoaderResourceAccessor(),
+                database);
+        liquibase.update();
+
         TomcatLauncher.launch("8080");
-//        Navigator navigator = new Navigator();
-//        Builder builder = new Builder();
-//
-//        MenuController menuController = new MenuController(builder, navigator);
-//        menuController.run();
     }
 }

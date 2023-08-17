@@ -15,11 +15,12 @@ public class GarageSlotFileRepository implements GarageSlotRepository {
     }
 
     @Override
-    public void add(GarageSlot garageSlot) {
+    public GarageSlot add(GarageSlot garageSlot) {
         State state = carServiceStoreHandler.read();
         List<GarageSlot> garageSlots = state.garageSlots();
         garageSlots.add(garageSlot);
         carServiceStoreHandler.write(state.withGarageSlots(garageSlots));
+        return garageSlot;
     }
 
     @Override
@@ -43,10 +44,10 @@ public class GarageSlotFileRepository implements GarageSlotRepository {
     }
 
     @Override
-    public GarageSlot update(int index, GarageSlot garageSlot) {
+    public GarageSlot update(GarageSlot garageSlot) {
         State state = carServiceStoreHandler.read();
         List<GarageSlot> garageSlots = state.garageSlots();
-        garageSlots.set(index, garageSlot);
+        garageSlots.set(garageSlots.indexOf(garageSlot), garageSlot);
         carServiceStoreHandler.write(state.withGarageSlots(garageSlots));
 
         return garageSlot;

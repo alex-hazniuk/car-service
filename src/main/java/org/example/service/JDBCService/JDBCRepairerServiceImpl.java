@@ -1,32 +1,28 @@
-package org.example.service;
+package org.example.service.JDBCService;
 
 import org.example.exception.InvalidIdException;
 import org.example.exception.InvalidNameException;
-import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
+import org.example.repository.RepairerRepository;
+import org.example.service.RepairerService;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RepairerServiceImpl implements RepairerService {
-
+public class JDBCRepairerServiceImpl implements RepairerService {
     private final RepairerRepository repairerRepository;
 
-    private int repairerId;
-
-    public RepairerServiceImpl(RepairerRepository repairerRepository) {
+    public JDBCRepairerServiceImpl(RepairerRepository repairerRepository) {
         this.repairerRepository = repairerRepository;
-        this.repairerId = repairerRepository.getAll().size();
     }
 
     @Override
     public Repairer save(String name) {
         Repairer repairer = Repairer.builder()
-                .id(++repairerId)
-                .status(RepairerStatus.AVAILABLE)
                 .name(name)
+                .status(RepairerStatus.AVAILABLE)
                 .build();
         return repairerRepository.add(repairer);
     }
@@ -34,13 +30,11 @@ public class RepairerServiceImpl implements RepairerService {
     @Override
     public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
-
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
-
         return repairerRepository.update(repairer);
     }
 
@@ -48,9 +42,8 @@ public class RepairerServiceImpl implements RepairerService {
     public boolean remove(String name) {
         Repairer repairer = repairerRepository
                 .findByName(name)
-                .orElseThrow(() ->
-                        new InvalidNameException("Can't find repairer by name: " + name));
-        return repairerRepository.remove(getAll().indexOf(repairer));
+                .orElseThrow(() -> new InvalidNameException("Can't find repairer by name: " + name));
+        return repairerRepository.remove(repairer.getId());
     }
 
     @Override
@@ -62,8 +55,7 @@ public class RepairerServiceImpl implements RepairerService {
     public Repairer findById(int id) {
         return repairerRepository
                 .findById(id)
-                .orElseThrow(() ->
-                        new InvalidIdException("Can't find repairer by id: " + id));
+                .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override
