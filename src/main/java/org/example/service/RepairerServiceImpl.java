@@ -54,11 +54,16 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
+    public boolean remove(int id) {
+        return repairerRepository.remove(id);
+    }
+
+    @Override
     public Repairer findById(int id) {
-            return repairerRepository
-                    .findById(id)
-                    .orElseThrow(() ->
-                            new InvalidIdException("Can't find repairer by id: " + id));
+        return repairerRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override

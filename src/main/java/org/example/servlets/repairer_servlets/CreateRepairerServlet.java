@@ -3,8 +3,8 @@ package org.example.servlets.repairer_servlets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
-import org.example.service.JDBCService.JDBCRepairerService;
 import org.example.service.JDBCService.JDBCRepairerServiceImpl;
+import org.example.service.RepairerService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/repairers/create")
 public class CreateRepairerServlet extends HttpServlet {
 
-    private final JDBCRepairerService repairerService =
+    private final RepairerService repairerService =
             new JDBCRepairerServiceImpl(new RepairerJDBCRepository());
     private final ObjectMapper objectMapper = new ObjectMapper();
 

@@ -1,8 +1,8 @@
 package org.example.servlets.repairer_servlets;
 
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
-import org.example.service.JDBCService.JDBCRepairerService;
 import org.example.service.JDBCService.JDBCRepairerServiceImpl;
+import org.example.service.RepairerService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = "/repairer/delete")
 public class DeleteRepairerServlet extends HttpServlet {
 
-    private final JDBCRepairerService repairerService =
+    private final RepairerService repairerService =
             new JDBCRepairerServiceImpl(new RepairerJDBCRepository());
 
     @Override

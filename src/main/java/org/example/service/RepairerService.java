@@ -12,6 +12,8 @@ public interface RepairerService {
 
     boolean remove(String name);
 
+    boolean remove(int id);
+
     Repairer findById(int id);
 
     List<Repairer> getAll();

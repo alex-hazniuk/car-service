@@ -1,19 +1,21 @@
 package org.example.service.JDBCService;
 
 import org.example.exception.InvalidIdException;
+import org.example.exception.InvalidNameException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.RepairerRepository;
+import org.example.service.RepairerService;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JDBCRepairerServiceImpl implements JDBCRepairerService {
-    private final RepairerRepository jdbcRepairerRepository;
+public class JDBCRepairerServiceImpl implements RepairerService {
+    private final RepairerRepository repairerRepository;
 
-    public JDBCRepairerServiceImpl(RepairerRepository jdbcRepairerRepository) {
-        this.jdbcRepairerRepository = jdbcRepairerRepository;
+    public JDBCRepairerServiceImpl(RepairerRepository repairerRepository) {
+        this.repairerRepository = repairerRepository;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class JDBCRepairerServiceImpl implements JDBCRepairerService {
                 .name(name)
                 .status(RepairerStatus.AVAILABLE)
                 .build();
-        return jdbcRepairerRepository.add(repairer);
+        return repairerRepository.add(repairer);
     }
 
     @Override
@@ -33,24 +35,32 @@ public class JDBCRepairerServiceImpl implements JDBCRepairerService {
         } else {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
-        return jdbcRepairerRepository.update(repairer);
+        return repairerRepository.update(repairer);
+    }
+
+    @Override
+    public boolean remove(String name) {
+        Repairer repairer = repairerRepository
+                .findByName(name)
+                .orElseThrow(() -> new InvalidNameException("Can't find repairer by name: " + name));
+        return repairerRepository.remove(repairer.getId());
     }
 
     @Override
     public boolean remove(int id) {
-        return jdbcRepairerRepository.remove(id);
+        return repairerRepository.remove(id);
     }
 
     @Override
     public Repairer findById(int id) {
-        return jdbcRepairerRepository
+        return repairerRepository
                 .findById(id)
                 .orElseThrow(() -> new InvalidIdException("Can't find repairer by id: " + id));
     }
 
     @Override
     public List<Repairer> getAll() {
-        return jdbcRepairerRepository.getAll();
+        return repairerRepository.getAll();
     }
 
     @Override

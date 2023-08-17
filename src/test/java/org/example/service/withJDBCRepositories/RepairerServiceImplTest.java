@@ -7,11 +7,11 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.example.DataSource;
-import org.example.exception.InvalidIdException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.service.JDBCService.JDBCRepairerServiceImpl;
+import org.example.service.RepairerService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class RepairerServiceImplTest {
     private static final String ARTEM = "Artem Dou";
     private static final String OLEG = "Oleg Ivanov";
     private final RepairerJDBCRepository repairerRepository = new RepairerJDBCRepository();
-    private final JDBCRepairerServiceImpl repairerService = new JDBCRepairerServiceImpl(repairerRepository);
+    private final RepairerService repairerService = new JDBCRepairerServiceImpl(repairerRepository);
 
     @BeforeAll
     static void setUp() throws SQLException, LiquibaseException {
