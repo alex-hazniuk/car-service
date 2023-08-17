@@ -5,13 +5,14 @@ import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
+import org.example.service.GarageSlotService;
 
 import java.util.List;
 
 import static java.util.Comparator.comparing;
 
 @RequiredArgsConstructor
-public class JDBCGarageSlotServiceImpl implements JDBCGarageSlotService {
+public class JDBCGarageSlotServiceImpl implements GarageSlotService {
     private final GarageSlotJDBCRepository garageSlotJDBCRepository;
 
     @Override
