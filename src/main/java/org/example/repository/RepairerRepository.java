@@ -13,9 +13,9 @@ public interface RepairerRepository {
 
     List<Repairer> getAll();
 
-    boolean remove(Repairer repairer);
+    boolean remove(int id);
 
-    Repairer update(int index, Repairer repairer);
+    Repairer update(Repairer repairer);
 
     Optional<Repairer> findByName(String name);
 }

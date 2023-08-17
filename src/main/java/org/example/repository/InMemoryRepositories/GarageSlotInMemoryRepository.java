@@ -1,13 +1,14 @@
-package org.example.repository;
+package org.example.repository.InMemoryRepositories;
 
 import lombok.AllArgsConstructor;
 import org.example.model.GarageSlot;
+import org.example.repository.GarageSlotRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class GarageSlotRepositoryImpl implements GarageSlotRepository {
+public class GarageSlotInMemoryRepository implements GarageSlotRepository {
 
     private final List<GarageSlot> garageSlots;
 

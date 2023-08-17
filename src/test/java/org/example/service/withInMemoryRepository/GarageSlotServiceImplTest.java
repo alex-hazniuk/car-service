@@ -1,9 +1,11 @@
-package org.example.service;
+package org.example.service.withInMemoryRepository;
 
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
-import org.example.repository.GarageSlotRepositoryImpl;
+import org.example.repository.InMemoryRepositories.GarageSlotInMemoryRepository;
+import org.example.service.GarageSlotService;
+import org.example.service.GarageSlotServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -13,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GarageSlotServiceImplTest {
 
-    private GarageSlotRepositoryImpl garageSlotRep = new GarageSlotRepositoryImpl(new ArrayList<>());
-    private GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
+    private final GarageSlotInMemoryRepository garageSlotRep = new GarageSlotInMemoryRepository(new ArrayList<>());
+    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
 
     @Test
     void whenSavingSingleGarageSlot_thenSlotShouldBeSavedWithAvailableStatus() {

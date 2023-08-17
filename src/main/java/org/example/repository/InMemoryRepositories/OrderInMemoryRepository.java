@@ -1,18 +1,19 @@
-package org.example.repository;
+package org.example.repository.InMemoryRepositories;
 
 import org.example.model.Order;
+import org.example.repository.OrderRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class OrderRepositoryImpl implements OrderRepository {
+public class OrderInMemoryRepository implements OrderRepository {
 
     private final Map<Long, Order> orderMap;
 
     private Long idCounter;
 
-    public OrderRepositoryImpl(Map<Long, Order> orderMap) {
+    public OrderInMemoryRepository(Map<Long, Order> orderMap) {
         this.orderMap = orderMap;
         this.idCounter = (long) orderMap.size();
     }

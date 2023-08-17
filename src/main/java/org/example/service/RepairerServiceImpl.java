@@ -34,7 +34,6 @@ public class RepairerServiceImpl implements RepairerService {
     @Override
     public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
-        int index = getAll().indexOf(repairer);
 
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
@@ -42,7 +41,7 @@ public class RepairerServiceImpl implements RepairerService {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
 
-        return repairerRepository.update(index, repairer);
+        return repairerRepository.update(repairer);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class RepairerServiceImpl implements RepairerService {
                 .findByName(name)
                 .orElseThrow(() ->
                         new InvalidNameException("Can't find repairer by name: " + name));
-        return repairerRepository.remove(repairer);
+        return repairerRepository.remove(getAll().indexOf(repairer));
     }
 
     @Override

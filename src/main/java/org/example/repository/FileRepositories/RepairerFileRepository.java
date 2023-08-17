@@ -39,20 +39,20 @@ public class RepairerFileRepository implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(Repairer repairer) {
+    public boolean remove(int id) {
         State state = carServiceStoreHandler.read();
         List<Repairer> repairers = state.repairers();
-        boolean remove = repairers.remove(repairer);
+        Repairer removed = repairers.remove(id);
         carServiceStoreHandler.write(state.withRepairers(repairers));
 
-        return remove;
+        return removed != null;
     }
 
     @Override
-    public Repairer update(int index, Repairer repairer) {
+    public Repairer update(Repairer repairer) {
         State state = carServiceStoreHandler.read();
         List<Repairer> repairers = state.repairers();
-        repairers.set(index, repairer);
+        repairers.set(repairers.indexOf(findById(repairer.getId()).orElseThrow()), repairer);
         carServiceStoreHandler.write(state.withRepairers(repairers));
 
         return repairer;

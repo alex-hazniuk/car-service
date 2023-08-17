@@ -1,10 +1,11 @@
-package org.example.service;
+package org.example.service.withInMemoryRepository;
 
 import org.example.exception.InvalidIdException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.RepairerRepository;
-import org.example.repository.RepairerRepositoryImpl;
+import org.example.repository.InMemoryRepositories.RepairerInMemoryRepository;
+import org.example.service.RepairerServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ class RepairerServiceImplTest {
 
     private static final String ARTEM = "Artem Dou";
     private static final String OLEG = "Oleg Ivanov";
-    private RepairerRepository repairerRepository = new RepairerRepositoryImpl(new ArrayList<>());
-    private RepairerServiceImpl repairerService = new RepairerServiceImpl(repairerRepository);
+    private final RepairerRepository repairerRepository = new RepairerInMemoryRepository(new ArrayList<>());
+    private final RepairerServiceImpl repairerService = new RepairerServiceImpl(repairerRepository);
 
     @Test
     void whenSaveRepairerByName_thenRepairersShouldBeSaved() {

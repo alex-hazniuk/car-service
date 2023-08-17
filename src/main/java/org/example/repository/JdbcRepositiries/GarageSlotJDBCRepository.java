@@ -1,4 +1,4 @@
-package org.example.repository.jdbc_repository;
+package org.example.repository.JdbcRepositiries;
 
 import org.example.DataSource;
 import org.example.exception.DataProcessingException;
@@ -17,11 +17,13 @@ import java.util.Optional;
 
 public class GarageSlotJDBCRepository implements GarageSlotRepository {
 
+    DataSource dataSource = new DataSource();
+
     @Override
     public GarageSlot add(GarageSlot garageSlot) {
 
         var sql = "insert into garage_slot (status) values (?)";
-        try (var connection = DataSource.getConnection()) {
+        try (var connection = dataSource.getConnection()) {
             try (var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, garageSlot.getStatus().toString());
                 statement.executeUpdate();
@@ -38,7 +40,7 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
     @Override
     public List<GarageSlot> getAll() {
         var sql = "select * from garage_slot";
-        try (var connection = DataSource.getConnection()) {
+        try (var connection = dataSource.getConnection()) {
             try (var statement = connection.createStatement()) {
                 var result = statement.executeQuery(sql);
                 return mapGarageSlots(result);
@@ -51,7 +53,7 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
     @Override
     public Optional<GarageSlot> findById(int id) {
         var sql = "select * from garage_slot where id = " + id;
-        try (var connection = DataSource.getConnection()) {
+        try (var connection = dataSource.getConnection()) {
             try (var statement = connection.createStatement()) {
                 var result = statement.executeQuery(sql);
                 var list = mapGarageSlots(result);
@@ -69,7 +71,7 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
     @Override
     public boolean delete(GarageSlot garageSlot) {
         var sql = "delete from garage_slot where id =?";
-        try (var connection = DataSource.getConnection();
+        try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql)) {
             statement.setInt(1, garageSlot.getId());
             return statement.executeUpdate() > 0;
@@ -83,7 +85,7 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
     @Override
     public GarageSlot update(GarageSlot garageSlot) {
         var sql = "update garage_slot set status = ? where id =" + garageSlot.getId();
-        try (var connection = DataSource.getConnection();
+        try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql)) {
             statement.setString(1, garageSlot.getStatus().toString());
             statement.executeUpdate();

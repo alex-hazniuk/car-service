@@ -1,50 +1,54 @@
-package org.example.repository.jdbc_repository;
+package org.example.repository.JdbcRepositiries;
 
 import org.example.DataSource;
 import org.example.exception.DataProcessingException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
+import org.example.repository.RepairerRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
+public class RepairerJDBCRepository implements RepairerRepository {
+
+    DataSource dataSource = new DataSource();
+
     private static final String SAVE =
             """
-                    INSERT INTO repairers (name, status)
+                    INSERT INTO repairer (name, status)
                     VALUES (?, ?)
                     """;
     private static final String FIND_BY_ID =
             """
-                    SELECT * FROM repairers
+                    SELECT * FROM repairer
                     WHERE id = ?
                     """;
     private static final String GET_ALL =
             """
-                    SELECT * FROM repairers
+                    SELECT * FROM repairer
                     """;
     private static final String DELETE =
             """
-                    DELETE FROM repairers
+                    DELETE FROM repairer
                     WHERE id = ?
                     """;
     private static final String UPDATE =
             """
-                    UPDATE repairers
+                    UPDATE repairer
                     SET name = ?, status = ?
                     WHERE id = ?
                     """;
     private static final String FIND_BY_NAME =
             """
-                    SELECT * FROM repairers
+                    SELECT * FROM repairer
                     WHERE name = ?
                     """;
 
     @Override
     public Repairer add(Repairer repairer) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SAVE,
                      Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, repairer.getName());
@@ -61,7 +65,7 @@ public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
 
     @Override
     public Optional<Repairer> findById(int id) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -74,7 +78,7 @@ public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
 
     @Override
     public List<Repairer> getAll() {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             return getRepairers(resultSet);
@@ -85,7 +89,7 @@ public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
 
     @Override
     public boolean remove(int id) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
             preparedStatement.setInt(1, id);
             return preparedStatement.execute();
@@ -96,7 +100,7 @@ public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
 
     @Override
     public Repairer update(Repairer repairer) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, repairer.getName());
             preparedStatement.setString(2, repairer.getStatus().toString());
@@ -109,13 +113,13 @@ public class JDBCRepairerRepositoryImpl implements JDBCRepairerRepository {
     }
 
     @Override
-    public Repairer findByName(String name) {
-        try (Connection connection = DataSource.getConnection();
+    public Optional<Repairer> findByName(String name) {
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME)) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return getRepairer(resultSet);
+            return Optional.ofNullable(getRepairer(resultSet));
         } catch (SQLException e) {
             throw new DataProcessingException("Can't find repairer by name: " + name, e);
         }

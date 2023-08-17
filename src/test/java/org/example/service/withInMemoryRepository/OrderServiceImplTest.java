@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.service.withInMemoryRepository;
 
 import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
@@ -6,11 +6,12 @@ import org.example.model.Order;
 import org.example.model.OrderStatus;
 import org.example.model.RepairerStatus;
 import org.example.repository.GarageSlotRepository;
-import org.example.repository.GarageSlotRepositoryImpl;
+import org.example.repository.InMemoryRepositories.GarageSlotInMemoryRepository;
 import org.example.repository.OrderRepository;
-import org.example.repository.OrderRepositoryImpl;
+import org.example.repository.InMemoryRepositories.OrderInMemoryRepository;
 import org.example.repository.RepairerRepository;
-import org.example.repository.RepairerRepositoryImpl;
+import org.example.repository.InMemoryRepositories.RepairerInMemoryRepository;
+import org.example.service.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import static org.assertj.core.api.Assertions.*;
 
 class OrderServiceImplTest {
 
-    private OrderRepository orderRepository = new OrderRepositoryImpl(new HashMap<>());
-    private RepairerRepository repairerRepository = new RepairerRepositoryImpl(new ArrayList<>());
-    private GarageSlotRepository garageSlotRepository = new GarageSlotRepositoryImpl(new ArrayList<>());
+    private OrderRepository orderRepository = new OrderInMemoryRepository(new HashMap<>());
+    private RepairerRepository repairerRepository = new RepairerInMemoryRepository(new ArrayList<>());
+    private GarageSlotRepository garageSlotRepository = new GarageSlotInMemoryRepository(new ArrayList<>());
     private GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRepository);
     private RepairerService repairerService = new RepairerServiceImpl(repairerRepository);
     private OrderService orderService = new OrderServiceImpl(orderRepository, repairerService, garageSlotService);

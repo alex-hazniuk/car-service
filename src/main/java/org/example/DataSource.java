@@ -10,17 +10,37 @@ public class DataSource {
 
     private static final HikariConfig config = new HikariConfig();
 
-    private static final HikariDataSource ds;
-    static {
-        config.setJdbcUrl("jdbc:h2:./default");
+    private static String url;
+
+    public static void setUrl(String newUrl) {
+        url = newUrl;
+    }
+
+    private final HikariDataSource ds;
+
+
+
+//    static {
+//        if (url == null) {
+//            url = "jdbc:h2:./default";
+//        }
+//        config.setJdbcUrl(url);
+//        config.setUsername("user");
+//        config.setPassword("pass");
+//        ds = new HikariDataSource(config);
+//    }
+
+    public DataSource() {
+        if (url == null) {
+            url = "jdbc:h2:./default";
+        }
+        config.setJdbcUrl(url);
         config.setUsername("user");
         config.setPassword("pass");
         ds = new HikariDataSource(config);
     }
 
-    private DataSource(){}
-
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
 }

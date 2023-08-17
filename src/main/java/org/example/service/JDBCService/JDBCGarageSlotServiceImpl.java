@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
-import org.example.repository.jdbc_repository.GarageSlotJDBCRepository;
+import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
 
 import java.util.List;
 

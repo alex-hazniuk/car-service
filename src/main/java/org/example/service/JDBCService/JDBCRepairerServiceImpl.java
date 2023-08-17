@@ -3,16 +3,16 @@ package org.example.service.JDBCService;
 import org.example.exception.InvalidIdException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
-import org.example.repository.jdbc_repository.JDBCRepairerRepository;
+import org.example.repository.RepairerRepository;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class JDBCRepairerServiceImpl implements JDBCRepairerService {
-    private final JDBCRepairerRepository jdbcRepairerRepository;
+    private final RepairerRepository jdbcRepairerRepository;
 
-    public JDBCRepairerServiceImpl(JDBCRepairerRepository jdbcRepairerRepository) {
+    public JDBCRepairerServiceImpl(RepairerRepository jdbcRepairerRepository) {
         this.jdbcRepairerRepository = jdbcRepairerRepository;
     }
 
