@@ -1,6 +1,7 @@
 package org.example.repository.JdbcRepositiries;
 
 import org.example.DataSource;
+import org.example.exception.DataBaseConnectionException;
 import org.example.exception.DataProcessingException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
@@ -31,9 +32,11 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
                 resultSet.next();
                 garageSlot.setId(resultSet.getInt(1));
                 return garageSlot;
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't get all garage slots ", e);
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't save garage slot " + garageSlot, e);
+            throw new DataBaseConnectionException("Error establishing database connection");
         }
     }
 
@@ -44,9 +47,11 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
             try (var statement = connection.createStatement()) {
                 var result = statement.executeQuery(sql);
                 return mapGarageSlots(result);
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't get all garage slots ", e);
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get all garage slots ", e);
+            throw new DataBaseConnectionException("Error establishing database connection");
         }
     }
 
@@ -62,37 +67,44 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
                 } else {
                     return Optional.empty();
                 }
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't get garage slot by id: " + id, e);
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get garage slot by id: " + id, e);
+            throw new DataBaseConnectionException("Error establishing database connection");
         }
     }
+
 
     @Override
     public boolean delete(GarageSlot garageSlot) {
         var sql = "delete from garage_slot where id =?";
-        try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, garageSlot.getId());
-            return statement.executeUpdate() > 0;
-
+        try (var connection = dataSource.getConnection()) {
+            try (var statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, garageSlot.getId());
+                return statement.executeUpdate() > 0;
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't delete garage slot: " + garageSlot.getId(), e);
+            }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete garage slot: " + garageSlot.getId(), e);
+            throw new DataBaseConnectionException("Error establishing database connection");
         }
-
     }
 
     @Override
     public GarageSlot update(GarageSlot garageSlot) {
         var sql = "update garage_slot set status = ? where id =" + garageSlot.getId();
-        try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql)) {
-            statement.setString(1, garageSlot.getStatus().toString());
-            statement.executeUpdate();
+        try (var connection = dataSource.getConnection()) {
+            try (var statement = connection.prepareStatement(sql)) {
+                statement.setString(1, garageSlot.getStatus().toString());
+                statement.executeUpdate();
+                return garageSlot;
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't update garage slot " + garageSlot.getId(), e);
+            }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't update garage slot " + garageSlot.getId(), e);
+            throw new DataBaseConnectionException("Error establishing database connection");
         }
-        return garageSlot;
     }
 
     private List<GarageSlot> mapGarageSlots(ResultSet result) throws SQLException {
