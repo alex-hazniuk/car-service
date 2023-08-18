@@ -5,8 +5,7 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.example.config.DataSource;
-import org.example.config.TomcatLauncher;
+import org.example.settings.PropertiesUtil;
 
 
 public class Main {

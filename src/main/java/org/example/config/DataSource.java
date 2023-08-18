@@ -2,6 +2,7 @@ package org.example.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.example.settings.PropertiesUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,6 +12,9 @@ public class DataSource {
     private static final HikariConfig config = new HikariConfig();
 
     private static String url;
+    private static final String USERNAME_KEY = "db.username";
+    private static final String PASSWORD_KEY = "db.password";
+
 
     public static void setUrl(String newUrl) {
         url = newUrl;
@@ -20,11 +24,11 @@ public class DataSource {
 
     public DataSource() {
         if (url == null) {
-            url = "jdbc:h2:./default";
+            url = PropertiesUtil.getProperty("db.url");
         }
         config.setJdbcUrl(url);
-        config.setUsername("user");
-        config.setPassword("pass");
+        config.setUsername(PropertiesUtil.getProperty(USERNAME_KEY));
+        config.setPassword(PropertiesUtil.getProperty(PASSWORD_KEY));
         ds = new HikariDataSource(config);
     }
 
