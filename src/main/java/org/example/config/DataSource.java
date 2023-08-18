@@ -1,4 +1,4 @@
-package org.example;
+package org.example.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -17,18 +17,6 @@ public class DataSource {
     }
 
     private final HikariDataSource ds;
-
-
-
-//    static {
-//        if (url == null) {
-//            url = "jdbc:h2:./default";
-//        }
-//        config.setJdbcUrl(url);
-//        config.setUsername("user");
-//        config.setPassword("pass");
-//        ds = new HikariDataSource(config);
-//    }
 
     public DataSource() {
         if (url == null) {

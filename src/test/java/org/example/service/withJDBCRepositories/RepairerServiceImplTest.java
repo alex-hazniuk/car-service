@@ -6,7 +6,7 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.example.DataSource;
+import org.example.config.DataSource;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;

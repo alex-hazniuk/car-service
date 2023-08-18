@@ -6,7 +6,7 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.example.DataSource;
+import org.example.config.DataSource;
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;

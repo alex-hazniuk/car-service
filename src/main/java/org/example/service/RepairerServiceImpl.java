@@ -67,15 +67,11 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public List<Repairer> sortedByName() {
-        return getAll().stream()
-                .sorted(Comparator.comparing(Repairer::getName))
-                .toList();
+        return repairerRepository.getAllSortedByName();
     }
 
     @Override
     public List<Repairer> sortedByStatus() {
-        return getAll().stream()
-                .sorted(Comparator.comparing(Repairer::getStatus))
-                .collect(Collectors.toList());
+        return repairerRepository.getAllSortedByStatus();
     }
 }

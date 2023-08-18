@@ -8,7 +8,15 @@ public interface OrderService {
 
     Order create(Order order);
 
-    List<Order> listOrders(SortType sortType);
+    List<Order> getAll();
+
+    List<Order> getAllSortedByStatus();
+
+    List<Order> getAllSortedByPrice();
+
+    List<Order> getAllSortedByCreatedDate();
+
+    List<Order> getAllSortedByCompletedDate();
 
     Order assignGarageSlot(Long id, Integer garageSlotId);
 

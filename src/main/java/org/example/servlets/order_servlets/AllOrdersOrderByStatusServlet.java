@@ -1,21 +1,25 @@
 package org.example.servlets.order_servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.model.Order;
 import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
 import org.example.repository.JdbcRepositiries.OrderJDBCRepository;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.repository.OrderRepository;
 import org.example.service.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
-@WebServlet("/orders/*")
-public class GetOrderServlet extends HttpServlet {
+@WebServlet("/orders/all/sort/status")
+public class AllOrdersOrderByStatusServlet extends HttpServlet {
+
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJDBCRepository());
 
     private final RepairerService repairerService = new RepairerServiceImpl(
@@ -30,14 +34,13 @@ public class GetOrderServlet extends HttpServlet {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter printWriter = resp.getWriter();
 
-        String id = req.getParameter("id");
+        List<Order> list = orderService.getAllSortedByStatus();
 
-        String jSon = mapper
-                .writeValueAsString(orderService.findById(Long.parseLong(id)));
-
-        printWriter.println(jSon);
+        for (Order order : list) {
+            printWriter.println(mapper.writeValueAsString(order));
+        }
     }
 }

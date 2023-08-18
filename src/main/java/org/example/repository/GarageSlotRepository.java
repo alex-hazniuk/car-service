@@ -12,6 +12,8 @@ public interface GarageSlotRepository {
 
     List<GarageSlot> getAll();
 
+    List<GarageSlot> getAllSortedByStatus();
+
     Optional<GarageSlot> findById(int id);
 
     boolean delete(GarageSlot garageSlot);

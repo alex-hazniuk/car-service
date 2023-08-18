@@ -1,6 +1,6 @@
 package org.example.repository.JdbcRepositiries;
 
-import org.example.DataSource;
+import org.example.config.DataSource;
 import org.example.exception.DataProcessingException;
 import org.example.model.*;
 import org.example.repository.OrderRepository;
@@ -18,6 +18,10 @@ public class OrderJDBCRepository implements OrderRepository {
     private static final String INSERT_ORDER = "INSERT INTO ORDERS (price, created_at, completed_at, order_status, garage_slot_id) VALUES (?,?,?,?,?);";
     private static final String SELECT_ORDER_BY_ID = "SELECT * FROM ORDERS WHERE ORDERS.ID=?;";
     private static final String SELECT_ALL_ORDERS = "SELECT * FROM ORDERS;";
+    private static final String SELECT_ALL_ORDERS_BY_PRICE = "SELECT * FROM ORDERS ORDER BY price;";
+    private static final String SELECT_ALL_ORDERS_BY_CREATED_AT = "SELECT * FROM ORDERS ORDER BY created_at;";
+    private static final String SELECT_ALL_ORDERS_BY_COMPLETED_AT = "SELECT * FROM ORDERS ORDER BY completed_at;";
+    private static final String SELECT_ALL_ORDERS_BY_STATUS = "SELECT * FROM ORDERS ORDER BY STATUS;";
     private static final String SELECT_REPAIRER_BY_ORDER = "SELECT r.* FROM repairer r INNER JOIN order_repairer ro ON r.id = ro.repairer_id WHERE ro.order_id = ?;";
     private static final String UPDATE_ORDER = "UPDATE ORDERS SET price=?, created_at=?, completed_at=?,order_status=?,garage_slot_id=? where ORDERS.id =?";
 
@@ -98,6 +102,106 @@ public class OrderJDBCRepository implements OrderRepository {
         try (var conn = dataSource.getConnection();
              var stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(SELECT_ALL_ORDERS);
+            while (rs.next()) {
+                Order order = Order.builder()
+                        .id((long) rs.getInt("id"))
+                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .createdAt(LocalDateTime.parse(rs.getString("created_at")))
+                        .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
+                        .price(rs.getDouble("price"))
+                        .garageSlot(garageSlotJDBCRepository.findById(rs.getInt("garage_slot_id")).orElse(new GarageSlot()))
+                        .repairers(selectRepairersByOrderId((long) rs.getInt("id")))
+                        .build();
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all orders", e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllSortedByStatus() {
+        List<Order> orders = new ArrayList<>();
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_ORDERS_BY_STATUS);
+            while (rs.next()) {
+                Order order = Order.builder()
+                        .id((long) rs.getInt("id"))
+                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .createdAt(LocalDateTime.parse(rs.getString("created_at")))
+                        .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
+                        .price(rs.getDouble("price"))
+                        .garageSlot(garageSlotJDBCRepository.findById(rs.getInt("garage_slot_id")).orElse(new GarageSlot()))
+                        .repairers(selectRepairersByOrderId((long) rs.getInt("id")))
+                        .build();
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all orders", e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllSortedByPrice() {
+        List<Order> orders = new ArrayList<>();
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_ORDERS_BY_PRICE);
+            while (rs.next()) {
+                Order order = Order.builder()
+                        .id((long) rs.getInt("id"))
+                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .createdAt(LocalDateTime.parse(rs.getString("created_at")))
+                        .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
+                        .price(rs.getDouble("price"))
+                        .garageSlot(garageSlotJDBCRepository.findById(rs.getInt("garage_slot_id")).orElse(new GarageSlot()))
+                        .repairers(selectRepairersByOrderId((long) rs.getInt("id")))
+                        .build();
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all orders", e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllSortedByCreatedDate() {
+        List<Order> orders = new ArrayList<>();
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_ORDERS_BY_CREATED_AT);
+            while (rs.next()) {
+                Order order = Order.builder()
+                        .id((long) rs.getInt("id"))
+                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .createdAt(LocalDateTime.parse(rs.getString("created_at")))
+                        .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
+                        .price(rs.getDouble("price"))
+                        .garageSlot(garageSlotJDBCRepository.findById(rs.getInt("garage_slot_id")).orElse(new GarageSlot()))
+                        .repairers(selectRepairersByOrderId((long) rs.getInt("id")))
+                        .build();
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all orders", e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllSortedByCompletedDate() {
+        List<Order> orders = new ArrayList<>();
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_ORDERS_BY_COMPLETED_AT);
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))

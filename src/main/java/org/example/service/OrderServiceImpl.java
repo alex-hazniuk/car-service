@@ -32,10 +32,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> listOrders(SortType sortType) {
-        return orderRepository.findAll().stream()
-                .sorted(sortType.getComparator())
-                .toList();
+    public List<Order> getAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> getAllSortedByStatus() {
+        return orderRepository.findAllSortedByStatus();
+    }
+
+    @Override
+    public List<Order> getAllSortedByPrice() {
+        return orderRepository.findAllSortedByPrice();
+    }
+
+    @Override
+    public List<Order> getAllSortedByCreatedDate() {
+        return orderRepository.findAllSortedByCreatedDate();
+    }
+
+    @Override
+    public List<Order> getAllSortedByCompletedDate() {
+        return orderRepository.findAllSortedByCompletedDate();
     }
 
     @Override

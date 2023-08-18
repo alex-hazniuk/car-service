@@ -1,6 +1,6 @@
 package org.example.repository.JdbcRepositiries;
 
-import org.example.DataSource;
+import org.example.config.DataSource;
 import org.example.exception.DataProcessingException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
@@ -28,6 +28,16 @@ public class RepairerJDBCRepository implements RepairerRepository {
     private static final String GET_ALL =
             """
                     SELECT * FROM repairer
+                    """;
+
+    private static final String GET_ALL_BY_STATUS =
+            """
+                    SELECT * FROM repairer ORDER BY status
+                    """;
+
+    private static final String GET_ALL_BY_NAME =
+            """
+                    SELECT * FROM repairer ORDER BY name
                     """;
     private static final String DELETE =
             """
@@ -80,6 +90,27 @@ public class RepairerJDBCRepository implements RepairerRepository {
     public List<Repairer> getAll() {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return getRepairers(resultSet);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all repairers ", e);
+        }
+    }
+
+    @Override
+    public List<Repairer> getAllSortedByStatus() {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_BY_STATUS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return getRepairers(resultSet);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Can't get all repairers ", e);
+        }    }
+
+    @Override
+    public List<Repairer> getAllSortedByName() {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_BY_NAME)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             return getRepairers(resultSet);
         } catch (SQLException e) {

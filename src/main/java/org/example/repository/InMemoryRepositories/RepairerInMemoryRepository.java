@@ -3,6 +3,7 @@ package org.example.repository.InMemoryRepositories;
 import org.example.model.Repairer;
 import org.example.repository.RepairerRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,20 @@ public class RepairerInMemoryRepository implements RepairerRepository {
     @Override
     public List<Repairer> getAll() {
         return repairers;
+    }
+
+    @Override
+    public List<Repairer> getAllSortedByStatus() {
+        return repairers.stream()
+                .sorted(Comparator.comparing(Repairer::getStatus))
+                .toList();
+    }
+
+    @Override
+    public List<Repairer> getAllSortedByName() {
+        return repairers.stream()
+                .sorted(Comparator.comparing(Repairer::getName))
+                .toList();
     }
 
     @Override
