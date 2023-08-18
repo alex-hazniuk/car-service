@@ -7,15 +7,16 @@ import java.util.Properties;
 public final class PropertiesUtil {
 
     private static final Properties PROPERTIES = new Properties();
-     static {
-         loadProperties();
-     }
+
+    static {
+        loadProperties();
+    }
 
     private PropertiesUtil() {
     }
 
     public static String getProperty(String key) {
-         return PROPERTIES.getProperty(key);
+        return PROPERTIES.getProperty(key);
     }
 
     private static void loadProperties() {
