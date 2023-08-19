@@ -21,7 +21,5 @@ public interface GarageSlotRepository {
     GarageSlot update(GarageSlot garageSlot);
 
 
-
-
 }
 

@@ -44,7 +44,7 @@ public class GarageSlotJPARepository implements GarageSlotRepository {
         try {
             return Optional.of(em.find(GarageSlot.class, id));
         } catch (PersistenceException e) {
-            throw new DataProcessingException("Garage slot with id: "+ id + "wasn't found.", e);
+            throw new DataProcessingException("Garage slot with id: " + id + "wasn't found.", e);
 
         }
     }

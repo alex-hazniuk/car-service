@@ -13,7 +13,7 @@ public class HibernateUtil {
     }
 
     public static void close() {
-        if(getEntityManager().getTransaction().isActive()) {
+        if (getEntityManager().getTransaction().isActive()) {
             getEntityManager().getTransaction().commit();
         }
         getEntityManager().getEntityManagerFactory().close();

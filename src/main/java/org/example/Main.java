@@ -5,7 +5,8 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.example.settings.PropertiesUtil;
+import org.example.config.DataSource;
+import org.example.config.TomcatServer;
 
 
 public class Main {
@@ -21,6 +22,8 @@ public class Main {
                 database);
         liquibase.update();
 
-        TomcatLauncher.launch("8080");
+        //TomcatLauncher.launch("8080");
+
+        TomcatServer.start();
     }
 }

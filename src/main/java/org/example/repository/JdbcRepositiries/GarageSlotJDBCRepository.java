@@ -7,7 +7,6 @@ import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepository;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

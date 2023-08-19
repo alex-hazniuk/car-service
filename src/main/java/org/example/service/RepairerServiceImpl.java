@@ -2,13 +2,11 @@ package org.example.service;
 
 import org.example.exception.InvalidIdException;
 import org.example.exception.InvalidNameException;
-import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
+import org.example.repository.RepairerRepository;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RepairerServiceImpl implements RepairerService {
 

@@ -1,6 +1,7 @@
 package org.example.repository.InMemoryRepositories;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.model.GarageSlot;
 import org.example.repository.GarageSlotRepository;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 import static java.util.Comparator.comparing;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GarageSlotInMemoryRepository implements GarageSlotRepository {
 
     private final List<GarageSlot> garageSlots;

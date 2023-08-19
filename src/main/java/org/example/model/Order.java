@@ -28,5 +28,6 @@ public class Order {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime completedAt;
+
     private OrderStatus status;
 }

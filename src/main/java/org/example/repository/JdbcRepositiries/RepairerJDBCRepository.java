@@ -105,7 +105,8 @@ public class RepairerJDBCRepository implements RepairerRepository {
             return getRepairers(resultSet);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get all repairers ", e);
-        }    }
+        }
+    }
 
     @Override
     public List<Repairer> getAllSortedByName() {
