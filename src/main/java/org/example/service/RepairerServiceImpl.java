@@ -6,9 +6,7 @@ import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RepairerServiceImpl implements RepairerService {
 
@@ -28,7 +26,7 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public Repairer changeStatus(int id) {
+    public Repairer changeStatus(long id) {
         Repairer repairer = findById(id);
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
@@ -48,12 +46,12 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public boolean remove(int id) {
+    public boolean remove(long id) {
         return repairerRepository.remove(id);
     }
 
     @Override
-    public Repairer findById(int id) {
+    public Repairer findById(long id) {
         return repairerRepository
                 .findById(id)
                 .orElseThrow(() ->

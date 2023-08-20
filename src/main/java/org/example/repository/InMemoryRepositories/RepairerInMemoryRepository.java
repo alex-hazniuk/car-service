@@ -11,7 +11,7 @@ public class RepairerInMemoryRepository implements RepairerRepository {
 
     private final List<Repairer> repairers;
 
-    private int id;
+    private long id;
 
     public RepairerInMemoryRepository(List<Repairer> repairers) {
         this.repairers = repairers;
@@ -25,7 +25,7 @@ public class RepairerInMemoryRepository implements RepairerRepository {
     }
 
     @Override
-    public Optional<Repairer> findById(int id) {
+    public Optional<Repairer> findById(long id) {
         return repairers.stream()
                 .filter(repairer -> repairer.getId() == id)
                 .findAny();
@@ -58,9 +58,8 @@ public class RepairerInMemoryRepository implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(int id) {
-        Repairer repairer = repairers.remove(id);
-        return repairer != null;
+    public boolean remove(long id) {
+        return repairers.remove(id);
     }
 
     @Override

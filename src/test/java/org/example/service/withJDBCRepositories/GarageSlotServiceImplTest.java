@@ -12,7 +12,7 @@ import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
 import org.example.service.GarageSlotService;
-import org.example.service.JDBCService.JDBCGarageSlotServiceImpl;
+import org.example.service.GarageSlotServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GarageSlotServiceImplTest {
 
     private final GarageSlotJDBCRepository garageSlotRep = new GarageSlotJDBCRepository();
-    private final GarageSlotService garageSlotService = new JDBCGarageSlotServiceImpl(garageSlotRep);
+    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
 
     @BeforeAll
     static void setUp() throws SQLException, LiquibaseException {

@@ -20,8 +20,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
         GarageSlot garageSlot = GarageSlot.builder()
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
-        garageSlotRepository.add(garageSlot);
-        return garageSlot;
+        return garageSlotRepository.add(garageSlot);
     }
 
     @Override

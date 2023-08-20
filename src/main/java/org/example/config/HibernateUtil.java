@@ -1,23 +1,19 @@
 package org.example.config;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class HibernateUtil {
+    private static final EntityManagerFactory instance = initEntityManagerFactory();
 
-    public static EntityManager getEntityManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("CAR_SERVICE");
-
-        return emf.createEntityManager();
+    public HibernateUtil() {
     }
 
-    public static void close() {
-        if(getEntityManager().getTransaction().isActive()) {
-            getEntityManager().getTransaction().commit();
-        }
-        getEntityManager().getEntityManagerFactory().close();
-        getEntityManager().close();
+    private static EntityManagerFactory initEntityManagerFactory() {
+        return Persistence.createEntityManagerFactory("service");
     }
 
+    public static EntityManagerFactory getInstance() {
+        return instance;
+    }
 }

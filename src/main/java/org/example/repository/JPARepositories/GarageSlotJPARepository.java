@@ -1,6 +1,5 @@
 package org.example.repository.JPARepositories;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import org.example.config.HibernateUtil;
 import org.example.exception.DataProcessingException;
@@ -13,16 +12,19 @@ import java.util.Optional;
 
 public class GarageSlotJPARepository implements GarageSlotRepository {
 
-    private final EntityManager em;
+    /*private final EntityManager em;
 
     public GarageSlotJPARepository() {
         this.em = HibernateUtil.getEntityManager();
-    }
+    }*/
 
     @Override
     public GarageSlot add(GarageSlot garageSlot) {
         try {
-            em.persist(garageSlot);
+            HibernateUtil
+                    .getInstance()
+                    .createEntityManager()
+                    .persist(garageSlot);
             return garageSlot;
         } catch (JDBCException e) {
             throw new DataProcessingException(garageSlot + "wasn't save.", e);
@@ -42,10 +44,12 @@ public class GarageSlotJPARepository implements GarageSlotRepository {
     @Override
     public Optional<GarageSlot> findById(int id) {
         try {
-            return Optional.of(em.find(GarageSlot.class, id));
+            return Optional.of(HibernateUtil
+                    .getInstance()
+                    .createEntityManager()
+                    .find(GarageSlot.class, id));
         } catch (PersistenceException e) {
-            throw new DataProcessingException("Garage slot with id: "+ id + "wasn't found.", e);
-
+            throw new DataProcessingException("Garage slot with id: " + id + "wasn't found.", e);
         }
     }
 

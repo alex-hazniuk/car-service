@@ -1,6 +1,5 @@
 package org.example.repository.InMemoryRepositories;
 
-import lombok.AllArgsConstructor;
 import org.example.model.GarageSlot;
 import org.example.repository.GarageSlotRepository;
 
@@ -9,12 +8,15 @@ import java.util.Optional;
 
 import static java.util.Comparator.comparing;
 
-@AllArgsConstructor
 public class GarageSlotInMemoryRepository implements GarageSlotRepository {
 
     private final List<GarageSlot> garageSlots;
 
     private int id;
+
+    public GarageSlotInMemoryRepository(List<GarageSlot> garageSlots) {
+        this.garageSlots = garageSlots;
+    }
 
     @Override
     public GarageSlot add(GarageSlot garageSlot) {
@@ -49,7 +51,7 @@ public class GarageSlotInMemoryRepository implements GarageSlotRepository {
 
     @Override
     public GarageSlot update(GarageSlot garageSlot) {
-        garageSlots.set(garageSlots.indexOf(garageSlot), garageSlot);
+        garageSlots.set(garageSlots.indexOf(findById(garageSlot.getId()).orElseThrow()), garageSlot);
         return garageSlot;
     }
 }
