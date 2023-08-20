@@ -9,3 +9,4 @@ databaseChangeLog:
       file: db/changelog/changeset/createTableOrderRepairer.sql
   - include:
       file: db/changelog/changeset/renameOrderColumnStatus.sql
+

@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Getter
+/*@Getter
 @Setter
 @Builder
 @AllArgsConstructor
@@ -29,9 +29,9 @@ public class OrderEntity {
 
     @ManyToOne
     @JoinColumn(name = "garage_slot_id")
-  /*  @JoinTable(name = "garage_slot",
+  *//*  @JoinTable(name = "garage_slot",
             joinColumns = {@JoinColumn(name = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "garage_slot_id")})*/
+            inverseJoinColumns = {@JoinColumn(name = "garage_slot_id")})*//*
     private GarageSlotEntity garageSlot;
 
     private Double price;
@@ -44,5 +44,6 @@ public class OrderEntity {
     private LocalDateTime completedAt;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     private OrderStatus status;
-}
+}*/

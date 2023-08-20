@@ -6,7 +6,7 @@ import org.example.config.HibernateUtil;
 import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
 import org.example.model.*;
-import org.example.model.entity.OrderEntity;
+
 import org.example.repository.OrderRepository;
 
 import java.time.LocalDateTime;
@@ -22,25 +22,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final GarageSlotService garageSlotService;
 
-    private final EntityManager em = HibernateUtil.getEntityManager();
+
 
     @Override
     public Order create(Order order) {
         order.setRepairers(new HashSet<>());
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setPrice((double) Math.round(Math.random() * 100000) / 100);
-
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setRepairers(new HashSet<>());
-        orderEntity.setStatus(OrderStatus.IN_PROGRESS);
-        orderEntity.setPrice((double) Math.round(Math.random() * 100000) / 100);
-
-        em.getTransaction().begin();
-        em.persist(orderEntity);
-        em.flush();
-        em.getTransaction().commit();
-
-        order.setId(orderEntity.getId());
         return orderRepository.save(order);
     }
 

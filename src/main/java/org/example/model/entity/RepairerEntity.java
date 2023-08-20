@@ -6,7 +6,7 @@ import org.example.model.RepairerStatus;
 
 import java.util.Set;
 
-@Getter
+/*@Getter
 @Setter
 @Builder
 @AllArgsConstructor
@@ -26,4 +26,4 @@ public class RepairerEntity {
 
     @ManyToMany(mappedBy = "repairers")
     private Set<OrderEntity> orders;
-}
+}*/

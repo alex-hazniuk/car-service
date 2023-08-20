@@ -1,13 +1,13 @@
 package org.example.servlets.repairer_servlets;
 
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.service.RepairerService;
 import org.example.service.RepairerServiceImpl;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/repairer/delete")
 public class DeleteRepairerServlet extends HttpServlet {

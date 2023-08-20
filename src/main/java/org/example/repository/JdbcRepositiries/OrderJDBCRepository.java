@@ -15,7 +15,7 @@ public class OrderJDBCRepository implements OrderRepository {
     private final DataSource dataSource;
     private final GarageSlotJDBCRepository garageSlotJDBCRepository;
 
-    private static final String INSERT_ORDER = "INSERT INTO ORDERS (price, created_at, completed_at, order_status, garage_slot_id) VALUES (?,?,?,?,?);";
+    private static final String INSERT_ORDER = "INSERT INTO ORDERS (price, created_at, completed_at, status, garage_slot_id) VALUES (?,?,?,?,?);";
     private static final String SELECT_ORDER_BY_ID = "SELECT * FROM ORDERS WHERE ORDERS.ID=?;";
     private static final String SELECT_ALL_ORDERS = "SELECT * FROM ORDERS;";
     private static final String SELECT_ALL_ORDERS_BY_PRICE = "SELECT * FROM ORDERS ORDER BY price;";
@@ -23,7 +23,7 @@ public class OrderJDBCRepository implements OrderRepository {
     private static final String SELECT_ALL_ORDERS_BY_COMPLETED_AT = "SELECT * FROM ORDERS ORDER BY completed_at;";
     private static final String SELECT_ALL_ORDERS_BY_STATUS = "SELECT * FROM ORDERS ORDER BY STATUS;";
     private static final String SELECT_REPAIRER_BY_ORDER = "SELECT r.* FROM repairer r INNER JOIN order_repairer ro ON r.id = ro.repairer_id WHERE ro.order_id = ?;";
-    private static final String UPDATE_ORDER = "UPDATE ORDERS SET price=?, created_at=?, completed_at=?,order_status=?,garage_slot_id=? where ORDERS.id =?";
+    private static final String UPDATE_ORDER = "UPDATE ORDERS SET price=?, created_at=?, completed_at=?, status=?,garage_slot_id=? where ORDERS.id =?";
 
     public OrderJDBCRepository() {
         this.dataSource = new DataSource();
@@ -105,7 +105,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))
-                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .status(OrderStatus.valueOf(rs.getString("status")))
                         .createdAt(LocalDateTime.parse(rs.getString("created_at")))
                         .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
                         .price(rs.getDouble("price"))
@@ -130,7 +130,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))
-                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .status(OrderStatus.valueOf(rs.getString("status")))
                         .createdAt(LocalDateTime.parse(rs.getString("created_at")))
                         .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
                         .price(rs.getDouble("price"))
@@ -155,7 +155,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))
-                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .status(OrderStatus.valueOf(rs.getString("status")))
                         .createdAt(LocalDateTime.parse(rs.getString("created_at")))
                         .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
                         .price(rs.getDouble("price"))
@@ -180,7 +180,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))
-                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .status(OrderStatus.valueOf(rs.getString("status")))
                         .createdAt(LocalDateTime.parse(rs.getString("created_at")))
                         .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
                         .price(rs.getDouble("price"))
@@ -205,7 +205,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (rs.next()) {
                 Order order = Order.builder()
                         .id((long) rs.getInt("id"))
-                        .status(OrderStatus.valueOf(rs.getString("order_status")))
+                        .status(OrderStatus.valueOf(rs.getString("status")))
                         .createdAt(LocalDateTime.parse(rs.getString("created_at")))
                         .completedAt(LocalDateTime.parse(rs.getString("completed_at")))
                         .price(rs.getDouble("price"))
