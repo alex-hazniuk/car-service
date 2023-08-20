@@ -2,8 +2,8 @@ package org.example.servlets.order_servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.Order;
-import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
-import org.example.repository.JdbcRepositiries.OrderJDBCRepository;
+import org.example.repository.JPARepositories.GarageSlotJPARepository;
+import org.example.repository.JPARepositories.OrderJPARepository;
 import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.repository.OrderRepository;
 import org.example.service.*;
@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @WebServlet("/orders/create/")
 public class CreateOrderServlet extends HttpServlet {
 
-    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJDBCRepository());
+    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJPARepository());
 
     private final RepairerService repairerService = new RepairerServiceImpl(
             new RepairerJDBCRepository());
 
-    private final OrderRepository orderRepository = new OrderJDBCRepository();
+    private final OrderRepository orderRepository = new OrderJPARepository();
 
     private final OrderService orderService = new OrderServiceImpl(orderRepository,
             repairerService, garageSlotService);
