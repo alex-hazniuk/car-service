@@ -3,7 +3,6 @@ package org.example.servlets.repairer_servlets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.repository.JPARepositories.RepairerJPARepository;
-import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.service.RepairerService;
 import org.example.service.RepairerServiceImpl;
 

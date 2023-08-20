@@ -8,7 +8,6 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.example.config.DataSource;
 import org.example.config.TomcatLauncher;
 
-
 public class Main {
     public static void main(String[] args) throws Exception {
         DataSource dataSource = new DataSource();
@@ -23,10 +22,5 @@ public class Main {
         liquibase.update();
 
         TomcatLauncher.launch("8080");
-        /*RepairerService repairerService = new RepairerServiceImpl(new RepairerJPARepository());
-        //System.out.println(repairerService.save("John"));
-        //System.out.println(repairerService.findById(1));
-        System.out.println(repairerService.getAll());
-        //System.out.println(repairerService.sortedByName());*/
     }
 }

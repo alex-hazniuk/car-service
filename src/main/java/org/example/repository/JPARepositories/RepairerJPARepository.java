@@ -103,16 +103,66 @@ public class RepairerJPARepository implements RepairerRepository {
 
     @Override
     public boolean remove(int id) {
-        return false;
+        EntityManager manager = null;
+        EntityTransaction transaction = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            Repairer repairer = manager.find(Repairer.class, id);
+            manager.remove(repairer);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't remove repairer by id: " + id, e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
+        return true;
     }
 
     @Override
     public Repairer update(Repairer repairer) {
-        return null;
+        EntityManager manager = null;
+        EntityTransaction transaction = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.merge(repairer);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't update repairer " + repairer, e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
+        return repairer;
     }
 
     @Override
     public Optional<Repairer> findByName(String name) {
-        return Optional.empty();
+        EntityManager manager = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            TypedQuery<Repairer> fromRepairer =
+                    manager.createQuery("from Repairer where name =: name", Repairer.class);
+            fromRepairer.setParameter("name", name);
+            return Optional.ofNullable(fromRepairer.getSingleResult());
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find repairer by name: " + name, e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 }
