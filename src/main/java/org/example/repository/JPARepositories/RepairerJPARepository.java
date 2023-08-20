@@ -8,7 +8,6 @@ import org.example.config.HibernateUtil;
 import org.example.exception.DataProcessingException;
 import org.example.model.Repairer;
 import org.example.repository.RepairerRepository;
-import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,7 @@ public class RepairerJPARepository implements RepairerRepository {
     }
 
     @Override
-    public Optional<Repairer> findById(long id) {
+    public Optional<Repairer> findById(int id) {
         EntityManager manager = null;
         try {
             manager = HibernateUtil.getInstance().createEntityManager();
@@ -70,16 +69,40 @@ public class RepairerJPARepository implements RepairerRepository {
 
     @Override
     public List<Repairer> getAllSortedByStatus() {
-        return null;
+        EntityManager manager = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            TypedQuery<Repairer> fromRepairer =
+                    manager.createQuery("from Repairer order by status", Repairer.class);
+            return fromRepairer.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't sort repairers by status ", e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 
     @Override
     public List<Repairer> getAllSortedByName() {
-        return null;
+        EntityManager manager = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            TypedQuery<Repairer> fromRepairer =
+                    manager.createQuery("from Repairer order by name", Repairer.class);
+            return fromRepairer.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't sort repairers by name ", e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 
     @Override
-    public boolean remove(long id) {
+    public boolean remove(int id) {
         return false;
     }
 

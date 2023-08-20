@@ -66,7 +66,7 @@ public class RepairerJDBCRepository implements RepairerRepository {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
-            repairer.setId(resultSet.getLong(1));
+            repairer.setId(resultSet.getInt(1));
             return repairer;
         } catch (SQLException e) {
             throw new DataProcessingException("Can't save repairer " + repairer, e);
@@ -74,10 +74,10 @@ public class RepairerJDBCRepository implements RepairerRepository {
     }
 
     @Override
-    public Optional<Repairer> findById(long id) {
+    public Optional<Repairer> findById(int id) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
-            preparedStatement.setLong(1, id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return Optional.ofNullable(getRepairer(resultSet));
@@ -120,10 +120,10 @@ public class RepairerJDBCRepository implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(long id) {
+    public boolean remove(int id) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, id);
+            preparedStatement.setInt(1, id);
             return preparedStatement.execute();
         } catch (SQLException e) {
             throw new DataProcessingException("Can't remove repairer by id: " + id, e);
@@ -136,7 +136,7 @@ public class RepairerJDBCRepository implements RepairerRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, repairer.getName());
             preparedStatement.setString(2, repairer.getStatus().toString());
-            preparedStatement.setLong(3, repairer.getId());
+            preparedStatement.setInt(3, repairer.getId());
             preparedStatement.executeUpdate();
             return repairer;
         } catch (SQLException e) {
@@ -167,7 +167,7 @@ public class RepairerJDBCRepository implements RepairerRepository {
 
     private Repairer getRepairer(ResultSet resultSet) throws SQLException {
         return Repairer.builder()
-                .id(resultSet.getLong(1))
+                .id(resultSet.getInt(1))
                 .name(resultSet.getString(2))
                 .status(RepairerStatus.valueOf(resultSet.getString(3)))
                 .build();

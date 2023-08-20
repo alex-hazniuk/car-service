@@ -11,7 +11,7 @@ public class RepairerFileRepository implements RepairerRepository {
 
     private final CarServiceStoreHandler carServiceStoreHandler;
 
-    private long id;
+    private int id;
 
     public RepairerFileRepository(CarServiceStoreHandler carServiceStoreHandler) {
         this.carServiceStoreHandler = carServiceStoreHandler;
@@ -29,7 +29,7 @@ public class RepairerFileRepository implements RepairerRepository {
     }
 
     @Override
-    public Optional<Repairer> findById(long id) {
+    public Optional<Repairer> findById(int id) {
         return getAll().stream().filter(repairer -> (repairer.getId() == id)).findAny();
     }
 
@@ -58,13 +58,12 @@ public class RepairerFileRepository implements RepairerRepository {
     }
 
     @Override
-    public boolean remove(long id) {
+    public boolean remove(int id) {
         State state = carServiceStoreHandler.read();
         List<Repairer> repairers = state.repairers();
-        boolean removed = repairers.remove(id);
+        Repairer removed = repairers.remove(id);
         carServiceStoreHandler.write(state.withRepairers(repairers));
-
-        return removed;
+        return removed != null;
     }
 
     @Override

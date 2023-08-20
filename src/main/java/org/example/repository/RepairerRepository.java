@@ -9,7 +9,7 @@ public interface RepairerRepository {
 
     Repairer add(Repairer repairer);
 
-    Optional<Repairer> findById(long id);
+    Optional<Repairer> findById(int id);
 
     List<Repairer> getAll();
 
@@ -17,7 +17,7 @@ public interface RepairerRepository {
 
     List<Repairer> getAllSortedByName();
 
-    boolean remove(long id);
+    boolean remove(int id);
 
     Repairer update(Repairer repairer);
 

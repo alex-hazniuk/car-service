@@ -11,18 +11,18 @@
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.driver"
-                      value="com.mysql.cj.jdbc.Driver"/>
+                      value="org.h2.Driver" />
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/car_cervice?serverTimeZone=UTC"/>
+                      value="jdbc:h2:./default" />
             <property name="javax.persistence.jdbc.user"
-                      value="root"/>
+                      value="user" />
             <property name="javax.persistence.jdbc.password"
-                      value="jewelleralex"/>
+                      value="pass" />
             <property name="hibernate.dialect"
-                      value="org.hibernate.dialect.MySQL55Dialect"/>
+                      value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto"
-                      value="update"/>
-            <property name="hibernate.show_sql"
+                      value="update" />
+            <property name="show_sql"
                       value="true"/>
             <property name="hibernate.temp.use_jdbc_metadata_defaults"
                       value="false"/>

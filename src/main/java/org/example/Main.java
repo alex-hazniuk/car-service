@@ -7,14 +7,11 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.example.config.DataSource;
 import org.example.config.TomcatLauncher;
-import org.example.repository.JPARepositories.RepairerJPARepository;
-import org.example.service.RepairerService;
-import org.example.service.RepairerServiceImpl;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        /*DataSource dataSource = new DataSource();
+        DataSource dataSource = new DataSource();
 
         Database database = DatabaseFactory.getInstance()
                 .findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
@@ -25,10 +22,11 @@ public class Main {
                 database);
         liquibase.update();
 
-        TomcatLauncher.launch("8080");*/
-        RepairerService repairerService = new RepairerServiceImpl(new RepairerJPARepository());
-        //System.out.println(repairerService.save("Svetlana"));
+        TomcatLauncher.launch("8080");
+        /*RepairerService repairerService = new RepairerServiceImpl(new RepairerJPARepository());
+        //System.out.println(repairerService.save("John"));
         //System.out.println(repairerService.findById(1));
         System.out.println(repairerService.getAll());
+        //System.out.println(repairerService.sortedByName());*/
     }
 }

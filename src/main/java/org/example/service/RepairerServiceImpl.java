@@ -26,7 +26,7 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public Repairer changeStatus(long id) {
+    public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
@@ -46,12 +46,12 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     @Override
-    public boolean remove(long id) {
+    public boolean remove(int id) {
         return repairerRepository.remove(id);
     }
 
     @Override
-    public Repairer findById(long id) {
+    public Repairer findById(int id) {
         return repairerRepository
                 .findById(id)
                 .orElseThrow(() ->

@@ -85,7 +85,7 @@ public class OrderJDBCRepository implements OrderRepository {
             while (resultSet.next()) {
                 Repairer rep = Repairer.builder()
                         .name(resultSet.getString("name"))
-                        .id(resultSet.getLong("id"))
+                        .id(resultSet.getInt("id"))
                         .status(RepairerStatus.valueOf(resultSet.getString("status")))
                         .build();
                 repairers.add(rep);

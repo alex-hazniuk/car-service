@@ -8,13 +8,13 @@ public interface RepairerService {
 
     Repairer save(String name);
 
-    Repairer changeStatus(long id);
+    Repairer changeStatus(int id);
 
     boolean remove(String name);
 
-    boolean remove(long id);
+    boolean remove(int id);
 
-    Repairer findById(long id);
+    Repairer findById(int id);
 
     List<Repairer> getAll();
 
