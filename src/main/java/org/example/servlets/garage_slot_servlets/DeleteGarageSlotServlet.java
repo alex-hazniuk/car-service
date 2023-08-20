@@ -1,7 +1,7 @@
 package org.example.servlets.garage_slot_servlets;
 
 import org.example.exception.InvalidIdException;
-import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
+import org.example.repository.JPARepositories.GarageSlotJPARepository;
 import org.example.service.GarageSlotService;
 import org.example.service.GarageSlotServiceImpl;
 
@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/garage-slots/delete/*")
 public class DeleteGarageSlotServlet extends HttpServlet {
-    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJDBCRepository());
+    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJPARepository());
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
