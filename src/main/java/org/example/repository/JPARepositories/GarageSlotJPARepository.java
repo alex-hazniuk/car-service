@@ -5,46 +5,74 @@ import org.example.config.HibernateUtil;
 import org.example.exception.DataProcessingException;
 import org.example.model.GarageSlot;
 import org.example.repository.GarageSlotRepository;
-import org.hibernate.JDBCException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Optional;
 
 public class GarageSlotJPARepository implements GarageSlotRepository {
 
-    /*private final EntityManager em;
-
-    public GarageSlotJPARepository() {
-        this.em = HibernateUtil.getEntityManager();
-    }*/
-
     @Override
     public GarageSlot add(GarageSlot garageSlot) {
+        EntityManager manager = null;
+        EntityTransaction transaction = null;
         try {
-            HibernateUtil
-                    .getInstance()
-                    .createEntityManager()
-                    .persist(garageSlot);
+            manager = HibernateUtil.getInstance().createEntityManager();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.persist(garageSlot);
+            transaction.commit();
             return garageSlot;
-        } catch (JDBCException e) {
-            throw new DataProcessingException(garageSlot + "wasn't save.", e);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't insert garage slot " + garageSlot, e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
         }
     }
 
     @Override
     public List<GarageSlot> getAll() {
-        return null;
+        EntityManager manager = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            var garageSlot = manager.createQuery("from GarageSlot", GarageSlot.class);
+            return garageSlot.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get all repairers ", e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 
     @Override
     public List<GarageSlot> getAllSortedByStatus() {
-        return null;
+        EntityManager manager = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            var fromGarageSlotOrderByStatus =
+                    manager.createQuery("from GarageSlot order by status", GarageSlot.class);
+            return fromGarageSlotOrderByStatus.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't sort garage slots by status ", e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 
     @Override
     public Optional<GarageSlot> findById(int id) {
         try {
-            return Optional.of(HibernateUtil
+            return Optional.ofNullable(HibernateUtil
                     .getInstance()
                     .createEntityManager()
                     .find(GarageSlot.class, id));
@@ -55,11 +83,48 @@ public class GarageSlotJPARepository implements GarageSlotRepository {
 
     @Override
     public boolean delete(GarageSlot garageSlot) {
-        return false;
+        EntityManager manager = null;
+        EntityTransaction transaction = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            GarageSlot removed = manager.find(GarageSlot.class, garageSlot.getId());
+            manager.remove(removed);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't delete garage slot " + garageSlot, e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 
     @Override
     public GarageSlot update(GarageSlot garageSlot) {
-        return null;
+        EntityManager manager = null;
+        EntityTransaction transaction = null;
+        try {
+            manager = HibernateUtil.getInstance().createEntityManager();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.merge(garageSlot);
+            transaction.commit();
+            return garageSlot;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't sort garage slots by status ", e);
+        } finally {
+            if (manager != null) {
+                manager.close();
+            }
+        }
     }
 }
