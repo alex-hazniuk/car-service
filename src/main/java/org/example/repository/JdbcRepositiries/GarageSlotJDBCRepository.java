@@ -1,6 +1,6 @@
 package org.example.repository.JdbcRepositiries;
 
-import org.example.DataSource;
+import org.example.config.DataSource;
 import org.example.exception.DataBaseConnectionException;
 import org.example.exception.DataProcessingException;
 import org.example.model.GarageSlot;
@@ -43,6 +43,21 @@ public class GarageSlotJDBCRepository implements GarageSlotRepository {
     @Override
     public List<GarageSlot> getAll() {
         var sql = "select * from garage_slot";
+        try (var connection = dataSource.getConnection()) {
+            try (var statement = connection.createStatement()) {
+                var result = statement.executeQuery(sql);
+                return mapGarageSlots(result);
+            } catch (SQLException e) {
+                throw new DataProcessingException("Can't get all garage slots ", e);
+            }
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Error establishing database connection");
+        }
+    }
+
+    @Override
+    public List<GarageSlot> getAllSortedByStatus() {
+        var sql = "select * from garage_slot order by status";
         try (var connection = dataSource.getConnection()) {
             try (var statement = connection.createStatement()) {
                 var result = statement.executeQuery(sql);

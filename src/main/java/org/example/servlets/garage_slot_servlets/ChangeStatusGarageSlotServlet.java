@@ -3,9 +3,9 @@ package org.example.servlets.garage_slot_servlets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.exception.InvalidIdException;
-import org.example.repository.JdbcRepositiries.GarageSlotJDBCRepository;
+import org.example.repository.JPARepositories.GarageSlotJPARepository;
 import org.example.service.GarageSlotService;
-import org.example.service.JDBCService.JDBCGarageSlotServiceImpl;
+import org.example.service.GarageSlotServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-@WebServlet("/garage-slots/changeStatus")
+@WebServlet("/garage-slots/change-status")
 public class ChangeStatusGarageSlotServlet extends HttpServlet {
-    private final GarageSlotService garageSlotService = new JDBCGarageSlotServiceImpl(
-            new GarageSlotJDBCRepository());
+    private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(
+            new GarageSlotJPARepository());
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override

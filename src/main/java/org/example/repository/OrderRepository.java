@@ -13,5 +13,13 @@ public interface OrderRepository {
 
     List<Order> findAll();
 
+    List<Order> findAllSortedByStatus();
+
+    List<Order> findAllSortedByPrice();
+
+    List<Order> findAllSortedByCreatedDate();
+
+    List<Order> findAllSortedByCompletedDate();
+
     Order update(Long id, Order order);
 }

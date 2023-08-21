@@ -3,6 +3,7 @@ package org.example.repository.FileRepositories;
 import org.example.model.Order;
 import org.example.repository.OrderRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +38,34 @@ public class OrderFileRepository implements OrderRepository {
     @Override
     public List<Order> findAll() {
         return carServiceStoreHandler.read().orders().values().stream().toList();
+    }
+
+    @Override
+    public List<Order> findAllSortedByStatus() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(Order::getStatus))
+                .toList();
+    }
+
+    @Override
+    public List<Order> findAllSortedByPrice() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(Order::getPrice))
+                .toList();
+    }
+
+    @Override
+    public List<Order> findAllSortedByCreatedDate() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(Order::getCreatedAt))
+                .toList();
+    }
+
+    @Override
+    public List<Order> findAllSortedByCompletedDate() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(Order::getCompletedAt))
+                .toList();
     }
 
     @Override

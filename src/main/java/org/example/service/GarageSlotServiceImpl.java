@@ -7,26 +7,20 @@ import org.example.repository.GarageSlotRepository;
 
 import java.util.List;
 
-import static java.util.Comparator.comparing;
-
 public class GarageSlotServiceImpl implements GarageSlotService {
 
     private final GarageSlotRepository garageSlotRepository;
-    private int id;
 
     public GarageSlotServiceImpl(GarageSlotRepository garageSlotRepository) {
         this.garageSlotRepository = garageSlotRepository;
-        this.id = garageSlotRepository.getAll().size();
     }
 
     @Override
     public GarageSlot save() {
         GarageSlot garageSlot = GarageSlot.builder()
-                .id(++id)
                 .status(GarageSlotStatus.AVAILABLE)
                 .build();
-        garageSlotRepository.add(garageSlot);
-        return garageSlot;
+        return garageSlotRepository.add(garageSlot);
     }
 
     @Override
@@ -43,9 +37,7 @@ public class GarageSlotServiceImpl implements GarageSlotService {
 
     @Override
     public List<GarageSlot> sortedByStatus() {
-        return garageSlotRepository.getAll().stream()
-                .sorted(comparing(GarageSlot::getStatus))
-                .toList();
+        return garageSlotRepository.getAllSortedByStatus();
     }
 
     @Override

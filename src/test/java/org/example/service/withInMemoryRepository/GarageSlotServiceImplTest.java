@@ -3,6 +3,7 @@ package org.example.service.withInMemoryRepository;
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
+import org.example.repository.GarageSlotRepository;
 import org.example.repository.InMemoryRepositories.GarageSlotInMemoryRepository;
 import org.example.service.GarageSlotService;
 import org.example.service.GarageSlotServiceImpl;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GarageSlotServiceImplTest {
 
-    private final GarageSlotInMemoryRepository garageSlotRep = new GarageSlotInMemoryRepository(new ArrayList<>());
+    private final GarageSlotRepository garageSlotRep = new GarageSlotInMemoryRepository(new ArrayList<>());
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(garageSlotRep);
 
     @Test
@@ -153,15 +154,13 @@ class GarageSlotServiceImplTest {
 
     @Test
     void whenChangingStatusFromUnavailableToAvailable_thenStatusShouldBeUpdated() {
-        int id = 2;
         GarageSlot initialGarageSlot = GarageSlot.builder()
-                .id(id)
                 .status(GarageSlotStatus.UNAVAILABLE)
                 .build();
         garageSlotRep.add(initialGarageSlot);
 
-        GarageSlot updatedGarageSlot = garageSlotService.changeStatus(id);
-        assertThat(updatedGarageSlot.getStatus()).isEqualTo(GarageSlotStatus.AVAILABLE);
+        GarageSlot updatedGarageSlot = garageSlotService.changeStatus(initialGarageSlot.getId());
+        assertThat(updatedGarageSlot.getStatus()).isEqualTo((GarageSlotStatus.AVAILABLE));
     }
 
     @Test

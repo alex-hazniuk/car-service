@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/repairers/sort/name")
-public class SortedByNameRepairerServlet extends HttpServlet {
+@WebServlet("/repairers/all")
+public class GetAllRepairersServlet extends HttpServlet {
 
     private final RepairerService repairerService =
             new RepairerServiceImpl(new RepairerJPARepository());
@@ -24,7 +24,7 @@ public class SortedByNameRepairerServlet extends HttpServlet {
             throws IOException {
         PrintWriter writer = resp.getWriter();
         String jSon = objectMapper
-                .writeValueAsString(repairerService.sortedByName());
+                .writeValueAsString(repairerService.getAll());
         writer.println(jSon);
     }
 }

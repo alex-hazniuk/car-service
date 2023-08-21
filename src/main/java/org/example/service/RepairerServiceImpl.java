@@ -6,27 +6,21 @@ import org.example.repository.RepairerRepository;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RepairerServiceImpl implements RepairerService {
 
     private final RepairerRepository repairerRepository;
 
-    private int repairerId;
-
     public RepairerServiceImpl(RepairerRepository repairerRepository) {
         this.repairerRepository = repairerRepository;
-        this.repairerId = repairerRepository.getAll().size();
     }
 
     @Override
     public Repairer save(String name) {
         Repairer repairer = Repairer.builder()
-                .id(++repairerId)
-                .status(RepairerStatus.AVAILABLE)
                 .name(name)
+                .status(RepairerStatus.AVAILABLE)
                 .build();
         return repairerRepository.add(repairer);
     }
@@ -34,13 +28,11 @@ public class RepairerServiceImpl implements RepairerService {
     @Override
     public Repairer changeStatus(int id) {
         Repairer repairer = findById(id);
-
         if (repairer.getStatus() == RepairerStatus.AVAILABLE) {
             repairer.setStatus(RepairerStatus.BUSY);
         } else {
             repairer.setStatus(RepairerStatus.AVAILABLE);
         }
-
         return repairerRepository.update(repairer);
     }
 
@@ -73,15 +65,11 @@ public class RepairerServiceImpl implements RepairerService {
 
     @Override
     public List<Repairer> sortedByName() {
-        return getAll().stream()
-                .sorted(Comparator.comparing(Repairer::getName))
-                .toList();
+        return repairerRepository.getAllSortedByName();
     }
 
     @Override
     public List<Repairer> sortedByStatus() {
-        return getAll().stream()
-                .sorted(Comparator.comparing(Repairer::getStatus))
-                .collect(Collectors.toList());
+        return repairerRepository.getAllSortedByStatus();
     }
 }

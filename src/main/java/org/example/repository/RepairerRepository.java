@@ -13,6 +13,10 @@ public interface RepairerRepository {
 
     List<Repairer> getAll();
 
+    List<Repairer> getAllSortedByStatus();
+
+    List<Repairer> getAllSortedByName();
+
     boolean remove(int id);
 
     Repairer update(Repairer repairer);
