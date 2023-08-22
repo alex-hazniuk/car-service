@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.Order;
 import org.example.repository.JPARepositories.GarageSlotJPARepository;
 import org.example.repository.JPARepositories.OrderJPARepository;
-import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
+import org.example.repository.JPARepositories.RepairerJPARepository;
 import org.example.repository.OrderRepository;
 import org.example.service.*;
 
@@ -23,7 +23,7 @@ public class AllOrdersOrderByCreatedDateServlet extends HttpServlet {
     private final GarageSlotService garageSlotService = new GarageSlotServiceImpl(new GarageSlotJPARepository());
 
     private final RepairerService repairerService = new RepairerServiceImpl(
-            new RepairerJDBCRepository());
+            new RepairerJPARepository());
 
     private final OrderRepository orderRepository = new OrderJPARepository();
 

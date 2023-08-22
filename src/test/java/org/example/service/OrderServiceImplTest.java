@@ -1,4 +1,4 @@
-package org.example.service.withInMemoryRepository;
+package org.example.service;
 
 import org.example.exception.InappropriateStatusException;
 import org.example.exception.InvalidIdException;
@@ -7,17 +7,17 @@ import org.example.model.OrderStatus;
 import org.example.model.RepairerStatus;
 import org.example.repository.GarageSlotRepository;
 import org.example.repository.InMemoryRepositories.GarageSlotInMemoryRepository;
-import org.example.repository.OrderRepository;
 import org.example.repository.InMemoryRepositories.OrderInMemoryRepository;
-import org.example.repository.RepairerRepository;
 import org.example.repository.InMemoryRepositories.RepairerInMemoryRepository;
-import org.example.service.*;
+import org.example.repository.OrderRepository;
+import org.example.repository.RepairerRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class OrderServiceImplTest {
 

@@ -1,4 +1,4 @@
-package org.example.service.withInMemoryRepository;
+package org.example.service;
 
 import org.example.exception.InvalidIdException;
 import org.example.model.GarageSlot;

@@ -1,22 +1,14 @@
-package org.example.service.withJDBCRepositories;
+package org.example.service;
 
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.ClassLoaderResourceAccessor;
-import org.example.config.DataSource;
+import org.example.exception.InvalidIdException;
 import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
-import org.example.repository.JdbcRepositiries.RepairerJDBCRepository;
 import org.example.repository.RepairerRepository;
-import org.example.service.RepairerService;
+import org.example.repository.InMemoryRepositories.RepairerInMemoryRepository;
 import org.example.service.RepairerServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,21 +18,8 @@ class RepairerServiceImplTest {
 
     private static final String ARTEM = "Artem Dou";
     private static final String OLEG = "Oleg Ivanov";
-    private final RepairerRepository repairerRepository = new RepairerJDBCRepository();
-    private final RepairerService repairerService = new RepairerServiceImpl(repairerRepository);
-
-    @BeforeAll
-    static void setUp() throws SQLException, LiquibaseException {
-        DataSource.setUrl("jdbc:h2:mem:test");
-        DataSource dataSource = new DataSource();
-        Database database = DatabaseFactory.getInstance()
-                .findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
-        Liquibase liquibase = new Liquibase(
-                "db/changelog/db.changelog-master.yml",
-                new ClassLoaderResourceAccessor(),
-                database);
-        liquibase.update();
-    }
+    private final RepairerRepository repairerRepository = new RepairerInMemoryRepository(new ArrayList<>());
+    private final RepairerServiceImpl repairerService = new RepairerServiceImpl(repairerRepository);
 
     @Test
     void whenSaveRepairerByName_thenRepairersShouldBeSaved() {
@@ -55,46 +34,40 @@ class RepairerServiceImplTest {
         assertThat(savedRepairer1).isEqualTo(repairerRepository.getAll().get(0));
         assertThat(savedRepairer2).isEqualTo(repairerRepository.getAll().get(1));
         assertThat(repairerRepository.getAll()).hasSize(2);
-
-        repairerService.remove(savedRepairer1.getId());
-        repairerService.remove(savedRepairer2.getId());
     }
 
     @Test
     void whenChangeStatus_thenRepairerStatusShouldChange() {
-        Repairer r1 = repairerService.save(ARTEM);
-        Repairer r2 = repairerService.save(OLEG);
+        repairerService.save(ARTEM);
+        repairerService.save(OLEG);
 
-        Repairer repairer = repairerService.findById(r1.getId());
-        Repairer repairer2 = repairerService.findById(r2.getId());
+        Repairer repairer = repairerService.findById(1);
+        Repairer repairer2 = repairerService.findById(2);
+        repairer2.setStatus(RepairerStatus.BUSY);
 
 
         assertThat(repairerService.changeStatus(repairer.getId()).getStatus())
                 .isEqualTo(RepairerStatus.BUSY);
-        assertThat(repairerService.changeStatus(repairer.getId()).getStatus())
+        assertThat(repairerService.changeStatus(repairer2.getId()).getStatus())
                 .isEqualTo(RepairerStatus.AVAILABLE);
         assertThatThrownBy(() -> repairerService.findById(3))
-                .hasMessage("Can't get repairer by id: 3");
-
-        repairerService.remove(repairer.getId());
-        repairerService.remove(repairer2.getId());
+                .isInstanceOf(InvalidIdException.class)
+                .hasMessage("Can't find repairer by id: 3");
     }
 
     @Test
     void whenRemoveRepairByName_thenRepairerShouldBeRemoved() {
-        Repairer r1 = repairerService.save(ARTEM);
-        Repairer r2 = repairerService.save(OLEG);
+        repairerService.save(ARTEM);
+        repairerService.save(OLEG);
 
         String ivan = "Ivan Orel";
-        Repairer repairer = repairerService.save(ivan);
-        repairerService.remove(repairer.getId());
+        repairerService.save(ivan);
+        repairerService.remove(ivan);
 
         assertThat(repairerRepository.getAll()).hasSize(2);
-        assertThatThrownBy(() -> repairerService.findById(repairer.getId()))
-                .hasMessage("Can't get repairer by id: " + repairer.getId());
-
-        repairerService.remove(r1.getId());
-        repairerService.remove(r2.getId());
+        assertThatThrownBy(() -> repairerService.findById(3))
+                .isInstanceOf(InvalidIdException.class)
+                .hasMessage("Can't find repairer by id: 3");
     }
 
     @Test
@@ -110,11 +83,8 @@ class RepairerServiceImplTest {
         assertThat(repairerService.findById(1)).isEqualTo(repairer1);
         assertThat(repairerService.findById(2)).isEqualTo(repairer2);
         assertThatThrownBy(() -> repairerService.findById(3))
-                .hasMessage("Can't get repairer by id: 3");
-
-        repairerService.remove(repairer1.getId());
-        repairerService.remove(repairer2.getId());
-    }
+                .isInstanceOf(InvalidIdException.class)
+                .hasMessage("Can't find repairer by id: 3");    }
 
     @Test
     void whenGetAll_thenAllRepairersShouldBeReturned() {
@@ -129,9 +99,6 @@ class RepairerServiceImplTest {
         assertThat(repairerRepository.findByName(ARTEM)).isPresent();
         assertThat(repairerRepository.findByName(OLEG)).isPresent();
         assertThat(repairerService.getAll()).isEqualTo(list);
-
-        repairerService.remove(repairer1.getId());
-        repairerService.remove(repairer2.getId());
     }
 
     @Test
@@ -147,9 +114,6 @@ class RepairerServiceImplTest {
         assertThat(repairerRepository.findByName(ARTEM)).isPresent();
         assertThat(repairerRepository.findByName(OLEG)).isPresent();
         assertThat(repairerService.sortedByName()).isEqualTo(list);
-
-        repairerService.remove(repairer1.getId());
-        repairerService.remove(repairer2.getId());
     }
 
     @Test
@@ -159,15 +123,11 @@ class RepairerServiceImplTest {
 
         Repairer repairer1 = repairerRepository.findByName(ARTEM).get();
         Repairer repairer2 = repairerRepository.findByName(OLEG).get();
-        repairerService.changeStatus(repairer1.getId());
         repairer1.setStatus(RepairerStatus.BUSY);
         List<Repairer> list = List.of(repairer2, repairer1);
 
         assertThat(repairerRepository.findByName(ARTEM)).isPresent();
         assertThat(repairerRepository.findByName(OLEG)).isPresent();
         assertThat(repairerService.sortedByStatus()).isEqualTo(list);
-
-        repairerService.remove(repairer1.getId());
-        repairerService.remove(repairer2.getId());
     }
 }
