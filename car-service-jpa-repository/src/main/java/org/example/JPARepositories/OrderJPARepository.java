@@ -4,7 +4,7 @@ import org.example.HibernateUtil;
 import org.example.OrderRepository;
 import org.example.model.Order;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 

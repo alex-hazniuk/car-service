@@ -2,8 +2,8 @@ package org.example;
 
 import org.hibernate.cfg.AvailableSettings;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.util.List;
 import java.util.Map;
 

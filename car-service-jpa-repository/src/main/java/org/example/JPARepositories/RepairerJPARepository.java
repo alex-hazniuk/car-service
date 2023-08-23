@@ -1,8 +1,8 @@
 package org.example.JPARepositories;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
 import org.example.HibernateUtil;
 import org.example.RepairerRepository;

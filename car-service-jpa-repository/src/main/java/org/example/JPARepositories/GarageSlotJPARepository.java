@@ -6,8 +6,8 @@ import org.example.HibernateUtil;
 import org.example.exception.DataProcessingException;
 import org.example.model.GarageSlot;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Optional;
 
