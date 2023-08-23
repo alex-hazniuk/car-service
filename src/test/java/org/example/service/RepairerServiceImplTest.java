@@ -5,7 +5,6 @@ import org.example.model.Repairer;
 import org.example.model.RepairerStatus;
 import org.example.repository.RepairerRepository;
 import org.example.repository.InMemoryRepositories.RepairerInMemoryRepository;
-import org.example.service.RepairerServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

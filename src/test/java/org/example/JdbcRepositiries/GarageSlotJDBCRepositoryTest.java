@@ -33,7 +33,7 @@ class GarageSlotJDBCRepositoryTest {
         h2DataSource.setURL("jdbc:h2:mem:test");
 
         Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
-        Liquibase liquibase = new Liquibase("db/changelog/db.changelog-master.yml", new ClassLoaderResourceAccessor(), database);
+        Liquibase liquibase = new Liquibase("changelog/db.changelog-master.yml", new ClassLoaderResourceAccessor(), database);
         liquibase.update();
     }
 

@@ -5,8 +5,6 @@ import org.example.model.GarageSlot;
 import org.example.model.GarageSlotStatus;
 import org.example.repository.GarageSlotRepository;
 import org.example.repository.InMemoryRepositories.GarageSlotInMemoryRepository;
-import org.example.service.GarageSlotService;
-import org.example.service.GarageSlotServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
