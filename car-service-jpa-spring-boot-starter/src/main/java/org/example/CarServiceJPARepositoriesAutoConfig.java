@@ -9,19 +9,22 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CarServiceJPARepositoriesAutoConfig {
+    private RepairerSpringJPARepository repairerSpringJPARepository;
+    private GarageSlotSpringJPARepository garageSlotSpringJPARepository;
+    private OrderSpringJPARepository orderSpringJPARepository;
 
     @Bean
-    RepairerRepository repairerRepository(RepairerSpringJPARepository repository) {
-        return new RepairerJPARepository(repository);
+    RepairerRepository repairerRepository() {
+        return new RepairerJPARepository(repairerSpringJPARepository);
     }
 
     @Bean
-    GarageSlotRepository garageSlotRepository(GarageSlotSpringJPARepository repository) {
-        return new GarageSlotJPARepository(repository);
+    GarageSlotRepository garageSlotRepository() {
+        return new GarageSlotJPARepository(garageSlotSpringJPARepository);
     }
 
     @Bean
-    OrderRepository orderRepository(OrderSpringJPARepository repository) {
-        return new OrderJPARepository(repository);
+    OrderRepository orderRepository() {
+        return new OrderJPARepository(orderSpringJPARepository);
     }
 }
