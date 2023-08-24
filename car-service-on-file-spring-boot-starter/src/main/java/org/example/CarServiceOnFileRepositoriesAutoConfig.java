@@ -5,7 +5,6 @@ import org.example.FileRepositories.GarageSlotFileRepository;
 import org.example.FileRepositories.OrderFileRepository;
 import org.example.FileRepositories.RepairerFileRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

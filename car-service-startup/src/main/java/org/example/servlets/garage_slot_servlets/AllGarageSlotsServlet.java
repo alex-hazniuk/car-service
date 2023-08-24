@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.model.GarageSlot;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
